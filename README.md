@@ -36,3 +36,10 @@
 -------------------------
 - 파일 다운로드 시 특정 가변적인 경로로 다운로드되도록 개발
 
+페이지 시안
+-------------------------
+![structure](./document/svg/control_page_design.svg)
+
+![structure](./document/svg/table_data.svg)
+
+![structure](./document/svg/graph_data.svg)
