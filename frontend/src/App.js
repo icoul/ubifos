@@ -1,14 +1,22 @@
-import './App.css';
+import { Route, HashRouter as Router, Switch, withRouter } from "react-router-dom";
 
-import Main from './Component/Main';
-import AppHeader from './Component/AppHeader';
+import Main from './component/Main';
+import AppHeader from './component/AppHeader';
+
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <AppHeader />
-      <Main />
-    </div>
+    <Router basename="/">
+      <div className="App">
+        <AppHeader />
+        <Switch>
+          <Route
+            exact path="/"
+            render={props => <Main {...props} />} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
