@@ -9,7 +9,9 @@ function App() {
   return (
     <Router basename="/">
       <div className="App">
-        <AppHeader />
+        <Route
+            path="/"
+            render={props => <AppHeader {...props} />} />
         <Switch>
           <Route
             exact path="/"
