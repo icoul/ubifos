@@ -15,10 +15,10 @@ const Main = () => {
           exact path="/"
           render={props => <Control {...props} />} />
         <Route
-          exact path="/table"
+          path="/table"
           render={props => <TableData {...props} />} />
         <Route
-          exact path="/graph"
+          path="/graph"
           render={props => <GraphData {...props} />} />
       </Switch>
     </MainContainer>

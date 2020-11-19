@@ -14,7 +14,7 @@ function App() {
             render={props => <AppHeader {...props} />} />
         <Switch>
           <Route
-            exact path="/"
+            path="/"
             render={props => <Main {...props} />} />
         </Switch>
       </div>
