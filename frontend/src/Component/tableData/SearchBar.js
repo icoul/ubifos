@@ -30,7 +30,7 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
           </select>
         </div>
         <div className="search-condition col-xl-4 col-sm-6">
-          <button>저장</button>
+          <button>파일 저장</button>
         </div>
       </div>
     </SearchBarConatiner>
