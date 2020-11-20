@@ -3,8 +3,16 @@ import { useTable, usePagination, useRowSelect } from 'react-table';
 
 import { TableDataContainer, PageButton } from './TableData.css';
 import { data } from './data';
+import SearchBar from './SearchBar';
 
 const TableData = () => {
+  const [searchMap, setSearchMap] = useState({
+                                              beginDate: new Date(),
+                                              endDate: new Date(),
+                                              beginTime: 0,
+                                              endTime: 24,
+                                              moduleIdx: 0,
+                                            })
   const columns = React.useMemo(
     () => [
       {
@@ -94,6 +102,7 @@ const TableData = () => {
 
   return (
     <TableDataContainer>
+      <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (

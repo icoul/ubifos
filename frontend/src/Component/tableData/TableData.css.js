@@ -2,7 +2,6 @@ import style, { css } from 'styled-components'
 
 export const TableDataContainer = style.div`
   padding-top: 1vh;
-  background: #292929;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -11,6 +10,7 @@ export const TableDataContainer = style.div`
   & > table {
     width: 95vw;
     border-spacing: 0;
+
     thead {
       tr {
         border-top: 2px solid #98989815;
@@ -50,7 +50,7 @@ export const TableDataContainer = style.div`
       color: #fff;
       margin: 0;
       padding: 0.5rem;
-      background: none;
+      background: #1f1b1b;
       border-bottom: 1px solid #98989815;
       font-size: 16px;
       :last-child {
