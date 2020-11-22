@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import Control from './control/Control';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
+import LogData from './logData/LogData';
 
 import { MainContainer } from './MainContainer.css';
 
@@ -20,6 +21,9 @@ const Main = () => {
         <Route
           path="/graph"
           render={props => <GraphData {...props} />} />
+        <Route
+          path="/log"
+          render={props => <LogData {...props} />} />
       </Switch>
     </MainContainer>
   )
