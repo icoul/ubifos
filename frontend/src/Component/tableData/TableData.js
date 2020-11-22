@@ -5,6 +5,19 @@ import { TableDataContainer, PageButton } from './TableData.css';
 import { data } from './data';
 import SearchBar from './SearchBar';
 
+const statusConverter = (status) => {
+  switch (status) {
+    case 'none':
+      return <span style={{color: '#ececec'}}>● 미수신</span>;
+    case 'warning':
+      return <span style={{color: '#e8ad2e'}}>● 경고</span>;
+    case 'danger':
+      return <span style={{color: '#ff0018'}}>● 위험</span>;
+    default:
+      return <span style={{color: '#50bb5b'}}>● 정상</span>;
+  }
+}
+
 const TableData = () => {
   const [searchMap, setSearchMap] = useState({
                                               beginDate: new Date(),
@@ -24,8 +37,13 @@ const TableData = () => {
         accessor: 'col2',
       },
       {
-        Header: '상태',
-        accessor: 'col3',
+        id: 'status',
+        Header: () => (
+          <div>상태</div>
+        ),
+        Cell: ({ row }) => (
+          statusConverter(row.original.col3)
+        ),
       },
       {
         Header: 'O2',
