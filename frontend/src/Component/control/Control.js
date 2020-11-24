@@ -4,74 +4,122 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 import { ControlContainer } from './Control.css';
 
 import module_status_lamp_blue from 'static/images/module_status_lamp_blue.png'
-import module_status_lamp_warning from 'static/images/module_status_lamp_warning.png'
 import module_status_lamp_danger from 'static/images/module_status_lamp_danger.png'
 import module_status_none from 'static/images/module_status_none.png'
 
 const Control = () => {
   return (
     <ControlContainer>
-      <div className="top_legend_box">
-        <div></div>
-        <div><span>O₂</span></div>
-        <div><span>CO₂</span></div>
-        <div><span>CO</span></div>
-        <div><span>H₂S</span></div>
-        <div><span>LEL</span></div>
+      <table>
+        <thead>
+          <tr className="top_legend_box">
+            <th>센서명</th>
+            <th>상태</th>
+            <th className="sign">O₂</th>
+            <th className="sign">CO₂</th>
+            <th className="sign">CO</th>
+            <th className="sign">H₂S</th>
+            <th className="sign">LEL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="2">기준값</td>
+            <td>18 <sub>%</sub> <ImArrowDown /></td>
+            <td>1.5 <sub>%</sub> <ImArrowUp /></td>
+            <td>25 <sub>ppm</sub> <ImArrowUp /></td>
+            <td>10 <sub>ppm</sub> <ImArrowUp /></td>
+            <td>10 <sub>ppm</sub> <ImArrowUp /></td>
+          </tr>
+          <tr>
+            <td className="module_name_box">센서1</td>
+            <td className="module_status_box">
+              <div className="module_status">
+                <div className="module_status_lamp">
+                  <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
+                </div>
+                <img src={module_status_none} alt="module_status_none" />
+              </div>
+            </td>
+            <td className="data_value">18<sub>%</sub></td>
+            <td className="data_value">1.5<sub>%</sub></td>
+            <td className="data_value">25<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+          </tr>
+          <tr>
+            <td className="module_name_box">센서2</td>
+            <td className="module_status_box">
+              <div className="module_status">
+                <div className="module_status_lamp">
+                  <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
+                </div>
+                <img src={module_status_none} alt="module_status_none" />
+              </div>
+            </td>
+            <td className="data_value">18<sub>%</sub></td>
+            <td className="data_value">1.5<sub>%</sub></td>
+            <td className="data_value">25<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+          </tr>
+          <tr>
+            <td className="module_name_box">센서3</td>
+            <td className="module_status_box">
+              <div className="module_status">
+                <div className="module_status_lamp">
+                  <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
+                </div>
+                <img src={module_status_none} alt="module_status_none" />
+              </div>
+            </td>
+            <td className="data_value">18<sub>%</sub></td>
+            <td className="data_value">1.5<sub>%</sub></td>
+            <td className="data_value">25<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>ppm</sub></td>
+          </tr>
+        </tbody>
+      </table>
+      {/* <div className="top_legend_box">
+        
       </div>
       <div className="data_box">
-        <div><span>기준값</span></div>
-        <div><span>18 <sub>%</sub></span> <ImArrowDown /></div>
-        <div><span>1.5 <sub>%</sub></span> <ImArrowUp /></div>
-        <div><span>25 <sub>ppm</sub></span> <ImArrowUp /></div>
-        <div><span>10 <sub>ppm</sub></span> <ImArrowUp /></div>
-        <div><span>10 <sub>ppm</sub></span> <ImArrowUp /></div>
+        
       </div>
+      
       <div className="data_box">
-        <div className="module_name_box">
+        <div className="module_name_box">센서2</div>
+        <div className="module_status_box">
           <div className="module_status">
             <div className="module_status_lamp">
               <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
             </div>
             <img src={module_status_none} alt="module_status_none" />
           </div>
-          <div className="module_name">장치1</div>
         </div>
-        <div className="data_value"><span>18<sub>%</sub></span></div>
-        <div className="data_value"><span>1.5<sub>%</sub></span></div>
-        <div className="data_value"><span>25<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
+        <div className="data_value">18<sub>%</sub></div>
+        <div className="data_value">1.5<sub>%</sub></div>
+        <div className="data_value">25<sub>ppm</sub></div>
+        <div className="data_value">10<sub>ppm</sub></div>
+        <div className="data_value">10<sub>ppm</sub></div>
       </div>
       <div className="data_box">
-        <div className="module_name_box">
+        <div className="module_name_box">센서3</div>
+        <div className="module_status_box">
           <div className="module_status">
             <div className="module_status_lamp">
-              <img src={module_status_lamp_blue} alt="module_status_lamp_blue" />
+              <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
             </div>
             <img src={module_status_none} alt="module_status_none" />
           </div>
-          <div className="module_name">장치2</div>
         </div>
-        <div className="data_value"><span>18<sub>%</sub></span></div>
-        <div className="data_value"><span>1.5<sub>%</sub></span></div>
-        <div className="data_value"><span>25<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
-      </div>
-      <div className="data_box">
-        <div className="module_name_box">
-          <div className="module_status">
-            <img src={module_status_none} alt="module_status_none" />
-          </div>
-          <div className="module_name">장치3</div>
-        </div>
-        <div className="data_value"><span>18<sub>%</sub></span></div>
-        <div className="data_value"><span>1.5<sub>%</sub></span></div>
-        <div className="data_value"><span>25<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
-        <div className="data_value"><span>10<sub>ppm</sub></span></div>
-      </div>
+        <div className="data_value">18<sub>%</sub></div>
+        <div className="data_value">1.5<sub>%</sub></div>
+        <div className="data_value">25<sub>ppm</sub></div>
+        <div className="data_value">10<sub>ppm</sub></div>
+        <div className="data_value">10<sub>ppm</sub></div>
+      </div> */}
     </ControlContainer>
   )
 }
