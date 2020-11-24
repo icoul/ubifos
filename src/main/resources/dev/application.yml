@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active:
+      - dev
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    view:
+      prefix: /jsp/
+      suffix: .jsp
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/ubifos
+    username: root
+    password: ubimicro
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+  tomcat:
+    uri-encoding: UTF-8
+  port: 9070
