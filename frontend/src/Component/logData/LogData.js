@@ -46,23 +46,23 @@ const LogData = () => {
         ),
       },
       {
-        Header: 'O2',
+        Header: 'O₂ (%)',
         accessor: 'col4',
       },
       {
-        Header: 'CO2',
+        Header: 'CO₂ (%)',
         accessor: 'col5',
       },
       {
-        Header: 'CO',
+        Header: 'CO (ppm)',
         accessor: 'col6',
       },
       {
-        Header: 'H2S',
+        Header: 'H₂S (ppm)',
         accessor: 'col7',
       },
       {
-        Header: 'LEL',
+        Header: 'LEL (ppm)',
         accessor: 'col8',
       },
       {

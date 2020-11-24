@@ -18,7 +18,7 @@ const GraphData = () => {
       <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
       <LineGraph key={'%'} 
                  graphId={'%'} 
-                 title={['O2', 'CO']}
+                 title={['O₂', 'CO']}
                  colors={['#50bb5b', '#eee']}
                  data={[[18,21,22,23,21,22,19,22,21,24], [0,1,0,1,0,1,0,1,0,1]]} 
                  categories={['2020-01-01 11:11:11', 
@@ -34,7 +34,7 @@ const GraphData = () => {
                  />
       <LineGraph key={'ppm'} 
                  graphId={'ppm'} 
-                 title={['CO', 'H2S', 'LEL']}
+                 title={['CO', 'H₂S', 'LEL']}
                  colors={['#ffbc00', '#007eff', '#FF1654']}
                  data={[[18,21,22,23,21,22,19,22,21,24], [3,1,2,5,3,1,2,2,6,1], [1,5,7,2,3,0,0,0,2,3]]} 
                  categories={['2020-01-01 11:11:11', 
