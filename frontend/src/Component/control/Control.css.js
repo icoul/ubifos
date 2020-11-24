@@ -37,10 +37,6 @@ export const ControlContainer = style.div`
         }
       }
   
-      & > td.module_name_box {
-        flex: .5;
-      }
-  
       @keyframes hideshow {
         0% { opacity: 0.3; }
         70% { opacity: 1; }
@@ -48,10 +44,11 @@ export const ControlContainer = style.div`
       } 
   
       & > .module_status_box {
-        flex: .7;
-  
         & > .module_status {
           position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
   
           & img {
             width: 150px;
@@ -60,6 +57,7 @@ export const ControlContainer = style.div`
           & > div.module_status_lamp {
             position: absolute;
             width: 100%;
+            height: 150px;
   
             & > .danger {
               animation: hideshow 1s ease infinite;

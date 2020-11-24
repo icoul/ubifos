@@ -1,5 +1,4 @@
 import React from 'react';
-import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 
 import { ControlContainer } from './Control.css';
 
@@ -24,12 +23,12 @@ const Control = () => {
         </thead>
         <tbody>
           <tr>
-            <td colspan="2">기준값</td>
-            <td>18 <sub>%</sub> <ImArrowDown /></td>
-            <td>1.5 <sub>%</sub> <ImArrowUp /></td>
-            <td>25 <sub>ppm</sub> <ImArrowUp /></td>
-            <td>10 <sub>ppm</sub> <ImArrowUp /></td>
-            <td>10 <sub>ppm</sub> <ImArrowUp /></td>
+            <td colspan="2">경보설정값</td>
+            <td>18% 미만</td>
+            <td>1.5% 초과</td>
+            <td>25ppm 초과</td>
+            <td>10ppm 초과</td>
+            <td>10% 초과</td>
           </tr>
           <tr>
             <td className="module_name_box">센서1</td>
@@ -45,7 +44,7 @@ const Control = () => {
             <td className="data_value">1.5<sub>%</sub></td>
             <td className="data_value">25<sub>ppm</sub></td>
             <td className="data_value">10<sub>ppm</sub></td>
-            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>%</sub></td>
           </tr>
           <tr>
             <td className="module_name_box">센서2</td>
@@ -61,7 +60,7 @@ const Control = () => {
             <td className="data_value">1.5<sub>%</sub></td>
             <td className="data_value">25<sub>ppm</sub></td>
             <td className="data_value">10<sub>ppm</sub></td>
-            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>%</sub></td>
           </tr>
           <tr>
             <td className="module_name_box">센서3</td>
@@ -77,49 +76,10 @@ const Control = () => {
             <td className="data_value">1.5<sub>%</sub></td>
             <td className="data_value">25<sub>ppm</sub></td>
             <td className="data_value">10<sub>ppm</sub></td>
-            <td className="data_value">10<sub>ppm</sub></td>
+            <td className="data_value">10<sub>%</sub></td>
           </tr>
         </tbody>
       </table>
-      {/* <div className="top_legend_box">
-        
-      </div>
-      <div className="data_box">
-        
-      </div>
-      
-      <div className="data_box">
-        <div className="module_name_box">센서2</div>
-        <div className="module_status_box">
-          <div className="module_status">
-            <div className="module_status_lamp">
-              <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
-            </div>
-            <img src={module_status_none} alt="module_status_none" />
-          </div>
-        </div>
-        <div className="data_value">18<sub>%</sub></div>
-        <div className="data_value">1.5<sub>%</sub></div>
-        <div className="data_value">25<sub>ppm</sub></div>
-        <div className="data_value">10<sub>ppm</sub></div>
-        <div className="data_value">10<sub>ppm</sub></div>
-      </div>
-      <div className="data_box">
-        <div className="module_name_box">센서3</div>
-        <div className="module_status_box">
-          <div className="module_status">
-            <div className="module_status_lamp">
-              <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
-            </div>
-            <img src={module_status_none} alt="module_status_none" />
-          </div>
-        </div>
-        <div className="data_value">18<sub>%</sub></div>
-        <div className="data_value">1.5<sub>%</sub></div>
-        <div className="data_value">25<sub>ppm</sub></div>
-        <div className="data_value">10<sub>ppm</sub></div>
-        <div className="data_value">10<sub>ppm</sub></div>
-      </div> */}
     </ControlContainer>
   )
 }
