@@ -43,12 +43,31 @@ export const ControlContainer = style.div`
       }
     }
 
+    @keyframes hideshow {
+      0% { opacity: 0.3; }
+      70% { opacity: 1; }
+      100% { opacity: 0.3; }
+    } 
+
     & > .module_name_box {
       & > .module_status {
         width: 50%;
+        position: relative;
 
-        & > img {
+        & img {
           width: 150px;
+        }
+
+        & > div.module_status_lamp {
+          position: absolute;
+          left: 5px;
+          top: 0px;
+          width: 150px;
+          height: 150px;
+
+          & > .danger {
+            animation: hideshow 1s ease infinite;
+          }
         }
       }
       & > .module_name {

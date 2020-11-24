@@ -3,9 +3,9 @@ import { ImArrowUp, ImArrowDown } from 'react-icons/im';
 
 import { ControlContainer } from './Control.css';
 
-import module_status_blue from 'static/images/module_status_blue.png'
-import module_status_danger from 'static/images/module_status_danger.png'
-import module_status_warning from 'static/images/module_status_warning.png'
+import module_status_lamp_blue from 'static/images/module_status_lamp_blue.png'
+import module_status_lamp_warning from 'static/images/module_status_lamp_warning.png'
+import module_status_lamp_danger from 'static/images/module_status_lamp_danger.png'
 import module_status_none from 'static/images/module_status_none.png'
 
 const Control = () => {
@@ -13,10 +13,10 @@ const Control = () => {
     <ControlContainer>
       <div className="top_legend_box">
         <div></div>
-        <div><span>O<sub>2</sub></span></div>
-        <div><span>CO<sub>2</sub></span></div>
+        <div><span>O₂</span></div>
+        <div><span>CO₂</span></div>
         <div><span>CO</span></div>
-        <div><span>H<sub>2</sub>S</span></div>
+        <div><span>H₂S</span></div>
         <div><span>LEL</span></div>
       </div>
       <div className="data_box">
@@ -30,6 +30,9 @@ const Control = () => {
       <div className="data_box">
         <div className="module_name_box">
           <div className="module_status">
+            <div className="module_status_lamp">
+              <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
+            </div>
             <img src={module_status_none} alt="module_status_none" />
           </div>
           <div className="module_name">장치1</div>
@@ -43,7 +46,10 @@ const Control = () => {
       <div className="data_box">
         <div className="module_name_box">
           <div className="module_status">
-            <img src={module_status_blue} alt="module_status_blue" />
+            <div className="module_status_lamp">
+              <img src={module_status_lamp_blue} alt="module_status_lamp_blue" />
+            </div>
+            <img src={module_status_none} alt="module_status_none" />
           </div>
           <div className="module_name">장치2</div>
         </div>
@@ -56,7 +62,7 @@ const Control = () => {
       <div className="data_box">
         <div className="module_name_box">
           <div className="module_status">
-            <img src={module_status_danger} alt="module_status_danger" />
+            <img src={module_status_none} alt="module_status_none" />
           </div>
           <div className="module_name">장치3</div>
         </div>
