@@ -8,7 +8,7 @@ import { AppHeaderContainer } from './MainContainer.css';
 import ci from 'static/images/logo.png'
 
 const titleMap = {
-  '/': '가스농도 현황',
+  '/': '가스농도 종합현황',
   '/table': '상세 데이터',
   '/graph': '상세 그래프',
   '/log': '로그 데이터',

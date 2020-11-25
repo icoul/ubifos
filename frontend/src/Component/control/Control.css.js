@@ -26,11 +26,21 @@ export const ControlContainer = style.div`
   
     & tbody > tr {
       height: 22vh;
+      border-top: 5px #fff solid;
+      border-bottom: 5px #fff solid;
+      border-top-style: double;
+      border-bottom-style: double;
   
       & > td {
         font-size: 45px;
-        border: #fff solid 1px;
         color: #fff;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: .5px;
+        border-right-width: .5px;
+        border-right-color: #ababab;
+        border-left-color: #ababab;
+        border-style: groove;
   
         & > svg {
           fill: #ff0000;
@@ -41,6 +51,13 @@ export const ControlContainer = style.div`
         0% { opacity: 0.3; }
         70% { opacity: 1; }
         100% { opacity: 0.3; }
+      } 
+
+      @keyframes colorRedFlash {
+        0% { color: #fff; }
+        50% { color: #fff; }
+        51% { color: #ff0000; }
+        100% { color: #ff0000; }
       } 
   
       & > .module_status_box {
@@ -73,6 +90,10 @@ export const ControlContainer = style.div`
           vertical-align: initial;
           font-size: 45px;
         }
+      }
+
+      & > .danger {
+        animation: colorRedFlash 1s ease infinite;
       }
     }
   

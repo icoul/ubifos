@@ -18,7 +18,7 @@ const Control = () => {
             <th className="sign">CO₂</th>
             <th className="sign">CO</th>
             <th className="sign">H₂S</th>
-            <th className="sign">LEL</th>
+            <th className="sign">CH₄</th>
           </tr>
         </thead>
         <tbody>
@@ -74,7 +74,7 @@ const Control = () => {
             </td>
             <td className="data_value">18<sub>%</sub></td>
             <td className="data_value">1.5<sub>%</sub></td>
-            <td className="data_value">25<sub>ppm</sub></td>
+            <td className="data_value danger">25<sub>ppm</sub></td>
             <td className="data_value">10<sub>ppm</sub></td>
             <td className="data_value">10<sub>%</sub></td>
           </tr>
