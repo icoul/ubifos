@@ -23,12 +23,12 @@ const LineGraph = (props) => {
           enabled: false
         }
       },
-      colors: props.colors,
+      colors: ['#50bb5b'],
       dataLabels: {
         enabled: false
       },
       stroke: {
-        curve: 'stepline',
+        curve: 'straight',
         width: 2,
       },
       tooltip: {
@@ -45,8 +45,8 @@ const LineGraph = (props) => {
       },
       yaxis: {
         tickAmount: 5,
-        max: 25,
-        min: 0,
+        max: props.criterion.max,
+        min: props.criterion.min,
         axisTicks: {
           show: true
         },
@@ -87,17 +87,13 @@ const LineGraph = (props) => {
         },
       },
     },
-    series: props.title.map((titleName, index) => {
-      return {
-        name: titleName,
-        data: props.data[index]
-      }
-    })
+    series: [{ name: props.title, data: props.data }]
   }
 
   return (
     <>
       <div className="gasDetailGraph-lineGraph">
+        <div className="gasDetailGraph-title">{props.title}</div>
         <Chart type="line" width="1650" height="370" options={config.options} series={config.series}/>
       </div>
     </>

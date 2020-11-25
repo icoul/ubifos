@@ -41,4 +41,9 @@ export const AppHeaderContainer = style.div`
 export const MainContainer = style.div`
   height: 90vh;
   background: #292929;
+  overflow-y: scroll;
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;

@@ -62,7 +62,7 @@ const TableData = () => {
         accessor: 'col7',
       },
       {
-        Header: 'LEL (ppm)',
+        Header: 'CH₄ (%)',
         accessor: 'col8',
       },
       {
