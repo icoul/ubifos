@@ -8,7 +8,7 @@ export const TableDataContainer = style.div`
   flex-direction: column;
 
   & > table {
-    width: 95vw;
+    width: 80vw;
     border-spacing: 0;
 
     thead {
@@ -52,7 +52,7 @@ export const TableDataContainer = style.div`
       padding: 0.5rem;
       background: #1f1b1b;
       border-bottom: 1px solid #98989815;
-      font-size: 16px;
+      font-size: 18px;
       :last-child {
         border-right: 0;
       }

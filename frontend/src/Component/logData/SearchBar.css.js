@@ -9,6 +9,7 @@ export const SearchBarConatiner = style.div`
 
   & > div.form-row {
     display: flex;
+    justify-content: space-evenly;
 
     & > .search-condition {
       position: relative;
@@ -16,7 +17,7 @@ export const SearchBarConatiner = style.div`
       justify-content: center;
       align-items: center;
       color: #757e94;
-      font-size: 14px;
+      font-size: 20px;
       font-weight: bold;
     }
     
@@ -29,21 +30,22 @@ export const SearchBarConatiner = style.div`
     }
 
     & > .search-condition > button {
-      width: 100px;
-      height: 30px;
+      width: 150px;
+      height: 40px;
       background: #0794d8;
       border-radius: 3px;
       color: #fff;
       border: 0px solid;
+      font-size: 20px;
     }
     
     & > .search-condition .table-search-input {
-      width: 180px;
-      height: 28px;
+      width: 205px;
+      height: 45px;
       padding: 0px 10px;
       margin: 0px 10px;
       color: #fff;
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 400;
       line-height: 1.5;
       background: #1f242c;
@@ -52,7 +54,7 @@ export const SearchBarConatiner = style.div`
       transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 
       & > option {
-        font-size: 20px;
+        font-size: 35px;
       }
     }
     
