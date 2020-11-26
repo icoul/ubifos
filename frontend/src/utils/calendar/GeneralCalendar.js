@@ -3,7 +3,7 @@ import Calendar from 'react-calendar';
 import { nvlDateTypeReturnToStringOnlyDate, nvlDateTypeReturnToDate } from 'utils/nvl';
 import { CalendarStyle, ReactCalendarBackground } from './GeneralCalendar.css.js';
 
-const GeneralCalendar = ({date, name, updateDateFunction, position, dateValid = true}) => {
+const GeneralCalendar = ({date, name, updateDateFunction, position}) => {
   const [ showFlag, setShowFlag ] = useState(false);
   const openCalendar = useCallback((flag) => {
     setShowFlag(flag);
@@ -12,9 +12,8 @@ const GeneralCalendar = ({date, name, updateDateFunction, position, dateValid = 
   return (
     <>
       <input value={nvlDateTypeReturnToStringOnlyDate(date, '')} 
-             onClick={() => { if(dateValid) openCalendar(true) }}
+             onClick={() => { openCalendar(true) }}
              className="table-search-input up-check calendar-input"
-             disabled={!dateValid}
              readOnly />
       <CalendarStyle showFlag={showFlag} position={position}>
         <Calendar
