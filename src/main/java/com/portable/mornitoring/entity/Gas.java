@@ -1,4 +1,4 @@
-package com.portable.entity;
+package com.portable.mornitoring.entity;
 
 import java.sql.Date;
 

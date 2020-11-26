@@ -59,6 +59,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.simas.qlrm</groupId>
+			<artifactId>qlrm</artifactId>
+			<version>1.7.1</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -80,34 +91,48 @@
 	</profiles>
 
 	<build>
+		<!-- <plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins> -->
 		<resources>
 			<resource>
 				<directory>src/main/resources/${env}</directory>
 			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.10.3</version>
+				<version>1.6</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
 					<installDirectory>target</installDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install npm and node</id>
+						<id>install node and npm</id>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>10.16.3</nodeVersion>
+							<nodeVersion>v10.16.3</nodeVersion>
 							<npmVersion>6.9.0</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
 						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run build</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
@@ -126,7 +151,7 @@
 						<configuration>
 							<target>
 								<copy todir="${project.build.directory}/classes/public">
-									<fileset dir="${project.basedir}/frontend/build" />
+									<fileset dir="${project.basedir}/frontend/build"/>
 								</copy>
 							</target>
 						</configuration>
@@ -140,10 +165,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.2.11.RELEASE</version>
+				<version>2.2.1.RELEASE</version>
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>11</source>  <!-- same as <java.version> -->
+					<target>11</target>    <!-- same as <java.version> -->
 				</configuration>
 			</plugin>
 		</plugins>
