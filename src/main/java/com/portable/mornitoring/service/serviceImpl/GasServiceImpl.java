@@ -39,7 +39,8 @@ public class GasServiceImpl implements GasService {
                   "GROUP BY MODULE_IDX " +
                 ") a on glt2.log_idx = a.log_idx " +
                 "LEFT JOIN (SELECT * FROM module_tb WHERE del_flag = 0) m ON a.MODULE_IDX = m.MODULE_IDX " +
-                "WHERE m.module_idx is not null ";
+                "WHERE m.module_idx is not null " + 
+                "ORDER BY m.module_idx ";
 
     Query nativeQuery = em.createNativeQuery(sql);
     JpaResultMapper jpaResultMapper = new JpaResultMapper();
