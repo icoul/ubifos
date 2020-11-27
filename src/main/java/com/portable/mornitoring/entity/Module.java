@@ -1,5 +1,7 @@
 package com.portable.mornitoring.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,4 +21,18 @@ public class Module {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "module_idx")
   private int moduleIdx;
+  @Column(name = "module_scn")
+  private String moduleScn;
+  @Column(name = "model_no")
+  private String modelNo;
+  @Column(name = "model_serial")
+  private String modelSerial;
+  @Column(name = "model_nm")
+  private String modelNm;
+  @Column(name = "rgst_id")
+  private String rgstId;
+  @Column(name = "rgst_dt")
+  private Date rgstDt;
+  @Column(name = "del_flag")
+  private int delFlag;
 }
