@@ -1,16 +1,3 @@
-const statusConverter = (status) => {
-  switch (status) {
-    case 'none':
-      return <span style={{color: '#ececec'}}>● 미수신</span>;
-    case 'warning':
-      return <span style={{color: '#e8ad2e'}}>● 경고</span>;
-    case 'danger':
-      return <span style={{color: '#ff0018'}}>● 위험</span>;
-    default:
-      return <span style={{color: '#50bb5b'}}>● 정상</span>;
-  }
-}
-
 export const columns = [
   {
     Header: '',
@@ -31,7 +18,8 @@ export const columns = [
       <div>상태</div>
     ),
     Cell: ({ row }) => (
-      statusConverter(row.original.col3)
+      row.original.o2 < 18 || row.original.h2s > 25 || row.original.co > 10 || row.original.ch4 > 10 || row.original.co2 > 1.5 ? 
+        <span style={{color: '#ff0018'}}>● 위험</span> : <span style={{color: '#50bb5b'}}>● 정상</span>
     ),
   },
   {
