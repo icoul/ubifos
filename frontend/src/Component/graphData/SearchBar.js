@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import SearchDate from './SearchDate';
 import SearchModule from '../common/SearchModule';
 
 import { SearchBarConatiner } from './SearchBar.css';
 
-const SearchBar = ({ searchMap, setSearchMap }) => {
-  const [ dateValid, setDateValid ] = useState(true);
+const SearchBar = ({ setSearchMap }) => {
   const updateSearchMap = useCallback((key, value) => {
     setSearchMap(searchMap => {
       return {
@@ -18,7 +17,7 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
   return (
     <SearchBarConatiner>
       <div className="form-row">
-        <SearchDate dateValid={dateValid} updateSearchMap={updateSearchMap}/>
+        <SearchDate updateSearchMap={updateSearchMap}/>
         <SearchModule updateSearchMap={updateSearchMap} />
         <div className="search-condition col-xl-4 col-sm-6">
           <button>파일 저장</button>

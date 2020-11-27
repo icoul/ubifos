@@ -5,7 +5,7 @@ function cloneObject(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-const SearchDate = ({ dateValid, updateSearchMap }) => {
+const SearchDate = ({ updateSearchMap }) => {
   const [ dateTime, setDateTime ] = useState({'date': new Date(), 'beginTime': '00', 'endTime': '24'});
   const updateDateTime = useCallback((key, value) => {
     setDateTime(dateTime => {
@@ -24,7 +24,7 @@ const SearchDate = ({ dateValid, updateSearchMap }) => {
     const endDate = new Date(cloneObject(dateTime.date));
     endDate.setHours(dateTime.endTime);
     updateSearchMap('endDate', endDate);
-  }, [dateTime, dateValid, updateSearchMap])
+  }, [dateTime, updateSearchMap])
 
   return (
     <div className="search-condition col-xl-4 col-sm-6">
@@ -32,12 +32,10 @@ const SearchDate = ({ dateValid, updateSearchMap }) => {
       <GeneralCalendar date={dateTime.date} 
                        updateDateFunction={updateDateTime}
                        name='date'
-                       position={{left: '70', top: '35'}} 
-                       dateValid={dateValid} />
+                       position={{left: '70', top: '35'}} />
       <label>시작시각</label>
       <select className="table-search-input up-check"
-              onChange={(({target}) => updateDateTime('beginTime', target.value))}
-              disabled={!dateValid}>
+              onChange={(({target}) => updateDateTime('beginTime', target.value))}>
         {
           [...Array(25).keys()].map((v) => {
             return <option value={v} key={"start_" + v}>{v < 10 ? "0" + v : v}시</option>
