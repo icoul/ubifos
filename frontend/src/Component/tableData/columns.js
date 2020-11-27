@@ -17,8 +17,13 @@ export const columns = [
     accessor: 'col1',
   },
   {
-    Header: '장치명',
-    accessor: 'col2',
+    id: 'modelNm',
+    Header: () => (
+      <div>장치명</div>
+    ),
+    Cell: ({ row }) => (
+      <>{row.original.module.modelNm}</>
+    ),
   },
   {
     id: 'status',
@@ -31,26 +36,26 @@ export const columns = [
   },
   {
     Header: 'O₂ (%)',
-    accessor: 'col4',
+    accessor: 'o2',
   },
   {
     Header: 'CO₂ (%)',
-    accessor: 'col5',
+    accessor: 'co2',
   },
   {
     Header: 'CO (ppm)',
-    accessor: 'col6',
+    accessor: 'co',
   },
   {
     Header: 'H₂S (ppm)',
-    accessor: 'col7',
+    accessor: 'h2s',
   },
   {
     Header: 'CH₄ (%)',
-    accessor: 'col8',
+    accessor: 'ch4',
   },
   {
     Header: '날짜',
-    accessor: 'col9',
+    accessor: 'rgstDt',
   },
 ]

@@ -3,20 +3,14 @@ import { useTable, usePagination, useRowSelect } from 'react-table';
 
 import { TableContainer, PageBox, PageButton } from './Table.css';
 
-const Table = ({ columns, data }) => {
+const Table = ({ columns, data, dispatch, canNextPage, canPreviousPage, pageIndex, pageCount, pageSize, elementCount }) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
     page,
-    canPreviousPage,
-    canNextPage,
-    gotoPage,
-    nextPage,
-    previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
@@ -29,17 +23,17 @@ const Table = ({ columns, data }) => {
   const [pageNumbers, setPageNumbers] = useState(null)
 
   useEffect(() => {
-    setPageSize(15);
-  }, [setPageSize])
+    setPageSize(pageSize);
+  }, [pageSize, setPageSize]);
 
   useEffect(() => {
     const firstPageNumber = Math.floor(pageIndex / 10) * 10 + 1;
-    const value = data.length - ((firstPageNumber - 1) * pageSize);
+    const value = elementCount - ((firstPageNumber - 1) * pageSize);
     const pageNumberRangeCount = value > 150 ? 10 : (value <= 0 ? 1 : Math.floor((value - 1) / pageSize) + 1);
     const pageNumbersObject = [...Array(pageNumberRangeCount).keys()].map((i) => {
       return (
         <PageButton selected={firstPageNumber + i === pageIndex + 1}
-                    onClick={() => gotoPage(firstPageNumber + i - 1)}
+                    onClick={() => dispatch({type: 'PAGE_SELECT', pageIndex: (firstPageNumber + i - 1)})}
                     key={i}>
           {firstPageNumber + i}
         </PageButton>
@@ -47,7 +41,7 @@ const Table = ({ columns, data }) => {
     });
 
     setPageNumbers(pageNumbersObject)
-  }, [data.length, gotoPage, pageIndex, pageSize])
+  }, [elementCount, dispatch, pageIndex, pageSize])
 
   return (
     <>
@@ -81,11 +75,11 @@ const Table = ({ columns, data }) => {
         </tbody>
       </TableContainer>
       <PageBox>
-       <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+       <button onClick={() => dispatch({type: 'PAGE_SELECT', pageIndex: pageIndex - 1})} disabled={!canPreviousPage}>
         { '<' }
        </button>
        { pageNumbers }
-       <button onClick={() => nextPage()} disabled={!canNextPage}>
+       <button onClick={() => dispatch({type: 'PAGE_SELECT', pageIndex: pageIndex + 1})} disabled={!canNextPage}>
         { '>' }
        </button>
       </PageBox>

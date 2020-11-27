@@ -20,7 +20,7 @@ export function getYMDAndTimeFormatDate(d) {
   const minute = convertTenLessThanString(d.getMinutes());
   const second = convertTenLessThanString(d.getSeconds());
 
-  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  return `${year}-${month}-${day} ${hour}:00:00`;
 }
 
 function convertTenLessThanString(value) {
