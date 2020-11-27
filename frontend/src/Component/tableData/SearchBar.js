@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import SearchDate from './SearchDate';
-import SearchModule from './SearchModule';
+import SearchModule from '../common/SearchModule';
 
 import { SearchBarConatiner } from './SearchBar.css';
 

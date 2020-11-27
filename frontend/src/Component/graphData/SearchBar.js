@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import SearchDate from './SearchDate';
-// import SearchTime from './SearchTime';
-// import SearchModule from './SearchModule';
+import SearchModule from '../common/SearchModule';
 
 import { SearchBarConatiner } from './SearchBar.css';
 
@@ -19,16 +18,8 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
   return (
     <SearchBarConatiner>
       <div className="form-row">
-        <SearchDate title='시작날짜' dateValid={dateValid} updateSearchMap={updateSearchMap} name='beginDate'/>
-        <SearchDate title='종료날짜' dateValid={dateValid} updateSearchMap={updateSearchMap} name='endDate'/>
-        <div className="search-condition col-xl-4 col-sm-6">
-          <label>장치</label>
-          <select className="table-search-input up-check">
-            <option value=''>ROT 001</option>
-            <option value=''>ROT 002</option>
-            <option value=''>ROT 003</option>
-          </select>
-        </div>
+        <SearchDate dateValid={dateValid} updateSearchMap={updateSearchMap}/>
+        <SearchModule updateSearchMap={updateSearchMap} />
         <div className="search-condition col-xl-4 col-sm-6">
           <button>파일 저장</button>
         </div>
