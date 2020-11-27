@@ -71,8 +71,8 @@ const Control = () => {
                     <div className="module_status">
                       <div className="module_status_lamp">
                         {
-                          d.noneStatus === 0 && ( 
-                            d.o2Status === 0 && d.h2sStatus === 0 && d.coStatus === 0 && d.ch4Status === 0 && d.co2Status === 0 ? 
+                          d.noneStatus === '0' && ( 
+                            d.o2Status === '0' && d.h2sStatus === '0' && d.coStatus === '0' && d.ch4Status === '0' && d.co2Status === '0' ? 
                               <img src={module_status_lamp_blue} alt="module_status_lamp_blue" /> :
                               <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
                           )
@@ -85,7 +85,7 @@ const Control = () => {
                     criterionMap.map(key => {
                       return (
                         <td key={key} 
-                            className={classNames("data_value", d[`${key}Status`] === 1 && 'danger')}>
+                            className={classNames("data_value", d[`${key}Status`] === '1' && 'danger')}>
                           { d[key] }<sub>%</sub>
                         </td>
                       )
