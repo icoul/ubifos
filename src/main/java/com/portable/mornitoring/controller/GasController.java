@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.portable.mornitoring.dto.GasGraphDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
 import com.portable.mornitoring.entity.Gas;
 import com.portable.mornitoring.entity.Module;
@@ -43,6 +44,16 @@ public class GasController {
     Pageable page = PageableRequest.setPageableObject(pageIndex, pageSize);
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
     Page<Gas> result = gasRepository.findByModuleAndRgstDtBetween(module, convertStringToDate(beginDate), convertStringToDate(endDate), page);
+    
+    return result;
+  }
+
+  @GetMapping(path = "/api/get/graph")
+  public List<GasGraphDTO> getGasDataInGraph(@RequestParam("beginDate") String beginDate,
+                                             @RequestParam("endDate") String endDate, 
+                                             @RequestParam("moduleIdx") int moduleIdx) throws ParseException {
+    Module module = moduleRepository.findByModuleIdx(moduleIdx);
+    List<GasGraphDTO> result = gasService.findByModuleAndRgstDtBetweenByGraph(module, beginDate, endDate);
     
     return result;
   }

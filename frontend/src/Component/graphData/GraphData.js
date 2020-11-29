@@ -1,55 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 
 import { GraphDataContainer } from './GraphData.css';
 import LineGraph from './LineGraph';
 import SearchBar from './SearchBar';
 
+import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+
 const GraphData = () => {
+  const [data, setData] = useState([]);
   const [searchMap, setSearchMap] = useState({
                                               beginDate: new Date(),
                                               endDate: new Date(),
-                                              beginTime: 0,
-                                              endTime: 24,
-                                              moduleIdx: 0,
+                                              moduleIdx: 1
                                             })
-                      
-  const list = ['O₂', 'CO₂', 'CO', 'H₂S', 'CH₄'];
-  const datas = [
-    [18,21,22,23,21,22,19,22,21,24],
-    [0,1,0,1,0,1,0,1,0,1],
-    [3,1,2,5,3,1,2,2,6,1],
-    [18,21,22,23,21,22,19,22,21,24],
-    [1,5,7,2,3,0,0,0,2,3]
-  ]
-  const criterion = [
-    {max: 25, min:0},
-    {max: 5, min:0},
-    {max: 15, min:0},
-    {max: 30, min:0},
-    {max: 15, min:0}
+  
+  const getData = useCallback(() => {
+    axios.get("/api/get/graph", {params: {moduleIdx: searchMap.moduleIdx,
+                                          beginDate: getYMDAndTimeFormatDate(searchMap.beginDate),
+                                          endDate: getYMDAndTimeFormatDate(searchMap.endDate)}})
+    .then(response => {
+      setData(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }, [searchMap.moduleIdx, searchMap.beginDate, searchMap.endDate])
+
+  useEffect(() => {
+    getData();
+  }, [getData, searchMap])
+
+  const graphMap = [
+    {title: 'O₂', name: 'o2', max: 25, min:0},
+    {title: 'CO₂', name: 'co2', max: 5, min:0},
+    {title: 'CO', name: 'co', max: 15, min:0},
+    {title: 'H₂S', name: 'h2s', max: 30, min:0},
+    {title: 'CH₄', name: 'ch4', max: 15, min:0}
   ]
 
   return (
     <GraphDataContainer>
       <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
       {
-        list.map((data, index) => {
+        graphMap.map((map, index) => {
           return (
-            <LineGraph key={ data } 
-                       graphId={ data } 
-                       title={ data }
-                       data={datas[index]} 
-                       criterion={criterion[index]}
-                       categories={['2020-01-01 11:11:11', 
-                                    '2020-01-01 12:11:11', 
-                                    '2020-01-01 13:11:11', 
-                                    '2020-01-01 14:11:11', 
-                                    '2020-01-01 15:11:11', 
-                                    '2020-01-01 16:11:11', 
-                                    '2020-01-01 17:11:11', 
-                                    '2020-01-01 18:11:11', 
-                                    '2020-01-01 19:11:11', 
-                                    '2020-01-01 20:11:11', ]} 
+            <LineGraph key={ map.title } 
+                       name={ map.name } 
+                       title={ map.title }
+                       data={ data } 
+                       max={ map.max }
+                       min={ map.min }
+                       categories={
+                          [...Array(((searchMap.endDate.getTime() - searchMap.beginDate.getTime()) / 1000 / 60 / 60) + 1).keys()].map(i => {
+                            return `${searchMap.beginDate.getHours() + i}시`;
+                          })
+                        } 
                       />
           )
         })

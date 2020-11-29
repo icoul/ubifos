@@ -3,10 +3,11 @@ import Chart from 'react-apexcharts';
 import './LineGraph.css';
 
 const LineGraph = (props) => {
+  console.log([...Array(props.data.length)].map(x => { return '#fff'; }));
   const config = {
     options: {
       chart: {
-        id: props.graphId,
+        id: props.name,
         type: 'line',
         toolbar: {
           show: true,
@@ -45,8 +46,8 @@ const LineGraph = (props) => {
       },
       yaxis: {
         tickAmount: 5,
-        max: props.criterion.max,
-        min: props.criterion.min,
+        max: props.max,
+        min: props.min,
         axisTicks: {
           show: true
         },
@@ -66,10 +67,9 @@ const LineGraph = (props) => {
       xaxis: {
         categories: props.categories,
         labels: {
-          show: false,
-          hideOverlappingLabels: true,
+          show: true,
           style: {
-            colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff', '#fff'],
+            colors:[...Array(props.data.length)].map(x => { return '#fff'; }),
             fontSize: '10px'
           },
         },
@@ -87,7 +87,7 @@ const LineGraph = (props) => {
         },
       },
     },
-    series: [{ name: props.title, data: props.data }]
+    series: [{ name: props.title, data: props.data.map(x => { return x[props.name] }) }]
   }
 
   return (
