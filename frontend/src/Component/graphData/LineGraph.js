@@ -60,7 +60,7 @@ const LineGraph = (props) => {
           maxWidth: 160,
           style: {
               colors: '#eee',
-              fontSize: '12px',
+              fontSize: '20px',
           },
         },
       },
@@ -70,7 +70,7 @@ const LineGraph = (props) => {
           show: true,
           style: {
             colors:[...Array(props.data.length)].map(x => { return '#fff'; }),
-            fontSize: '10px'
+            fontSize: '20px'
           },
         },
         tooltip: {
@@ -94,7 +94,7 @@ const LineGraph = (props) => {
     <>
       <div className="gasDetailGraph-lineGraph">
         <div className="gasDetailGraph-title">{props.title}</div>
-        <Chart type="line" width="1650" height="370" options={config.options} series={config.series}/>
+        <Chart type="line" width="1450" height="370" options={config.options} series={config.series}/>
       </div>
     </>
   )

@@ -9,10 +9,13 @@
   border-radius: 20px;
   background: #2F3B49;
   margin: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .gasDetailGraph-title {
   color: #fff;
-  font-size: 15px;
+  font-size: 65px;
   text-align: center;
+  width: 200px;
 }
