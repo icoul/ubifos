@@ -7,7 +7,7 @@ import { TableDataContainer } from './TableData.css';
 import SearchBar from './SearchBar';
 import Table from 'utils/Table';
 import paramSetterReducer from 'utils/customReducer/paramSetterReducer';
-import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+import { getYMDAndHourFormatDate } from 'utils/getCustomFormatDate';
 
 const TableData = () => {
   const [data, setData] = useState([]);
@@ -28,8 +28,8 @@ const TableData = () => {
   
   const getData = useCallback(() => {
     axios.get("/api/get/table", {params: {moduleIdx: searchMap.moduleIdx,
-                                          beginDate: getYMDAndTimeFormatDate(searchMap.beginDate),
-                                          endDate: getYMDAndTimeFormatDate(searchMap.endDate),
+                                          beginDate: getYMDAndHourFormatDate(searchMap.beginDate),
+                                          endDate: getYMDAndHourFormatDate(searchMap.endDate),
                                           pageIndex: paramState.pageIndex,
                                           pageSize: paramState.pageSize }})
     .then(response => {

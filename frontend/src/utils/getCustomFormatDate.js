@@ -11,6 +11,16 @@ export function getYMDFormatDate(d) {
   
 }
 
+export function getYMDAndHourFormatDate(d) {
+  const year = d.getFullYear();
+  const month = convertTenLessThanString(d.getMonth() + 1);
+  const day = convertTenLessThanString(d.getDate());
+
+  const hour = convertTenLessThanString(d.getHours());
+
+  return `${year}-${month}-${day} ${hour}:00:00`;
+}
+
 export function getYMDAndTimeFormatDate(d) {
   const year = d.getFullYear();
   const month = convertTenLessThanString(d.getMonth() + 1);
@@ -20,7 +30,7 @@ export function getYMDAndTimeFormatDate(d) {
   const minute = convertTenLessThanString(d.getMinutes());
   const second = convertTenLessThanString(d.getSeconds());
 
-  return `${year}-${month}-${day} ${hour}:00:00`;
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
 function convertTenLessThanString(value) {

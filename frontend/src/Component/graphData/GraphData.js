@@ -5,7 +5,7 @@ import { GraphDataContainer } from './GraphData.css';
 import LineGraph from './LineGraph';
 import SearchBar from './SearchBar';
 
-import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+import { getYMDAndHourFormatDate } from 'utils/getCustomFormatDate';
 
 const GraphData = () => {
   const [data, setData] = useState([]);
@@ -17,8 +17,8 @@ const GraphData = () => {
   
   const getData = useCallback(() => {
     axios.get("/api/get/graph", {params: {moduleIdx: searchMap.moduleIdx,
-                                          beginDate: getYMDAndTimeFormatDate(searchMap.beginDate),
-                                          endDate: getYMDAndTimeFormatDate(searchMap.endDate)}})
+                                          beginDate: getYMDAndHourFormatDate(searchMap.beginDate),
+                                          endDate: getYMDAndHourFormatDate(searchMap.endDate)}})
     .then(response => {
       setData(response.data);
     })

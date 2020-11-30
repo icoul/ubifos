@@ -1,11 +1,18 @@
+import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+
 export const columns = [
     {
       Header: '',
       accessor: 'col1',
     },
     {
-      Header: '장치명',
-      accessor: 'col2',
+      id: 'modelNm',
+      Header: () => (
+        <div>장치명</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.module.modelNm}</>
+      ),
     },
     {
       id: 'status',
@@ -13,32 +20,62 @@ export const columns = [
         <div>상태</div>
       ),
       Cell: ({ row }) => (
-        row.original.o2 < 18 || row.original.h2s > 25 || row.original.co > 10 || row.original.ch4 > 10 || row.original.co2 > 1.5 ? 
-          <span style={{color: '#ff0018'}}>● 위험</span> : <span style={{color: '#50bb5b'}}>● 정상</span>
+        row.original.status === 'danget' ? 
+          <span style={{color: '#ff0018'}}>● 위험</span> : <span style={{color: '#ababab'}}>● 미수신</span>
       ),
     },
     {
-      Header: 'O₂ (%)',
-      accessor: 'col4',
+      id: 'o2',
+      Header: () => (
+        <div>O₂ (%)</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.gas.o2}</>
+      ),
     },
     {
-      Header: 'CO₂ (%)',
-      accessor: 'col5',
+      id: 'co2',
+      Header: () => (
+        <div>CO₂ (%)</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.gas.co2}</>
+      ),
     },
     {
-      Header: 'CO (ppm)',
-      accessor: 'col6',
+      id: 'co',
+      Header: () => (
+        <div>CO (ppm)</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.gas.co}</>
+      ),
     },
     {
-      Header: 'H₂S (ppm)',
-      accessor: 'col7',
+      id: 'h2s',
+      Header: () => (
+        <div>H₂S (ppm)</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.gas.h2s}</>
+      ),
     },
     {
-      Header: 'CH₄ (%)',
-      accessor: 'col8',
+      id: 'ch4',
+      Header: () => (
+        <div>CH₄ (%)</div>
+      ),
+      Cell: ({ row }) => (
+        <>{row.original.gas.ch4}</>
+      ),
     },
     {
-      Header: '날짜',
-      accessor: 'col9',
+      id: 'rgstDt',
+      Header: () => (
+        <div>날짜</div>
+      ),
+      Cell: ({ row }) => (
+        <>{ getYMDAndTimeFormatDate(new Date(row.original.rgstDt)) }</>
+      ),
     },
   ]

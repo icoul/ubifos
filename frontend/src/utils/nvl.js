@@ -1,4 +1,4 @@
-import { getYMDFormatDate, getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+import { getYMDFormatDate, getYMDAndHourFormatDate } from 'utils/getCustomFormatDate';
 
 export function nvl(value, returnValue) {
   return (value === null || value === void 0) ? returnValue : value;
@@ -11,7 +11,7 @@ export function nvlDateTypeReturnToString(value, returnValue) {
 
   const checkDate = new Date(value);
   if (checkDate instanceof Date && !isNaN(checkDate)) {
-    return getYMDAndTimeFormatDate(checkDate);
+    return getYMDAndHourFormatDate(checkDate);
   }
 
   return returnValue;
