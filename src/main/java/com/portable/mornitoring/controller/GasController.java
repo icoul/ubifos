@@ -1,8 +1,6 @@
 package com.portable.mornitoring.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import com.portable.mornitoring.dto.GasGraphDTO;
@@ -13,6 +11,7 @@ import com.portable.mornitoring.repository.GasRepository;
 import com.portable.mornitoring.repository.ModuleRepository;
 import com.portable.mornitoring.service.GasService;
 import com.portable.mornitoring.utils.PageableRequest;
+import com.portable.mornitoring.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,7 +42,7 @@ public class GasController {
                                     @RequestParam("pageSize") int pageSize) throws ParseException {
     Pageable page = PageableRequest.setPageableObject(pageIndex, pageSize);
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
-    Page<Gas> result = gasRepository.findByModuleAndRgstDtBetween(module, convertStringToDate(beginDate), convertStringToDate(endDate), page);
+    Page<Gas> result = gasRepository.findByModuleAndRgstDtBetween(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
     
     return result;
   }
@@ -56,10 +55,5 @@ public class GasController {
     List<GasGraphDTO> result = gasService.findByModuleAndRgstDtBetweenByGraph(module, beginDate, endDate);
     
     return result;
-  }
-
-  public Date convertStringToDate(String date) throws ParseException {
-    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    return transFormat.parse(date);
   }
 }
