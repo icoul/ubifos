@@ -63,14 +63,16 @@ public class GasServiceImpl implements GasService {
 
     Query nativeQuery = em.createNativeQuery(sql);
     JpaResultMapper jpaResultMapper = new JpaResultMapper();
-    List<GasGraphDTO> t = jpaResultMapper.list(nativeQuery, GasGraphDTO.class);
+    List<GasGraphDTO> gasDatasFromDatabase = jpaResultMapper.list(nativeQuery, GasGraphDTO.class);
 
-    Map<String, GasGraphDTO> a = new HashMap<String, GasGraphDTO>();
+    Map<String, GasGraphDTO> gasGroupByRgstDtMap = new HashMap<String, GasGraphDTO>();
 
-    for (GasGraphDTO gasGraphDTO : t) {
-      a.put(gasGraphDTO.getRgstDt(), gasGraphDTO);
+    // 시간을 key, DTO를 value로 한 HashMap
+    for (GasGraphDTO gasGraphDTO : gasDatasFromDatabase) {
+      gasGroupByRgstDtMap.put(gasGraphDTO.getRgstDt(), gasGraphDTO);
     }
 
+    // 종료시간과 시작시간의 시간차 계산
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH");
     Date begin = sdf.parse(beginDate); 
     Date end = sdf.parse(endDate); 
@@ -78,15 +80,17 @@ public class GasServiceImpl implements GasService {
 
     List<GasGraphDTO> result = new ArrayList<GasGraphDTO>();
     
+    // 시작시간부터 차례대로 해당 시간을 key값으로 가지고 있으면 DTO를 List에 추가
+    // 없으면 모든 값이 0인 DTO 인스턴스를 생성하여 추가
     for (int i = 0; i < diff + 1; i++) {
       Calendar cal = GregorianCalendar.getInstance();
       cal.setTime(begin);
       cal.add(Calendar.HOUR_OF_DAY, i);
 
-      Boolean x = a.containsKey(cal.get(Calendar.HOUR_OF_DAY) + "");
+      Boolean x = gasGroupByRgstDtMap.containsKey(cal.get(Calendar.HOUR_OF_DAY) + "");
 
       if (x) {
-        result.add(a.get(cal.get(Calendar.HOUR_OF_DAY) + ""));
+        result.add(gasGroupByRgstDtMap.get(cal.get(Calendar.HOUR_OF_DAY) + ""));
       }
       else {
         GasGraphDTO y = new GasGraphDTO(0.0, 0.0, 0.0, 0.0, 0.0, cal.get(Calendar.HOUR_OF_DAY) + "");
