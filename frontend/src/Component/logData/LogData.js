@@ -1,164 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { useTable, usePagination, useRowSelect } from 'react-table';
+import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import axios from 'axios';
 
-import { LogDataContainer, PageButton } from './LogData.css';
-import { data } from './data';
+import { LogDataContainer } from './LogData.css';
 import SearchBar from './SearchBar';
-
-const statusConverter = (status) => {
-  switch (status) {
-    case 'none':
-      return <span style={{color: '#ececec'}}>● 미수신</span>;
-    case 'warning':
-      return <span style={{color: '#e8ad2e'}}>● 경고</span>;
-    case 'danger':
-      return <span style={{color: '#ff0018'}}>● 위험</span>;
-    default:
-      return <span style={{color: '#50bb5b'}}>● 정상</span>;
-  }
-}
+import Table from 'utils/Table';
+import paramSetterReducer from 'utils/customReducer/paramSetterReducer';
+import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+import { columns } from './columns'
 
 const LogData = () => {
+  const [data, setData] = useState([]);
   const [searchMap, setSearchMap] = useState({
                                               beginDate: new Date(),
                                               endDate: new Date(),
-                                              beginTime: 0,
-                                              endTime: 24,
                                               moduleIdx: 0,
                                             })
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: '',
-        accessor: 'col1',
-      },
-      {
-        Header: '장치명',
-        accessor: 'col2',
-      },
-      {
-        id: 'status',
-        Header: () => (
-          <div>상태</div>
-        ),
-        Cell: ({ row }) => (
-          statusConverter(row.original.col3)
-        ),
-      },
-      {
-        Header: 'O₂ (%)',
-        accessor: 'col4',
-      },
-      {
-        Header: 'CO₂ (%)',
-        accessor: 'col5',
-      },
-      {
-        Header: 'CO (ppm)',
-        accessor: 'col6',
-      },
-      {
-        Header: 'H₂S (ppm)',
-        accessor: 'col7',
-      },
-      {
-        Header: 'CH₄ (%)',
-        accessor: 'col8',
-      },
-      {
-        Header: '날짜',
-        accessor: 'col9',
-      },
-    ],
-    []
-  )
+  const [ canNextPage, setCanNextPage ] = useState(false);
+  const [ canPreviousPage, setCanPreviousPage ] = useState(false);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    usePagination,
-    useRowSelect,
-  )
-
-  const [pageNumbers, setPageNumbers] = useState(null)
+  const [paramState, dispatch] = useReducer(paramSetterReducer, {
+                                                                  pageIndex: 0,
+                                                                  pageCount: 10,
+                                                                  pageSize: 15,
+                                                                  elementCount: 0
+                                                                })
+  
+  const getData = useCallback(() => {
+    axios.get("/api/get/warning", {params: {moduleIdx: searchMap.moduleIdx,
+                                          beginDate: getYMDAndTimeFormatDate(searchMap.beginDate),
+                                          endDate: getYMDAndTimeFormatDate(searchMap.endDate),
+                                          pageIndex: paramState.pageIndex,
+                                          pageSize: paramState.pageSize }})
+    .then(response => {
+      setData(response.data.content);
+      dispatch({type: 'CHANGE_TOTAL', pageCount: response.totalPages, elementCount: response.data.totalElements});
+      setCanNextPage(!response.last);
+      setCanPreviousPage(!response.first);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }, [searchMap.moduleIdx, searchMap.beginDate, searchMap.endDate, paramState.pageIndex, paramState.pageSize])
 
   useEffect(() => {
-    setPageSize(15);
-  }, [setPageSize])
+    console.log(searchMap);
+    getData();
+  }, [getData, searchMap])
 
-  useEffect(() => {
-    const firstPageNumber = Math.floor(pageIndex / 10) * 10 + 1;
-    const value = data.length - ((firstPageNumber - 1) * pageSize);
-    const pageNumberRangeCount = value > 150 ? 10 : (value <= 0 ? 1 : Math.floor((value - 1) / pageSize) + 1);
-    const pageNumbersObject = [...Array(pageNumberRangeCount).keys()].map((i) => {
-      return (
-        <PageButton selected={firstPageNumber + i === pageIndex + 1}
-                    onClick={() => gotoPage(firstPageNumber + i - 1)}
-                    key={i}>
-          {firstPageNumber + i}
-        </PageButton>
-      )
-    });
-
-    setPageNumbers(pageNumbersObject)
-  }, [gotoPage, pageIndex, pageSize])
+  if (!data) {
+    getData();
+    return null;
+  }
 
   return (
     <LogDataContainer>
-      <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map(row => {
-            prepareRow(row)
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
-                  )
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-      <div className="page_box">
-       <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-        { '<' }
-       </button>
-       { pageNumbers }
-       <button onClick={() => nextPage()} disabled={!canNextPage}>
-        { '>' }
-       </button>
-     </div>
+      <SearchBar setSearchMap={setSearchMap} />
+      <Table columns={columns} data={data} dispatch={dispatch} canNextPage={canNextPage} canPreviousPage={canPreviousPage} {...paramState} />
     </LogDataContainer>
   )
 }
