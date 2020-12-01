@@ -32,7 +32,7 @@ public class GasServiceImpl implements GasService {
         + "      CAST(glt2.A3 > 10 AS CHAR(1)) AS coStatus, " + "      glt2.A4 AS ch4, "
         + "      CAST(glt2.A4 > 10 AS CHAR(1)) AS ch4Status, " + "      glt2.A5 AS co2, "
         + "      CAST(glt2.A5 > 1.5 AS CHAR(1)) AS co2Status, "
-        + "      CAST(timediff(glt2.rgst_dt, now()) > '-00:03:00' AS CHAR(1)) AS noneStatus, " + "      glt2.battery, "
+        + "      CAST(timediff(glt2.rgst_dt, now()) > '-03:03:00' AS CHAR(1)) AS noneStatus, " + "      glt2.battery, "
         + "      glt2.rgst_dt AS rgstDt, " + "      m.module_idx AS moduleIdx, " + "      m.model_nm AS modelNm "
         + "from gas_log_tb glt2 left join " + "( " + "SELECT max(glt.log_idx) AS log_idx, glt.module_idx "
         + "FROM (SELECT * FROM gas_log_tb ORDER BY log_idx DESC LIMIT 100000) glt " + "GROUP BY MODULE_IDX "

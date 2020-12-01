@@ -10,5 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GasRepository extends JpaRepository<Gas, Integer> {
+  Gas findByLogIdx(int logIdx);
   Page<Gas> findByModuleAndRgstDtBetween(Module module, Date beginDate, Date endDate, Pageable pageable);
 }

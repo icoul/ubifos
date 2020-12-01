@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 
@@ -8,7 +8,19 @@ import module_status_lamp_blue from 'static/images/module_status_lamp_blue.png'
 import module_status_lamp_danger from 'static/images/module_status_lamp_danger.png'
 import module_status_none from 'static/images/module_status_none.png'
 
-const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4']
+const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
+
+const checkStatus = (map) => {
+  if (map.noneStatus === '1') {
+    return 'none';
+  }
+
+  if (map.o2Status === '1' || map.h2sStatus === '1' || map.coStatus === '1' || map.ch4Status === '1' || map.co2Status === '1') {
+    return 'danger'
+  }
+
+  return 'blue';
+}
 
 const Control = () => {
   const [ data, setData ] = useState(null);
@@ -16,12 +28,44 @@ const Control = () => {
   const getData = () => {
     axios.get("/api/get/gas/group", {})
       .then(response => {
-        setData(response.data);
+        checkData(response.data);
       })
       .catch(function (error) {
         console.log(error);
       })
   }
+
+  const setWarningLog = (dataMap, status) => {
+    axios.post("/api/set/warning", { logIdx: dataMap.logIdx, moduleIdx: dataMap.moduleIdx, status: status })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  const checkData = useCallback((newData) => {
+    setData(data => {
+      const dataMap = new Map();
+
+      newData.forEach(map => {
+        const status = checkStatus(map);
+
+        if (data) {
+          const oldStatus = data.get(map.moduleIdx).status;
+
+          if (oldStatus === 'blue' && status !== 'blue') {
+            setWarningLog(map, status);
+          }
+        }
+
+        dataMap.set(map.moduleIdx, {...map, status: status})
+      });
+
+      return dataMap;
+    });
+  }, [setData])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -63,16 +107,16 @@ const Control = () => {
             <td>10% 초과</td>
           </tr>
           {
-            data.map((d) => {
+            Array.from( data.keys() ).map((key) => {
               return (
-                <tr key={ d.modelIdx }>
-                  <td className="module_name_box">{ d.modelNm }</td>
+                <tr key={ data.get(key).moduleIdx }>
+                  <td className="module_name_box">{ data.get(key).modelNm }</td>
                   <td className="module_status_box">
                     <div className="module_status">
                       <div className="module_status_lamp">
                         {
-                          d.noneStatus === '0' && ( 
-                            d.o2Status === '0' && d.h2sStatus === '0' && d.coStatus === '0' && d.ch4Status === '0' && d.co2Status === '0' ? 
+                          data.get(key).status !== 'none' && ( 
+                            data.get(key).status === 'blue' ? 
                               <img src={module_status_lamp_blue} alt="module_status_lamp_blue" /> :
                               <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
                           )
@@ -82,16 +126,16 @@ const Control = () => {
                     </div>
                   </td>
                   {
-                    criterionMap.map(key => {
+                    criterionMap.map(x => {
                       return (
-                        <td key={key} 
-                            className={classNames("data_value", d.noneStatus === '0' && d[`${key}Status`] === '1' && 'danger')}>
+                        <td key={x} 
+                            className={classNames("data_value", data.get(key).status !== 'none' && data.get(key)[`${x}Status`] === '1' && 'danger')}>
                           {
-                            d.noneStatus === '0' ? d[key] : '-'
+                            data.get(key).status !== 'none' ? data.get(key)[x] : '-'
                           }
                           {
-                            d.noneStatus === '0' && 
-                              ((key === 'o2' || key === 'co2' || key === 'ch4') ? <sub>%</sub> : <sub>ppm</sub>)
+                            data.get(key).status !== 'none' && 
+                              ((x === 'o2' || x === 'co2' || x === 'ch4') ? <sub>%</sub> : <sub>ppm</sub>)
                           }
                         </td>
                       )

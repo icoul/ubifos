@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +23,7 @@ import lombok.Setter;
 public class WarningLog {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "warning_log_idx")
+  @Column(name = "warning_log_idx", nullable = true)
   private int warningLogIdx;
 
   @OneToOne
