@@ -55,7 +55,7 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
         <SearchDate title='시작날짜' updateSearchMap={updateSearchMap} name='beginDate'/>
         <SearchDate title='종료날짜' updateSearchMap={updateSearchMap} name='endDate'/>
         <SearchModule updateSearchMap={updateSearchMap} />
-        <CSVLink className="search-condition col-xl-4 col-sm-6" 
+        <CSVLink className="search-condition csv-btn col-xl-4 col-sm-6" 
                  target="_blank" 
                  filename={`가스 상세 데이터_${getYMDAndHourFormatDate(searchMap.beginDate)} ~ ${getYMDAndHourFormatDate(searchMap.endDate)}.csv`}
                  data={csvData}
