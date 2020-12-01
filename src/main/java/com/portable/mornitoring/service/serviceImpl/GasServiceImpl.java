@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.persistence.*;
 
 import com.portable.mornitoring.dto.GasGraphDTO;
+import com.portable.mornitoring.dto.GasLogCsvDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
 import com.portable.mornitoring.entity.Module;
 import com.portable.mornitoring.service.GasService;
@@ -96,6 +97,19 @@ public class GasServiceImpl implements GasService {
         result.add(y);
       }
     }
+
+    return result;
+  }
+
+  public List<GasLogCsvDTO> findGasLogForCsv(int moduleIdx, String beginDate, String endDate) {
+    String sql = "SELECT m.model_nm AS modelNm, g.A1 AS o2, g.A2 AS h2s, g.A3 AS co, g.A4 AS ch4, g.A5 AS co2, g.battery, date_format(g.rgst_dt, '%Y-%m-%d %T') AS rgstDt " +
+                 "FROM gas_log_tb g LEFT JOIN module_tb m ON g.module_idx = m.module_idx " +
+                 "WHERE g.rgst_dt >= '" + beginDate + "' AND g.rgst_dt <= '" + endDate + "' AND g.module_idx = " + moduleIdx + " " +
+                 "ORDER BY g.rgst_dt DESC ";
+
+    Query nativeQuery = em.createNativeQuery(sql);
+    JpaResultMapper jpaResultMapper = new JpaResultMapper();
+    List<GasLogCsvDTO> result = jpaResultMapper.list(nativeQuery, GasLogCsvDTO.class);
 
     return result;
   }

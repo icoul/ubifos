@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.portable.mornitoring.dto.GasGraphDTO;
+import com.portable.mornitoring.dto.GasLogCsvDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
 import com.portable.mornitoring.entity.Gas;
 import com.portable.mornitoring.entity.Module;
@@ -43,6 +44,15 @@ public class GasController {
     Pageable page = PageableRequest.setPageableObject(pageIndex, pageSize);
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
     Page<Gas> result = gasRepository.findByModuleAndRgstDtBetween(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
+    
+    return result;
+  }
+
+  @GetMapping(path = "/api/get/csv")
+  public List<GasLogCsvDTO> getGasDataInPage(@RequestParam("beginDate") String beginDate,
+                                    @RequestParam("endDate") String endDate, 
+                                    @RequestParam("moduleIdx") int moduleIdx) throws ParseException {
+    List<GasLogCsvDTO> result = gasService.findGasLogForCsv(moduleIdx, beginDate, endDate);
     
     return result;
   }
