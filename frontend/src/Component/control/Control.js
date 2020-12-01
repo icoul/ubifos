@@ -85,8 +85,14 @@ const Control = () => {
                     criterionMap.map(key => {
                       return (
                         <td key={key} 
-                            className={classNames("data_value", d[`${key}Status`] === '1' && 'danger')}>
-                          { d[key] }<sub>%</sub>
+                            className={classNames("data_value", d.noneStatus === '0' && d[`${key}Status`] === '1' && 'danger')}>
+                          {
+                            d.noneStatus === '0' ? d[key] : '-'
+                          }
+                          {
+                            d.noneStatus === '0' && 
+                              ((key === 'o2' || key === 'co2' || key === 'ch4') ? <sub>%</sub> : <sub>ppm</sub>)
+                          }
                         </td>
                       )
                     })
