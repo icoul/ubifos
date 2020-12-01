@@ -22,7 +22,7 @@ const TableData = () => {
   const [paramState, dispatch] = useReducer(paramSetterReducer, {
                                                                   pageIndex: 0,
                                                                   pageCount: 10,
-                                                                  pageSize: 15,
+                                                                  pageSize: 20,
                                                                   elementCount: 0
                                                                 })
   
