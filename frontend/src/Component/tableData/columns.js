@@ -1,3 +1,5 @@
+import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
+
 export const columns = [
   {
     Header: '',
@@ -43,7 +45,12 @@ export const columns = [
     accessor: 'ch4',
   },
   {
-    Header: '날짜',
-    accessor: 'rgstDt',
+    id: 'rgstDt',
+    Header: () => (
+      <div>날짜</div>
+    ),
+    Cell: ({ row }) => (
+      <>{ getYMDAndTimeFormatDate(new Date(row.original.rgstDt)) }</>
+    ),
   },
 ]
