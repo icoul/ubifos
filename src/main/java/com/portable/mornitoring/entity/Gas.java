@@ -1,6 +1,6 @@
 package com.portable.mornitoring.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,6 +54,6 @@ public class Gas {
 
   @Column(name = "`battery`")
   private String battery;
-  @Column(name = "`rgst_dt`")
+  @Column(name = "rgst_dt")
   private Date rgstDt;
 }
