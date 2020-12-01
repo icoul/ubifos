@@ -20,7 +20,7 @@ export const columns = [
         <div>상태</div>
       ),
       Cell: ({ row }) => (
-        row.original.status === 'danget' ? 
+        row.original.status === 'danger' ? 
           <span style={{color: '#ff0018'}}>● 위험</span> : <span style={{color: '#ababab'}}>● 미수신</span>
       ),
     },
