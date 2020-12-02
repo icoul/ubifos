@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GasLogCsvDTO {
+public class LogCsvDTO {
   private String modelNm;
   private Double o2;
   private Double h2s;
