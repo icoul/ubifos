@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.portable.mornitoring.entity.WarningLog;
+import com.portable.mornitoring.dto.LogCsvDTO;
 import com.portable.mornitoring.entity.Gas;
 import com.portable.mornitoring.entity.Module;
 import com.portable.mornitoring.repository.GasRepository;
 import com.portable.mornitoring.repository.ModuleRepository;
 import com.portable.mornitoring.repository.WarningLogRepository;
+import com.portable.mornitoring.service.WarningLogService;
 import com.portable.mornitoring.utils.PageableRequest;
 import com.portable.mornitoring.utils.Utils;
 
@@ -31,6 +33,8 @@ public class WarningLogController {
   ModuleRepository moduleRepository;
   @Autowired
   WarningLogRepository warningLogRepository;
+  @Autowired
+  WarningLogService warningLogService;
 
   @GetMapping(path = "/api/get/warning")
   public Page<WarningLog> getGasDataInPage(@RequestParam("beginDate") String beginDate,
@@ -48,6 +52,15 @@ public class WarningLogController {
 
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
     Page<WarningLog> result = warningLogRepository.findByModuleAndRgstDtBetween(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
+    
+    return result;
+  }
+
+  @GetMapping(path = "/api/get/log/csv")
+  public List<LogCsvDTO> getWarningDataInPage(@RequestParam("beginDate") String beginDate,
+                                    @RequestParam("endDate") String endDate, 
+                                    @RequestParam("moduleIdx") int moduleIdx) throws ParseException {
+    List<LogCsvDTO> result = warningLogService.findWarningLogForCsv(moduleIdx, beginDate, endDate);
     
     return result;
   }
