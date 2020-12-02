@@ -9,6 +9,7 @@ const LineGraph = (props) => {
       chart: {
         id: props.name,
         type: 'line',
+        offsetY: 25,
         toolbar: {
           show: true,
           tools: {
