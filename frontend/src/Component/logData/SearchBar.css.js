@@ -29,16 +29,6 @@ export const SearchBarConatiner = style.div`
       margin: 0px 10px;
     }
 
-    & > .search-condition > button {
-      width: 150px;
-      height: 40px;
-      background: #0794d8;
-      border-radius: 3px;
-      color: #fff;
-      border: 0px solid;
-      font-size: 20px;
-    }
-    
     & > .search-condition .table-search-input {
       width: 205px;
       height: 45px;
@@ -63,6 +53,17 @@ export const SearchBarConatiner = style.div`
       height: 30px;
       line-height: 1;
       font-size: 13px;
+    }
+
+    & > .csv-btn {
+      width: 150px;
+      height: 40px;
+      background: #0794d8;
+      border-radius: 3px;
+      color: #fff;
+      border: 0px solid;
+      font-size: 20px;
+      text-decoration: initial;
     }
   }
 `;

@@ -19,9 +19,6 @@ const SearchBar = ({ setSearchMap }) => {
       <div className="form-row">
         <SearchDate updateSearchMap={updateSearchMap}/>
         <SearchModule updateSearchMap={updateSearchMap} />
-        <div className="search-condition col-xl-4 col-sm-6">
-          <button>파일 저장</button>
-        </div>
       </div>
     </SearchBarConatiner>
   )

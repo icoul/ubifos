@@ -54,7 +54,7 @@ const LogData = () => {
 
   return (
     <LogDataContainer>
-      <SearchBar setSearchMap={setSearchMap} />
+      <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
       <Table columns={columns} data={data} dispatch={dispatch} canNextPage={canNextPage} canPreviousPage={canPreviousPage} {...paramState} />
     </LogDataContainer>
   )
