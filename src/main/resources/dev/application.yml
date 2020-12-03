@@ -24,3 +24,6 @@ server:
   tomcat:
     uri-encoding: UTF-8
   port: 9070
+spring-serial-port-connector:
+  port-name: /dev/ttyS0
+  baud-rate: 115200
