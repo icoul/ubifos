@@ -1,5 +1,7 @@
 package com.portable.mornitoring;
 
+import java.io.IOException;
+
 import com.portable.mornitoring.serial.AbstractSpringSerialPortConnector;
 
 import org.springframework.boot.SpringApplication;
@@ -14,6 +16,6 @@ public class MornitoringApplication extends AbstractSpringSerialPortConnector {
 
 	@Override
 	public void processData(String line) {
-
+		System.out.println("결과 수신 : " + line);
 	}
 }

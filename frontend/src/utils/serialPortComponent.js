@@ -1,112 +1,29 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // npm install serialport //
-var serialport = require('serialport');
-var { ret } = require('jquery');
+import { ret } from 'jquery';
+import crc from 'crc';
+import { exec } from 'child_process';
 
 // npm install node-redis-crc16 --save
-var crc = require('crc');
 let crc_status = true;
-
-// run shell script require
-const { exec } = require("child_process");
 
 // variables
 var errCount = 0;
-var str = '';
 var realCommand = '';
 var resultCommand = '';
 let battery = 100;
 
-// open function
+export function crc_checker(code) {
+  let ret_str = '';
+  //////////////////////////////////////////
+  let temp_str = code + '\r';
+  let temp_crc_str = crc.crc16(temp_str.substring(0,temp_str.indexOf('\r')))
+  temp_crc_str = temp_crc_str.toString(16).toUpperCase();
 
-var myPort = null;
-//UARTOpen(bdRate);
-
-function myWrite(myPort2, str){
-	if(myPort2!=null)
-	{
-		if(myPort2.isOpen)
-		{
-			myPort.write(str, err => {
-				if(err){
-					return console.log('Error:',err.message);
-				}
-				console.log('message written');
-			});
-		}
-	}
-	else {
-		UARTOpen(115200);
-	}
-}
-function onOpen(){
-  console.log('Open connections!');
-  myWrite(myPort, 'CR+CHK\r'); 
-//  myPort.write('SR+OPEN\r');
-
-}
-
-function onData(data){
-  str = str + data;
-  if(str.indexOf('\r') !== -1){
-    stringChecker(str);
-    str = '';
-  }
-}
-
-export function UARTOpen(bdRate){
-  //console.log('1');
-  if(myPort === null){
-      myPort = new serialport('/dev/ttyS0', {
-      baudRate: Number(bdRate),
-      parser: new serialport.parsers.Readline('\r\n')
-    });
-    if(myPort.isOpen){
-      myPort.on('open', onOpen);
-      myPort.on('data', onData);
-    }
-    else{
-      console.log('Port is opened');
-      myPort.on('open', onOpen);
-      myPort.on('data', onData);
-    }
-    //myPort.on('open', onOpen); 
-    //myPort.on('data', onData);
-  }
-  else{
-    console.log('port is not null');
-  }
-}
-
-
-//function UARTOpen(){
-//  myPort = new serialport('dev/ttyS0',()=>{console.log('OPEN')});
+  ret_str = code + '*' + temp_crc_str + '\r';
   
-//  if(myPort.isOpen){
-//    console.log('SOPEN');
-//  }
-//  else{
-//    console.log('S NOT OPEN');
-//  }
-//}
-
-function UARTClose(){
-	if(myPort!=null){
-  if(myPort.isOpen){
-    console.log('Serial Port Connection Closed.');
-    myPort.close(function (err) {
-    console.log('Port closed.', err);
-    });
-    myPort=null;
-  }
-  else{
-    console.log('port is not opened.');
-  }
-	}
-	else {
-		console.log('close ,my port is null');
-	}
+  return stringChecker(ret_str);
 }
 
 function stringChecker(stringCommand){
@@ -119,58 +36,58 @@ function stringChecker(stringCommand){
     }
 
     if(crc_status){
-      //console.log(1);
+    //console.log(1);
       if(stringCommand.indexOf('*') !== -1){
         var checkstring = stringCommand.substring(stringCommand.indexOf('*')+1,stringCommand.indexOf('\r'));
         var crcstring = crc.crc16(stringCommand.substring(0,stringCommand.indexOf('*')));
         crcstring = crcstring.toString(16).toUpperCase();
 
         //console.log(2);
-	if(checkstring === crcstring){
-            realCommand = stringCommand.substring(0,stringCommand.indexOf("*"));
+        if(checkstring === crcstring){
+          realCommand = stringCommand.substring(0,stringCommand.indexOf("*"));
 
-           //console.log(3);
-            try{
-              resultCommand = commandCheck(realCommand);
-              //console.log(4);
-              if(resultCommand !== 'OK\r'){
-                console.log('CRC ON, LOG: ' + resultCommand.substring(0,resultCommand.indexOf('\r')));
-                ret = crc.crc16(resultCommand.substring(0,resultCommand.indexOf('\r')));
-				var mystr=resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r';
-                //myPort.write(resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r');
-				//myWrite(myPort, resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r'));
-				myWrite(myPort,mystr);
-                errCount = 0;
-	 	//console.log(5);
+          //console.log(3);
+          try{
+            resultCommand = commandCheck(realCommand);
+            //console.log(4);
+            if(resultCommand !== 'OK\r'){
+              console.log('CRC ON, LOG: ' + resultCommand.substring(0,resultCommand.indexOf('\r')));
+              var ret = crc.crc16(resultCommand.substring(0,resultCommand.indexOf('\r')));
+              var mystr=resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r';
+              //myPort.write(resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r');
+              //myWrite(myPort, resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r'));
+              errCount = 0;
+              return mystr;
+              //console.log(5);
+            }
+            else {
+              console.log('command error!');  
+            }
+          }
+          catch{
+            console.log('real command:' + realCommand);
+            console.log('Message:' + resultCommand);
+            console.log('CRC ON, Command Error Occur. retry time:' + errCount);
+          
+            if(errCount > 3){
+              errCount = 0;
+              //myPort.write('SR+CLOSE\r');
+              //            setTimeout(UARTClose,500);
+              //setTimeout(UARTOpen,5000);
+            }
+            else{
+                errCount++;
+                setTimeout(stringChecker(stringCommand),500);
               }
-			  else {
-				console.log('command error!');  
-			  }
-            }
-            catch{
-	      console.log('real command:' + realCommand);
-	      console.log('Message:' + resultCommand);
-              console.log('CRC ON, Command Error Occur. retry time:' + errCount);
-	      
-	      if(errCount > 3){
-	            errCount = 0;
-	            //myPort.write('SR+CLOSE\r');
-	            setTimeout(UARTClose,500);
-	            //setTimeout(UARTOpen,5000);
-	      }
-	      else{
-		    errCount++;
-                    setTimeout(stringChecker(stringCommand),500);
-	      }
-              //myPort.write('COMMAND_ERROR*46A3\r');
-              //errCount++;
-            }
+                //myPort.write('COMMAND_ERROR*46A3\r');
+                //errCount++;
           }
-          else{
-            console.log('CRC Match Error Occur.');
-            //myPort.write('CRCERR\r');
-            //errCount++;
-          }
+        }
+        else{
+          console.log('CRC Match Error Occur.');
+          //myPort.write('CRCERR\r');
+          //errCount++;
+        }
       }
       else{
         console.log('No * CRC Error Occur.');
@@ -185,22 +102,22 @@ function stringChecker(stringCommand){
         resultCommand = commandCheck(realCommand);
         console.log('LOG: ' + resultCommand.substring(0,resultCommand.indexOf('\r')));
         //myPort.write(resultCommand);
-		myWrite(myPort,resultCommand);
-       // errCount = 0;
+        return resultCommand;
+        // errCount = 0;
       }
       catch{
-	console.log(resultCommand);
+        console.log(resultCommand);
         console.log('CRC OFF, Command Error Occur. retry time:' + errCount);
-	if(errCount > 3){
-                    errCount = 0;
-                    //myPort.write('SR+CLOSE\r');
-                    setTimeout(UARTClose,500);
-                    //setTimeout(UARTOpen,5000);
-              }
-              else{
-                    errCount++;
-                    setTimeout(stringChecker(stringCommand),500);
-              }
+        if(errCount > 3){
+          errCount = 0;
+          //myPort.write('SR+CLOSE\r');
+          //                      setTimeout(UARTClose,500);
+          //setTimeout(UARTOpen,5000);
+        }
+        else{
+          errCount++;
+          setTimeout(stringChecker(stringCommand),500);
+        }
 
         //myPort.write('COMMAND_ERROR\r');
         errCount++;
@@ -213,7 +130,7 @@ function stringChecker(stringCommand){
   }
 }
 
-function commandCheck(command){
+export function commandCheck(command){
 
   if(command === 'LP+WON'){
     return 'LP+WON\r';
@@ -292,7 +209,7 @@ function commandCheck(command){
   }
   else if(command === 'POWEROFF'){
     // run shell script
-    UARTClose();
+    //UARTClose();
     exec("../shutdown.sh", (error, data, getter) => {
       if(error){
         console.log("error",error.message);

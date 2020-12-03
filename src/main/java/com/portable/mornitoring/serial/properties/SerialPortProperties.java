@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "spring-serial-port-connector")
-public @Data
-class SerialPortProperties {
+@Data
+public class SerialPortProperties {
   /**
    * Port used in the application
    */

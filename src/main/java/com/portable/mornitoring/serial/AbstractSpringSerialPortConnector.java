@@ -30,6 +30,8 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
 
   @PostConstruct
   public void connect() throws TooManyListenersException, NoSuchPortException {
+    System.out.println(serialPortProperties.getPortName());
+    System.out.println(serialPortProperties.getBaudRate());
     log.info("Connection PostConstruct callback: connecting ...");
     
     serial = new NRSerialPort(serialPortProperties.getPortName(), serialPortProperties.getBaudRate());
