@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from "react-router-dom";
 
 import Control from './control/Control';
@@ -7,12 +7,8 @@ import GraphData from './graphData/GraphData';
 import LogData from './logData/LogData';
 
 import { MainContainer } from './MainContainer.css';
-import { UARTOpen } from '../utils/serialPortComponent';
 
 const Main = () => {
-  useEffect(() => {
-    UARTOpen(115200);
-  }, [])
   return (
     <MainContainer>
       <Switch>
