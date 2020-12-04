@@ -42,9 +42,6 @@ const AppHeader = ( props ) => {
         <div className="button_box" onClick={ () => { moveLinkPage('/log') } }>
           <TiDocumentText />
         </div>
-        <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
-          <FaPowerOff />
-        </div>
       </div>
     </AppHeaderContainer>
   )
