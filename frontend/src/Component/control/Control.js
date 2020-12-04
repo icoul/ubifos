@@ -22,7 +22,7 @@ const checkStatus = (map) => {
   return 'blue';
 }
 
-const Control = () => {
+const Control = (props) => {
   const [ data, setData ] = useState(null);
 
   const getData = () => {
@@ -56,6 +56,10 @@ const Control = () => {
           const oldStatus = data.get(map.moduleIdx).status;
 
           if (oldStatus === 'blue' && status !== 'blue') {
+            if (status === "danger") {
+              props.serial("LP+WON");
+            }
+
             setWarningLog(map, status);
           }
         }
@@ -118,7 +122,10 @@ const Control = () => {
                           data.get(key).status !== 'none' && ( 
                             data.get(key).status === 'blue' ? 
                               <img src={module_status_lamp_blue} alt="module_status_lamp_blue" /> :
-                              <img className="danger" src={module_status_lamp_danger} alt="module_status_lamp_danger" />
+                              <img className="danger" 
+                                   src={module_status_lamp_danger} 
+                                   alt="module_status_lamp_danger" 
+                                   onClick={() => { props.serial("LP+WOFF"); }}/>
                           )
                         }
                       </div>
