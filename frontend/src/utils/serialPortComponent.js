@@ -18,11 +18,10 @@ export function crc_checker(code) {
   let ret_str = '';
   //////////////////////////////////////////
   let temp_str = code + '\r';
-  let temp_crc_str = crc.crc16(temp_str.substring(0,temp_str.indexOf('\r')))
+  let temp_crc_str = crc.crc16xmodem(temp_str.substring(0,temp_str.indexOf('\r')))
   temp_crc_str = temp_crc_str.toString(16).toUpperCase();
 
   ret_str = code + '*' + temp_crc_str + '\r';
-  
   return stringChecker(ret_str);
 }
 
@@ -39,7 +38,7 @@ function stringChecker(stringCommand){
     //console.log(1);
       if(stringCommand.indexOf('*') !== -1){
         var checkstring = stringCommand.substring(stringCommand.indexOf('*')+1,stringCommand.indexOf('\r'));
-        var crcstring = crc.crc16(stringCommand.substring(0,stringCommand.indexOf('*')));
+        var crcstring = crc.crc16xmodem(stringCommand.substring(0,stringCommand.indexOf('*')));
         crcstring = crcstring.toString(16).toUpperCase();
 
         //console.log(2);
@@ -52,7 +51,7 @@ function stringChecker(stringCommand){
             //console.log(4);
             if(resultCommand !== 'OK\r'){
               console.log('CRC ON, LOG: ' + resultCommand.substring(0,resultCommand.indexOf('\r')));
-              var ret = crc.crc16(resultCommand.substring(0,resultCommand.indexOf('\r')));
+              var ret = crc.crc16xmodem(resultCommand.substring(0,resultCommand.indexOf('\r')));
               var mystr=resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r';
               //myPort.write(resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r');
               //myWrite(myPort, resultCommand.substring(0,resultCommand.indexOf('\r')) + '*' + ret.toString(16).toUpperCase() + '\r'));
