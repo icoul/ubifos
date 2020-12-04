@@ -102,7 +102,7 @@ public class GasServiceImpl implements GasService {
   }
 
   public List<LogCsvDTO> findGasLogForCsv(int moduleIdx, String beginDate, String endDate) {
-    String sql = "SELECT m.model_nm AS modelNm, g.A1 AS o2, g.A2 AS h2s, g.A3 AS co, g.A4 AS ch4, g.A5 AS co2, g.battery, date_format(g.rgst_dt, '%Y-%m-%d %H:%i:%s') AS rgstDt " +
+    String sql = "SELECT m.model_nm AS modelNm, '' AS status, g.A1 AS o2, g.A2 AS h2s, g.A3 AS co, g.A4 AS ch4, g.A5 AS co2, g.battery, date_format(g.rgst_dt, '%Y-%m-%d %H:%i:%s') AS rgstDt " +
                  "FROM gas_log_tb g LEFT JOIN module_tb m ON g.module_idx = m.module_idx " +
                  "WHERE g.rgst_dt >= '" + beginDate + "' AND g.rgst_dt <= '" + endDate + "' AND g.module_idx = " + moduleIdx + " " +
                  "ORDER BY g.rgst_dt DESC ";

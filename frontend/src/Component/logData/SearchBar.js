@@ -12,6 +12,7 @@ import { toCSV } from 'utils/core';
 
 const headers = [
   { label: '장치명', key: 'modelNm' },
+  { label: '상태', key: 'status' },
   { label: 'O₂', key: 'o2' },
   { label: 'CO₂', key: 'co2' },
   { label: 'CO', key: 'co' },
@@ -23,7 +24,6 @@ const headers = [
 
 const SearchBar = ({ searchMap, setSearchMap }) => {
   const [ csvData, setCsvData ] = useState([]);
-  const [ test, setTest ] = useState(null);
   
   const getDataForCsv = useCallback((searchMap) => {
     axios.get("/api/get/log/csv", {params: {moduleIdx: searchMap.moduleIdx,
@@ -36,12 +36,6 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
       console.log(error);
     })
   }, [])
-
-  useEffect(() => {
-    var blob = new Blob(['\uFEFF', csvData]);
-    setTest(window.URL.createObjectURL(blob));
-    //window.navigator.msSaveBlob(blob, `이벤트 로그 데이터_${getYMDAndHourFormatDate(searchMap.beginDate)} ~ ${getYMDAndHourFormatDate(searchMap.endDate)}.csv`);
-  }, [csvData])
 
   const fileDownload = () => {
     const blob = new Blob(['\uFEFF', csvData]);

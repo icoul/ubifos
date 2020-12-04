@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class LogCsvDTO {
   private String modelNm;
+  private String status;
   private Double o2;
   private Double h2s;
   private Double co;
