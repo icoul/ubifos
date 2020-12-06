@@ -13,6 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WarningLogRepository extends JpaRepository<WarningLog, Integer> {
   List<WarningLog> findByGas(Gas gas);
-  Page<WarningLog> findByRgstDtBetween(Date beginDate, Date endDate, Pageable pageable);
-  Page<WarningLog> findByModuleAndRgstDtBetween(Module module, Date beginDate, Date endDate, Pageable pageable);
+  Page<WarningLog> findByRgstDtBetweenOrderByRgstDtDesc(Date beginDate, Date endDate, Pageable pageable);
+  Page<WarningLog> findByModuleAndRgstDtBetweenOrderByRgstDtDesc(Module module, Date beginDate, Date endDate, Pageable pageable);
 }

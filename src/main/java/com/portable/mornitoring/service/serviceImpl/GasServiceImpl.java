@@ -27,12 +27,12 @@ public class GasServiceImpl implements GasService {
   private EntityManager em;
 
   public List<GasLogDTO> findGasGroupByModule() {
-    String sql = "select CAST(glt2.log_idx AS SIGNED) AS logIdx, " + "      glt2.A1 AS o2, "
-        + "      CAST(glt2.A1 < 18 AS CHAR(1)) AS o2Status, " + "      glt2.A2 AS h2s, "
-        + "      CAST(glt2.A2 > 25 AS CHAR(1)) AS h2sStatus, " + "      glt2.A3 AS co, "
-        + "      CAST(glt2.A3 > 10 AS CHAR(1)) AS coStatus, " + "      glt2.A4 AS ch4, "
-        + "      CAST(glt2.A4 > 10 AS CHAR(1)) AS ch4Status, " + "      glt2.A5 AS co2, "
-        + "      CAST(glt2.A5 > 1.5 AS CHAR(1)) AS co2Status, "
+    String sql = "select CAST(glt2.log_idx AS SIGNED) AS logIdx, " 
+        + "      glt2.A1 AS o2, " + "      CAST(glt2.A1 < 18 AS CHAR(1)) AS o2Status, " 
+        + "      glt2.A2 AS h2s, " + "      CAST(glt2.A2 > 25 AS CHAR(1)) AS h2sStatus, " 
+        + "      glt2.A3 AS co, " + "      CAST(glt2.A3 > 10 AS CHAR(1)) AS coStatus, " 
+        + "      glt2.A4 AS ch4, " + "      CAST(glt2.A4 > 10 AS CHAR(1)) AS ch4Status, " 
+        + "      glt2.A5 AS co2, " + "      CAST(glt2.A5 > 1.5 AS CHAR(1)) AS co2Status, "
         + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:03:00' AS CHAR(1)) AS noneStatus, " + "      glt2.battery, "
         + "      glt2.rgst_dt AS rgstDt, " + "      m.module_idx AS moduleIdx, " + "      m.model_nm AS modelNm "
         + "from gas_log_tb glt2 left join " + "( " + "SELECT max(glt.log_idx) AS log_idx, glt.module_idx "

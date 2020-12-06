@@ -45,13 +45,13 @@ public class WarningLogController {
     Pageable page = PageableRequest.setPageableObject(pageIndex, pageSize);
 
     if (moduleIdx == 0) {
-      Page<WarningLog> result = warningLogRepository.findByRgstDtBetween(Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
+      Page<WarningLog> result = warningLogRepository.findByRgstDtBetweenOrderByRgstDtDesc(Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
       
       return result;
     }
 
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
-    Page<WarningLog> result = warningLogRepository.findByModuleAndRgstDtBetween(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
+    Page<WarningLog> result = warningLogRepository.findByModuleAndRgstDtBetweenOrderByRgstDtDesc(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
     
     return result;
   }

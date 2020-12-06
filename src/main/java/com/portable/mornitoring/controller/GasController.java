@@ -3,6 +3,8 @@ package com.portable.mornitoring.controller;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.portable.mornitoring.dto.GasGraphDTO;
 import com.portable.mornitoring.dto.LogCsvDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
@@ -20,6 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @RestController
 public class GasController {
@@ -29,6 +33,16 @@ public class GasController {
   ModuleRepository moduleRepository;
   @Autowired
   GasService gasService;
+
+  @GetMapping(path = "/api/get/ip")
+	public String home() {	
+		HttpServletRequest req = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		String ip = req.getHeader("X-FORWARDED-FOR");
+		if (ip == null)
+			ip = req.getRemoteAddr();
+		
+		return ip;
+	}
 
   @GetMapping(path = "/api/get/gas/group")
   public List<GasLogDTO> getGasLogByGroup() {
@@ -43,7 +57,7 @@ public class GasController {
                                     @RequestParam("pageSize") int pageSize) throws ParseException {
     Pageable page = PageableRequest.setPageableObject(pageIndex, pageSize);
     Module module = moduleRepository.findByModuleIdx(moduleIdx);
-    Page<Gas> result = gasRepository.findByModuleAndRgstDtBetween(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
+    Page<Gas> result = gasRepository.findByModuleAndRgstDtBetweenOrderByRgstDtDesc(module, Utils.convertStringToDate(beginDate), Utils.convertStringToDate(endDate), page);
     
     return result;
   }
