@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 import { ControlContainer } from './Control.css';
 
@@ -22,26 +24,55 @@ const checkStatus = (map) => {
   return 'blue';
 }
 
+const setWarningLog = (dataMap, status) => {
+  axios.post("/api/set/warning", { logIdx: dataMap.logIdx, moduleIdx: dataMap.moduleIdx, status: status })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+}
+
+let sockJS = new SockJS("http://localhost:3000/ws");
+let stompClient = Stomp.over(sockJS);
+stompClient.debug= () => {};
+
 const Control = (props) => {
   const [ data, setData ] = useState(null);
   // 전체장비의 상태를 관리. DOM에 영향이 없기 때문에 state가 아닌 useRef를 사용
   // blue: 정상, danger: 위험
   let allModuleStatus = useRef('blue'); 
+  let sendSiren = useRef(0); 
+  let sirenStatus = useRef("0"); 
+
+  useEffect(()=>{
+    stompClient.connect({},()=>{
+      stompClient.subscribe('/topic/return',(data)=>{
+        sirenStatus.current = data.body;
+      });
+    });
+  },[]);
+
+  const sirenRightCheck = useCallback(() => {
+    if (sendSiren.current === 1 && sirenStatus.current === "1") {
+      sendSiren.current = 0;
+      sirenStatus.current = "0"
+    }
+    else if (sendSiren.current === 1 && sirenStatus.current === "0") {
+      props.serial('LP+WON');
+      sendSiren.current = 1;
+
+      setTimeout(() => {
+        sirenRightCheck();
+      }, 3000);
+    }
+  }, [props])
 
   const getData = () => {
     axios.get("/api/get/gas/group", {})
       .then(response => {
         checkData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }
-
-  const setWarningLog = (dataMap, status) => {
-    axios.post("/api/set/warning", { logIdx: dataMap.logIdx, moduleIdx: dataMap.moduleIdx, status: status })
-      .then(response => {
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -83,12 +114,20 @@ const Control = (props) => {
           }
         }
 
-        dataMap.set(map.moduleIdx, {...map, status: status})
+        dataMap.set(map.moduleIdx, {...map, status: status});
       });
 
       if (sirenOnChecker && allModuleStatus.current === 'blue') {
         props.serial('LP+WON');
         allModuleStatus.current = 'danger';
+        
+        if (sendSiren.current === 0) {
+          setTimeout(() => {
+            sirenRightCheck();
+          }, 3000);
+        }
+
+        sendSiren.current = 1;
       }
       if (sirenOffByAllStatusBlueChecker && allModuleStatus.current === 'danger') {
         props.serial('LP+WOFF');
@@ -97,7 +136,7 @@ const Control = (props) => {
 
       return dataMap;
     });
-  }, [allModuleStatus, props])
+  }, [props, sirenRightCheck])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
