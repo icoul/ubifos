@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { FaHome, FaList, FaPowerOff } from 'react-icons/fa';
 import { BsGraphUp } from 'react-icons/bs';
 import { TiDocumentText } from 'react-icons/ti';
@@ -16,6 +17,7 @@ const titleMap = {
 
 const AppHeader = ( props ) => {
   const [title, setTitle] = useState('가스농도 현황');
+  const [ ip, setIp ] = useState("");
 
   useEffect(() => {
     setTitle(titleMap[props.history.location.pathname]);
@@ -24,6 +26,16 @@ const AppHeader = ( props ) => {
   const moveLinkPage = (link) => {
     props.history.push(link);
   }
+
+  useEffect(() => {
+    axios.get("/api/get/ip", {})
+      .then(response => {
+        setIp(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, [])
 
   return (
     <AppHeaderContainer>
@@ -41,6 +53,9 @@ const AppHeader = ( props ) => {
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/log') } }>
           <TiDocumentText />
+        </div>
+        <div className="button_box">
+          ip : { ip }
         </div>
       </div>
     </AppHeaderContainer>
