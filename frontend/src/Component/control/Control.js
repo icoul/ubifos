@@ -34,7 +34,7 @@ const setWarningLog = (dataMap, status) => {
     })
 }
 
-let sockJS = new SockJS("http://localhost:3000/ws");
+let sockJS = new SockJS("http://127.0.0.1:9070/ws");
 let stompClient = Stomp.over(sockJS);
 stompClient.debug= () => {};
 

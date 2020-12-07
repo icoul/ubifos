@@ -13,7 +13,8 @@ public class ApplicationService implements CommandLineRunner {
     System.out.println("application start!");
 
     try {
-      pc = rt.exec("sudo killall mm");
+      pc = rt.exec("/home/pi/ubifos/application.sh &");
+     // pc = rt.exec("chromium-browser --noerrdialogs --kiosk http://127.0.0.1:9070 --incognito &");
     } catch (Exception e) {
       e.printStackTrace();
     }
