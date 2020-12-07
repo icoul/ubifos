@@ -12,12 +12,12 @@ public class MornitoringApplication extends AbstractSpringSerialPortConnector {
 	@Autowired
 	SerialController serialController;
 
+	Runtime rt = Runtime.getRuntime();
+	Process pc = null;
+
 	public static void main(String[] args) {
 		SpringApplication.run(MornitoringApplication.class, args);
 	}
-
-	Runtime rt = Runtime.getRuntime();
-	Process pc = null;
 
 	@Override
 	public void processData(String line) {
