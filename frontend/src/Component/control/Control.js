@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 
@@ -24,6 +24,9 @@ const checkStatus = (map) => {
 
 const Control = (props) => {
   const [ data, setData ] = useState(null);
+  // 전체장비의 상태를 관리. DOM에 영향이 없기 때문에 state가 아닌 useRef를 사용
+  // blue: 정상, danger: 위험
+  let allModuleStatus = useRef('blue'); 
 
   const getData = () => {
     axios.get("/api/get/gas/group", {})
@@ -48,6 +51,9 @@ const Control = (props) => {
   const checkData = useCallback((newData) => {
     setData(data => {
       const dataMap = new Map();
+      // sirenOnChecker: 5개 수치 모두 정상이었다가 1개라도 위험상태에 돌입한 케이스. 사이렌 작동
+      // sirenOffByAllStatusBlueChecker: 3개 장치의 모든 수치가 정상. 사이렌 오프
+      let [ sirenOnChecker, sirenOffByAllStatusBlueChecker ] = [false, true];
 
       newData.forEach(map => {
         const status = checkStatus(map);
@@ -55,21 +61,43 @@ const Control = (props) => {
         if (data) {
           const oldStatus = data.get(map.moduleIdx).status;
 
-          if (oldStatus === 'blue' && status !== 'blue') {
-            if (status === "danger") {
-              props.serial("LP+WON");
-            }
+          if (status !== 'blue') {
+            sirenOffByAllStatusBlueChecker = false;
 
-            setWarningLog(map, status);
+            if (oldStatus === 'blue') {
+              setWarningLog(map, status);
+
+              if (status === 'danger') {
+                sirenOnChecker = true;
+              }
+            }
+          }
+        }
+        else {
+          if (status !== 'blue') {
+            sirenOffByAllStatusBlueChecker = false;
+
+            if (status === 'danger') {
+              sirenOnChecker = true;
+            }
           }
         }
 
         dataMap.set(map.moduleIdx, {...map, status: status})
       });
 
+      if (sirenOnChecker && allModuleStatus.current === 'blue') {
+        props.serial('LP+WON');
+        allModuleStatus.current = 'danger';
+      }
+      if (sirenOffByAllStatusBlueChecker && allModuleStatus.current === 'danger') {
+        props.serial('LP+WOFF');
+        allModuleStatus.current = 'blue';
+      }
+
       return dataMap;
     });
-  }, [setData])
+  }, [allModuleStatus, props])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
