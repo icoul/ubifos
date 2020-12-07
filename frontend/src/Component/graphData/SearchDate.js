@@ -35,6 +35,7 @@ const SearchDate = ({ updateSearchMap }) => {
                        position={{left: '70', top: '35'}} />
       <label>시작시각</label>
       <select className="table-search-input up-check"
+              defaultValue={dateTime.beginTime}
               onChange={(({target}) => updateDateTime('beginTime', target.value))}>
         {
           [...Array(25).keys()].map((v) => {
@@ -44,6 +45,7 @@ const SearchDate = ({ updateSearchMap }) => {
       </select>
       <label>종료시각</label>
       <select className="table-search-input up-check"
+              defaultValue={dateTime.endTime}
               onChange={(({target}) => updateDateTime('endTime', target.value))}>
         {
           [...Array(25).keys()].map((v) => {
