@@ -13,7 +13,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/api/**");
+		web.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/api/**", "/ws/**", "/topic/**");
 	}
 
 	@Override
