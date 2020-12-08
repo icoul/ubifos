@@ -34,8 +34,8 @@ const GraphData = () => {
   const graphMap = [
     {title: 'O₂', name: 'o2', max: 25, min:0},
     {title: 'CO₂', name: 'co2', max: 5, min:0},
-    {title: 'CO', name: 'co', max: 15, min:0},
-    {title: 'H₂S', name: 'h2s', max: 30, min:0},
+    {title: 'CO', name: 'co', max: 30, min:0},
+    {title: 'H₂S', name: 'h2s', max: 15, min:0},
     {title: 'CH₄', name: 'ch4', max: 15, min:0}
   ]
 

@@ -87,13 +87,15 @@ public class GasServiceImpl implements GasService {
       cal.setTime(begin);
       cal.add(Calendar.HOUR_OF_DAY, i);
 
-      Boolean x = gasGroupByRgstDtMap.containsKey(cal.get(Calendar.HOUR_OF_DAY) + "");
+      String hourString = cal.get(Calendar.HOUR_OF_DAY) < 10 ? "0" + cal.get(Calendar.HOUR_OF_DAY) : "" + cal.get(Calendar.HOUR_OF_DAY);
+
+      Boolean x = gasGroupByRgstDtMap.containsKey(hourString);
 
       if (x) {
-        result.add(gasGroupByRgstDtMap.get(cal.get(Calendar.HOUR_OF_DAY) + ""));
+        result.add(gasGroupByRgstDtMap.get(hourString));
       }
       else {
-        GasGraphDTO y = new GasGraphDTO(0.0, 0.0, 0.0, 0.0, 0.0, cal.get(Calendar.HOUR_OF_DAY) + "");
+        GasGraphDTO y = new GasGraphDTO(0.0, 0.0, 0.0, 0.0, 0.0, hourString);
         result.add(y);
       }
     }
