@@ -34,7 +34,7 @@ const setWarningLog = (dataMap, status) => {
     })
 }
 
-let sockJS = new SockJS("http://127.0.0.1:9070/ws");
+let sockJS = new SockJS("http://127.0.0.1:3000/ws");
 let stompClient = Stomp.over(sockJS);
 stompClient.debug= () => {};
 
@@ -44,15 +44,33 @@ const Control = (props) => {
   // blue: 정상, danger: 위험
   let allModuleStatus = useRef('blue'); 
   let sendSiren = useRef(0); 
-  let sirenStatus = useRef("0"); 
+  let sirenStatus = useRef("1"); 
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const failureWebsocket = (error) => {
+    console.log('STOMP: ' + error);
+    window.location.reload();
+  }
+
+  const connectWebsocket = useCallback(() => {
+    stompClient = Stomp.over(sockJS);
+    stompClient.connect({},
+                        () => {
+                          sirenStatus.current = "0";
+                          subscribeWebsocket();
+                        }, 
+                        failureWebsocket);
+  }, [failureWebsocket, sirenStatus])
+
+  const subscribeWebsocket = () => {
+    stompClient.subscribe('/topic/return', (data) => {
+      sirenStatus.current = data.body;
+    });
+  }
 
   useEffect(()=>{
-    stompClient.connect({},()=>{
-      stompClient.subscribe('/topic/return',(data)=>{
-        sirenStatus.current = data.body;
-      });
-    });
-  },[]);
+    connectWebsocket();
+  }, [connectWebsocket]);
 
   const sirenRightCheck = useCallback(() => {
     if (sendSiren.current === 1 && sirenStatus.current === "1") {
