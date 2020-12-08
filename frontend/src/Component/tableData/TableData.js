@@ -34,9 +34,9 @@ const TableData = () => {
                                           pageSize: paramState.pageSize }})
     .then(response => {
       setData(response.data.content);
-      dispatch({type: 'CHANGE_TOTAL', pageCount: response.totalPages, elementCount: response.data.totalElements});
-      setCanNextPage(!response.last);
-      setCanPreviousPage(!response.first);
+      dispatch({type: 'CHANGE_TOTAL', pageCount: response.data.totalPages, elementCount: response.data.totalElements});
+      setCanNextPage(!response.data.last);
+      setCanPreviousPage(!response.data.first);
     })
     .catch(function (error) {
       console.log(error);
