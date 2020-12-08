@@ -52,4 +52,13 @@ export const MainContainer = style.div`
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
+
+  ::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+  }
+  /* Optional: show position indicator in red */
+  ::-webkit-scrollbar-thumb {
+    background: #292929;
+  }
 `;
