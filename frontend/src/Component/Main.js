@@ -23,7 +23,7 @@ const Main = () => {
 
   return (
     <MainContainer>
-      <div>
+      {/* <div>
         <button onClick={() => { serial("LP+WON") }}>LP+WON</button>
         <button onClick={() => { serial("LP+WOFF") }}>LP+WOFF</button>
         <button onClick={() => { serial("LP+EON") }}>LP+EON</button>
@@ -32,7 +32,7 @@ const Main = () => {
         <button onClick={() => { serial("LP+AOFF") }}>LP+AOF</button>
         <button onClick={() => { serial("PW+BATT") }}>PW+BATT</button>
         <button onClick={() => { serial("PW+OFF") }}>PW+OFF</button>
-      </div>
+      </div> */}
       <Switch>
         <Route
           exact path="/"

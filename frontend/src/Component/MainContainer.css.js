@@ -2,10 +2,12 @@ import style from 'styled-components'
 
 export const AppHeaderContainer = style.div`
   background-color: #292929;
+  max-width: 100vw;
   min-height: 10vh;
   display: flex;
   flex-wrap: wrap;
   align-content: stretch;
+  overflow-x: hidden;
 
   & > div.header_logo { flex: 2; min-width: 150px; display: flex; justify-content: flex-start; align-items: center; padding: 15px; }
   & > div.header_title {     
@@ -29,6 +31,8 @@ export const AppHeaderContainer = style.div`
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 20px;
+      word-break: break-all;
 
       & > svg {
         width: 60px;
@@ -39,9 +43,11 @@ export const AppHeaderContainer = style.div`
 `;
 
 export const MainContainer = style.div`
+  max-width: 100vw;
   height: 90vh;
   background: #292929;
   overflow-y: scroll;
+  overflow-x: hidden;
   
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
