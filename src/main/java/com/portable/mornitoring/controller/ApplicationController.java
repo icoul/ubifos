@@ -24,4 +24,9 @@ public class ApplicationController {
     currentAddress = inetAddress.nextElement();
     return currentAddress.getHostAddress();
   }
+
+  @GetMapping(path = "/api/send/test")
+  public void boradCast(){
+    messagingTemplate.convertAndSend("/topic/return", "1");
+  }
 }
