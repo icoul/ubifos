@@ -13,8 +13,7 @@ public class ApplicationService implements CommandLineRunner {
     System.out.println("application start!");
 
     try {
-      pc = rt.exec("sudo /etc/init.d/lightdm restart ");
-      pc = rt.exec("sudo killall mirage ");
+      pc = rt.exec("sudo /home/pi/loading/loading.sh ");
     } catch (Exception e) {
       e.printStackTrace();
     }
