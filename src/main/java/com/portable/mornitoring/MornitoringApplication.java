@@ -33,7 +33,8 @@ public class MornitoringApplication extends AbstractSpringSerialPortConnector {
 				e.printStackTrace();
 			}
 		}
-		if (line.contains("LP+WON")) {
+		if (line.contains("LAMPWON")) {
+			System.out.println("LAMP WEBSOCKET");
 			messagingTemplate.convertAndSend("/topic/return", "1");
 		}
 	}
