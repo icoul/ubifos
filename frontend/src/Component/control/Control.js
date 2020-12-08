@@ -52,17 +52,9 @@ const Control = (props) => {
     window.location.reload();
   }
 
-  const connectWebsocket = useCallback(() => {
-    stompClient = Stomp.over(sockJS);
-    stompClient.connect({},
-                        () => {
-                          sirenStatus.current = "0";
-                          subscribeWebsocket();
-                        }, 
-                        failureWebsocket);
-  }, [failureWebsocket])
+  const onConnected = () => {
+    sirenStatus.current = "0";
 
-  const subscribeWebsocket = () => {
     stompClient.subscribe('/topic/return', (data) => {
       sirenStatus.current = data.body;
       console.log(`sirenStatus.current : ${sirenStatus.current}`);
@@ -70,8 +62,11 @@ const Control = (props) => {
   }
 
   useEffect(()=>{
-    connectWebsocket();
-  }, [connectWebsocket]);
+    stompClient = Stomp.over(sockJS);
+    stompClient.connect({},
+                        onConnected, 
+                        failureWebsocket);
+  }, []);
 
   const sirenRightCheck = useCallback(() => {
     if (sendSiren.current === 1 && sirenStatus.current === "1") {
