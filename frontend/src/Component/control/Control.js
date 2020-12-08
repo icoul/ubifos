@@ -60,11 +60,12 @@ const Control = (props) => {
                           subscribeWebsocket();
                         }, 
                         failureWebsocket);
-  }, [failureWebsocket, sirenStatus])
+  }, [failureWebsocket])
 
   const subscribeWebsocket = () => {
     stompClient.subscribe('/topic/return', (data) => {
       sirenStatus.current = data.body;
+      console.log(`sirenStatus.current : ${sirenStatus.current}`);
     });
   }
 
