@@ -9,7 +9,19 @@ export const AppHeaderContainer = style.div`
   align-content: stretch;
   overflow-x: hidden;
 
-  & > div.header_logo { flex: 2; min-width: 150px; display: flex; justify-content: flex-start; align-items: center; padding: 15px; }
+  & > div.header_logo { 
+    flex: 2; 
+    min-width: 150px; 
+    display: flex; 
+    justify-content: flex-start; 
+    align-items: center; 
+    padding: 15px; 
+    color: #fff;
+
+    & > div {
+      width: 100%;
+    }
+  }
   & > div.header_title {     
     display: flex;
     justify-content: center;
