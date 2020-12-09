@@ -47,9 +47,11 @@ const Control = (props) => {
   let sirenStatus = useRef("1"); 
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const failureWebsocket = (error) => {
-    console.log('STOMP: ' + error);
-    window.location.reload();
+  const stompConnect = () => {
+    stompClient = Stomp.over(sockJS);
+    stompClient.connect({},
+                        onConnected, 
+                        failureWebsocket);
   }
 
   const onConnected = () => {
@@ -61,11 +63,15 @@ const Control = (props) => {
     });
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const failureWebsocket = (error) => {
+    console.log('STOMP: ' + error);
+    setTimeout(window.location.reload(), 10000);
+    console.log('STOMP: Reconecting in 10 seconds');
+  }
+
   useEffect(()=>{
-    stompClient = Stomp.over(sockJS);
-    stompClient.connect({},
-                        onConnected, 
-                        failureWebsocket);
+    stompConnect();
   }, []);
 
   const sirenRightCheck = useCallback(() => {
