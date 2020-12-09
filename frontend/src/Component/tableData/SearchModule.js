@@ -5,9 +5,9 @@ const SearchModule = ({ updateSearchMap }) => {
     <div className="search-condition col-xl-4 col-sm-6" >
       <label>장치</label>
       <select className="table-search-input up-check" onChange={({ target }) => { updateSearchMap('moduleIdx', target.value); }}>
-        <option value={1}>ROT 001</option>
-        <option value={2}>ROT 002</option>
-        <option value={3}>ROT 003</option>
+        <option value={1}>센서1</option>
+        <option value={2}>센서2</option>
+        <option value={3}>센서3</option>
       </select>
     </div>
   )
