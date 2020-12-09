@@ -69,13 +69,8 @@ const Control = (props) => {
   }, []);
 
   const sirenRightCheck = useCallback(() => {
-    if (sendSiren.current === 1 && sirenStatus.current === "1") {
-      sendSiren.current = 0;
-      sirenStatus.current = "0"
-    }
-    else if (sendSiren.current === 1 && sirenStatus.current === "0") {
+    if (sendSiren.current === 1 && sirenStatus.current === "0") {
       props.serial('LP+WON');
-      sendSiren.current = 1;
 
       setTimeout(() => {
         sirenRightCheck();
@@ -106,25 +101,19 @@ const Control = (props) => {
         if (data) {
           const oldStatus = data.get(map.moduleIdx).status;
 
-          if (status !== 'blue') {
+          if (status === 'danger') {
             sirenOffByAllStatusBlueChecker = false;
 
             if (oldStatus === 'blue') {
               setWarningLog(map, status);
-
-              if (status === 'danger') {
-                sirenOnChecker = true;
-              }
+              sirenOnChecker = true;
             }
           }
         }
         else {
-          if (status !== 'blue') {
+          if (status === 'danger') {
             sirenOffByAllStatusBlueChecker = false;
-
-            if (status === 'danger') {
-              sirenOnChecker = true;
-            }
+            sirenOnChecker = true;
           }
         }
 
@@ -146,6 +135,8 @@ const Control = (props) => {
       if (sirenOffByAllStatusBlueChecker && allModuleStatus.current === 'danger') {
         props.serial('LP+WOFF');
         allModuleStatus.current = 'blue';
+        sendSiren.current = 0;
+        sirenStatus.current = "0"
       }
 
       return dataMap;
@@ -206,7 +197,9 @@ const Control = (props) => {
                               <img className="danger" 
                                    src={module_status_lamp_danger} 
                                    alt="module_status_lamp_danger" 
-                                   onClick={() => { props.serial("LP+WOFF"); }}/>
+                                   onClick={() => { props.serial("LP+WOFF");
+                                                    sendSiren.current = 0;
+                                                    sirenStatus.current = "0" }}/>
                           )
                         }
                       </div>
