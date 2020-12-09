@@ -25,7 +25,7 @@ public class WebSocketEventListener {
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
       StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
-      String status = headerAccessor.getMessageHeaders().get("stompCommand").toString();
+      String sessionId = headerAccessor.getMessageHeaders().get("simpSessionId").toString();
+      logger.info("[Disonnected] " + sessionId);
     }
 }
