@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import GeneralCalendar from 'utils/calendar/GeneralCalendar';
 
-const SearchDate = ({ title, updateSearchMap, name }) => {
-  const [ dateTime, setDateTime ] = useState({'date': new Date(), 'time': '00'});
+const SearchDate = ({ title, updateSearchMap, name, time }) => {
+  const [ dateTime, setDateTime ] = useState({'date': new Date(), 'time': time});
   const updateDateTime = useCallback((key, value) => {
     setDateTime(dateTime => {
       return {
@@ -29,7 +29,7 @@ const SearchDate = ({ title, updateSearchMap, name }) => {
               onChange={(({target}) => updateDateTime('time', target.value))}>
         {
           [...Array(25).keys()].map((v) => {
-            return <option value={v} key={"start_" + v}>{v < 10 ? "0" + v : v}시</option>
+            return <option value={v} defaultValue={time} key={"start_" + v}>{v < 10 ? "0" + v : v}시</option>
           })
         }
       </select>
