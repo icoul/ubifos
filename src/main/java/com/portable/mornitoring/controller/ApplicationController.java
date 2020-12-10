@@ -27,6 +27,6 @@ public class ApplicationController {
 
   @GetMapping(path = "/api/send/test")
   public void boradCast(){
-    messagingTemplate.convertAndSend("/topic/return", "1");
+    messagingTemplate.convertAndSend("/topic/return", "0");
   }
 }

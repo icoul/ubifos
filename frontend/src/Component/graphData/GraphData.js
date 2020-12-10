@@ -39,6 +39,15 @@ const GraphData = () => {
     {title: 'CH₄', name: 'ch4', max: 15, min:0}
   ]
 
+  try {
+    // eslint-disable-next-line no-unused-expressions
+    [...Array(((searchMap.endDate.getTime() - searchMap.beginDate.getTime()) / 1000 / 60 / 60) + 1).keys()];
+  } catch (error) {
+    return <GraphDataContainer>
+             <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
+           </GraphDataContainer>;
+  }
+
   return (
     <GraphDataContainer>
       <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
@@ -46,12 +55,12 @@ const GraphData = () => {
         graphMap.map((map, index) => {
           return (
             <LineGraph key={ map.title } 
-                       name={ map.name } 
-                       title={ map.title }
-                       data={ data } 
-                       max={ map.max }
-                       min={ map.min }
-                       categories={
+                      name={ map.name } 
+                      title={ map.title }
+                      data={ data } 
+                      max={ map.max }
+                      min={ map.min }
+                      categories={
                           [...Array(((searchMap.endDate.getTime() - searchMap.beginDate.getTime()) / 1000 / 60 / 60) + 1).keys()].map(i => {
                             return `${searchMap.beginDate.getHours() + i}시`;
                           })

@@ -3,7 +3,6 @@ import Chart from 'react-apexcharts';
 import './LineGraph.css';
 
 const LineGraph = (props) => {
-  console.log([...Array(props.data.length)].map(x => { return '#fff'; }));
   const config = {
     options: {
       chart: {

@@ -28,13 +28,13 @@ const AppHeader = ( props ) => {
   }
 
   useEffect(() => {
-    axios.get("/api/get/ip", {})
-      .then(response => {
-        setIp(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    // axios.get("/api/get/ip", {})
+    //   .then(response => {
+    //     setIp(response.data);
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   })
   }, [])
 
   return (

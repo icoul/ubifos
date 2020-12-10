@@ -21,6 +21,7 @@ public class GasLogDTO {
   private Double co2;
   private String co2Status;
   private String noneStatus;
+  private String offStatus;
   private String battery;
   private Date rgstDt;
   private Integer moduleIdx;
