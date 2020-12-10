@@ -4,8 +4,6 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { Route, Switch } from "react-router-dom";
 
-import { useWebsocket } from 'utils/customHook/useWebsocket';
-
 import Control from './control/Control';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
@@ -16,12 +14,12 @@ import { MainContainer } from './MainContainer.css';
 import { crc_checker } from 'utils/serialPortComponent';
 
 const checkStatus = (map) => {
-  if (map.offStatus === '1') {
-    return 'off';
-  }
-
   if (map.noneStatus === '1') {
     return 'none';
+  }
+
+  if (map.offStatus === '1') {
+    return 'off';
   }
 
   if (map.o2Status === '1' || map.h2sStatus === '1' || map.coStatus === '1' || map.ch4Status === '1' || map.co2Status === '1') {
@@ -146,6 +144,17 @@ const Main = () => {
       }
       if (status[3]  !== 'off' && data.get(3).moduleStatus === 'off') {
         third = 'off';
+      }
+
+      // 장치가 꺼짐
+      if (status[1] !== 'off' && data.get(1).moduleStatus === 'none') {
+        first = 'none';
+      }
+      if (status[2]  !== 'off' && data.get(2).moduleStatus === 'none') {
+        second = 'none';
+      }
+      if (status[3]  !== 'off' && data.get(3).moduleStatus === 'none') {
+        third = 'none';
       }
 
       // 멀쩡했는데 위험이 발견됨

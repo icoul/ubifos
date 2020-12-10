@@ -33,7 +33,7 @@ public class GasServiceImpl implements GasService {
         + "      glt2.A3 AS co, " + "      CAST(glt2.A3 > 25 AS CHAR(1)) AS coStatus, " 
         + "      glt2.A4 AS ch4, " + "      CAST(glt2.A4 > 10 AS CHAR(1)) AS ch4Status, " 
         + "      glt2.A5 AS co2, " + "      CAST(glt2.A5 > 1.5 AS CHAR(1)) AS co2Status, "
-        + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:01:00' AS CHAR(1)) AS noneStatus, " 
+        + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:00:30' AS CHAR(1)) AS noneStatus, " 
         + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:10:00' AS CHAR(1)) AS offStatus, " 
         + "      glt2.battery, "
         + "      glt2.rgst_dt AS rgstDt, " + "      m.module_idx AS moduleIdx, " + "      m.model_nm AS modelNm "

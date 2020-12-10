@@ -11,7 +11,6 @@ const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
 const Control = ({ setStatus, data, serial, setTime }) => {
   const handleClick = () => {
-    console.log('a');
     serial("LP+WOFF"); 
     setTime(0);
     setStatus((status) => {
