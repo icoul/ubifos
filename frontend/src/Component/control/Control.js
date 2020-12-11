@@ -9,16 +9,10 @@ import module_status_none from 'static/images/module_status_none.png'
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
-const Control = ({ setStatus, data, serial, setTime }) => {
+const Control = ({ data, serial, setTime }) => {
   const handleClick = () => {
     serial("LP+WOFF"); 
     setTime(0);
-    setStatus((status) => {
-      return {
-        ...status,
-        0: 'off'
-      };
-    }); 
   }
 
   return (
@@ -56,8 +50,7 @@ const Control = ({ setStatus, data, serial, setTime }) => {
                           (data.get(key).moduleStatus !== 'none' && data.get(key).moduleStatus !== 'off') && ( 
                             data.get(key).moduleStatus === 'blue' ? 
                               <img src={module_status_lamp_blue} 
-                                   alt="module_status_lamp_blue"
-                                   onClick={() => { handleClick(); }} /> :
+                                   alt="module_status_lamp_blue" /> :
                               <img className="danger" 
                                    src={module_status_lamp_danger} 
                                    alt="module_status_lamp_danger" 

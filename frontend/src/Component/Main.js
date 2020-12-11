@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import SockJS from "sockjs-client";
-import Stomp from "stompjs";
 import { Route, Switch } from "react-router-dom";
 
 import Control from './control/Control';
@@ -39,52 +37,24 @@ const setWarningLog = (dataMap, status) => {
     })
 }
 
-let sockJS = new SockJS("http://127.0.0.1:9070/ws");
-let stompClient = Stomp.over(sockJS);
-stompClient.debug= () => {};
+const serial = (code) => {
+  axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
+  .then(response => {
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+}
 
 const Main = () => {
   const [ time, setTime ] = useState(0);
-  useEffect(() => {
-    stompConnect();
-  }, [])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const stompConnect = () => {
-    stompClient = Stomp.over(sockJS);
-    stompClient.connect({},
-                        onConnected, 
-                        failureWebsocket);
-  }
-
-  const onConnected = () => {
-    stompClient.subscribe('/topic/return', (data) => {
-      setTime(Number(data.body));
-    });
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const failureWebsocket = (error) => {
-    console.log('STOMP: ' + error);
-    setTimeout(window.location.reload(), 10000);
-    console.log('STOMP: Reconecting in 10 seconds');
-  }
-  
-  const serial = useCallback((code) => {
-    axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
-    .then(response => {
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }, [])
 
   /**
   * off : 기기가 꺼짐
   * blue : 모두 정상
   * danger : 정상이었다가 위험이 1개라도 발생
   */
-  const [ status, setStatus ] = useState({ 0: 'off', 1: 'blue', 2: 'blue', 3: 'blue' })
+  const [ status, setStatus ] = useState({ 1: 'blue', 2: 'blue', 3: 'blue' })
   const [ data, setData ] = useState(null);
 
   useEffect(() => {
@@ -95,7 +65,7 @@ const Main = () => {
         window.clearInterval(timer);
       };
     }
-  }, [serial, time])
+  }, [time])
   
   const getData = () => {
     axios.get("/api/get/gas/group", {})
@@ -146,7 +116,7 @@ const Main = () => {
         third = 'off';
       }
 
-      // 장치가 꺼짐
+      // 장치가 미수신
       if (status[1] !== 'off' && data.get(1).moduleStatus === 'none') {
         first = 'none';
       }
@@ -158,14 +128,25 @@ const Main = () => {
       }
 
       // 멀쩡했는데 위험이 발견됨
-      if (first === '' && status[1] !== 'danger' && data.get(1).moduleStatus === 'danger') {
+      if (first === '' && (status[1] !== 'danger' && status[1] !== 'constantDanger') && data.get(1).moduleStatus === 'danger') {
         first = 'danger';
       }
-      if (second === '' && status[2] !== 'danger' && data.get(2).moduleStatus === 'danger') {
+      if (second === '' && (status[2] !== 'danger' && status[2] !== 'constantDanger') && data.get(2).moduleStatus === 'danger') {
         second = 'danger';
       }
-      if (third === '' && status[3] !== 'danger' && data.get(3).moduleStatus === 'danger') {
+      if (third === '' && (status[3] !== 'danger' && status[3] !== 'constantDanger') && data.get(3).moduleStatus === 'danger') {
         third = 'danger';
+      }
+
+      // 계속 위험인 상태
+      if (first === '' && status[1] === 'danger' && data.get(1).moduleStatus === 'danger') {
+        first = 'constantDanger';
+      }
+      if (second === '' && status[2] === 'danger' && data.get(2).moduleStatus === 'danger') {
+        second = 'constantDanger';
+      }
+      if (third === '' && status[3] === 'danger' && data.get(3).moduleStatus === 'danger') {
+        third = 'constantDanger';
       }
 
       // 정상이 됨
@@ -181,7 +162,6 @@ const Main = () => {
 
       setStatus((status) => {
         return {
-          ...status,
           1: first !== '' ? first : status[1], 
           2: second !== '' ? second : status[2],
           3: third !== '' ? third : status[3],
@@ -192,26 +172,14 @@ const Main = () => {
   }, [data])
   
   useEffect(() => {
-    if (status[0] === 'off' && (status[1] === 'danger' || status[2] === 'danger' || status[3] === 'danger')) {
+    if (time === 0 && (status[1] === 'danger' || status[2] === 'danger' || status[3] === 'danger')) {
       serial('LP+WON');
-      setTime(3000);
-      setStatus((status) => {
-        return {
-          ...status,
-          0: 'on'
-        };
-      });
+      setTime(2000);
     }
-    if (status[0] === 'on' && 
+    else if (time === 2000 && 
         (status[1] === 'blue' || status[1] === 'off') && (status[2] === 'blue' || status[2] === 'off') && (status[3] === 'blue' || status[3] === 'off')) {
       serial('LP+WOFF');
       setTime(0);
-      setStatus((status) => {
-        return {
-          ...status,
-          0: 'off'
-        };
-      });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status[1], status[2], status[3], serial])
@@ -237,7 +205,7 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
-          render={props => <Control setStatus={setStatus} data={data} serial={serial} setTime={setTime} {...props} />} />
+          render={props => <Control data={data} serial={serial} setTime={setTime} {...props} />} />
         <Route
           path="/table"
           render={props => <TableData {...props} />} />
