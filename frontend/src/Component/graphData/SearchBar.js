@@ -4,7 +4,7 @@ import SearchModule from './SearchModule';
 
 import { SearchBarConatiner } from './SearchBar.css';
 
-const SearchBar = ({ setSearchMap }) => {
+const SearchBar = ({ searchMap, setSearchMap }) => {
   const updateSearchMap = useCallback((key, value) => {
     setSearchMap(searchMap => {
       return {
@@ -17,7 +17,7 @@ const SearchBar = ({ setSearchMap }) => {
   return (
     <SearchBarConatiner>
       <div className="form-row">
-        <SearchDate updateSearchMap={updateSearchMap}/>
+        <SearchDate updateSearchMap={updateSearchMap} date={searchMap.date} begin={searchMap.begin} end={searchMap.end} />
         <SearchModule updateSearchMap={updateSearchMap} />
       </div>
     </SearchBarConatiner>

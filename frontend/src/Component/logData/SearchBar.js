@@ -59,8 +59,8 @@ const SearchBar = ({ searchMap, setSearchMap }) => {
   return (
     <SearchBarConatiner>
       <div className="form-row">
-        <SearchDate title='시작날짜' updateSearchMap={updateSearchMap} name='beginDate' time={'00'} />
-        <SearchDate title='종료날짜' updateSearchMap={updateSearchMap} name='endDate' time={'24'}/>
+        <SearchDate title='시작날짜' updateSearchMap={updateSearchMap} name='beginDate' date={searchMap.beginDate} />
+        <SearchDate title='종료날짜' updateSearchMap={updateSearchMap} name='endDate' date={searchMap.endDate} />
         <SearchModule updateSearchMap={updateSearchMap} />
         {/* <CSVLink className="search-condition csv-btn col-xl-4 col-sm-6" 
                  target="_blank" 

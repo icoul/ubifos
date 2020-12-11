@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { columns } from './columns'
 
@@ -12,8 +13,8 @@ import { getYMDAndHourFormatDate } from 'utils/getCustomFormatDate';
 const TableData = () => {
   const [data, setData] = useState([]);
   const [searchMap, setSearchMap] = useState({
-                                              beginDate: new Date(),
-                                              endDate: new Date(),
+                                              beginDate: new Date(moment().startOf('date').format('YYYY-MM-DD HH:mm:ss')),
+                                              endDate: new Date(moment().add(1, 'days').startOf('date').format('YYYY-MM-DD HH:mm:ss')),
                                               moduleIdx: 1,
                                             })
   const [ canNextPage, setCanNextPage ] = useState(false);
