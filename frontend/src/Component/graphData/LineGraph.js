@@ -93,7 +93,7 @@ const LineGraph = (props) => {
   return (
     <>
       <div className="gasDetailGraph-lineGraph">
-        <div className="gasDetailGraph-title">{props.title}</div>
+  <div className="gasDetailGraph-title">{props.title} <br/> <span>({props.unit})</span></div>
         <Chart type="line" width="1450" height="370" options={config.options} series={config.series}/>
       </div>
     </>

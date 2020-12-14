@@ -32,17 +32,17 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
   public void connect() throws TooManyListenersException, NoSuchPortException {
     log.info("Connection PostConstruct callback: connecting ...");
     
-    serial = new NRSerialPort(serialPortProperties.getPortName(), serialPortProperties.getBaudRate());
-    serial.connect();
+    // serial = new NRSerialPort(serialPortProperties.getPortName(), serialPortProperties.getBaudRate());
+    // serial.connect();
 
-    if (serial.isConnected()) {
-        log.info("Connection opened!");
-    } else {
-        throw new RuntimeException("Is not possible to open connection in " + serialPortProperties.getPortName() + " port");
-    }
-    serial.addEventListener((SerialPortEventListener) this);
-    serial.notifyOnDataAvailable(true);
-    input = new BufferedReader(new InputStreamReader(serial.getInputStream()));
+    // if (serial.isConnected()) {
+    //     log.info("Connection opened!");
+    // } else {
+    //     throw new RuntimeException("Is not possible to open connection in " + serialPortProperties.getPortName() + " port");
+    // }
+    // serial.addEventListener((SerialPortEventListener) this);
+    // serial.notifyOnDataAvailable(true);
+    // input = new BufferedReader(new InputStreamReader(serial.getInputStream()));
   }
 
   @PreDestroy

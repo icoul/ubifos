@@ -19,3 +19,7 @@
   text-align: center;
   width: 200px;
 }
+
+.gasDetailGraph-title > span {
+  font-size: 25px;
+}

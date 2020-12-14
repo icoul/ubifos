@@ -34,11 +34,11 @@ const GraphData = () => {
   }, [getData, searchMap])
 
   const graphMap = [
-    {title: 'O₂', name: 'o2', max: 25, min:0},
-    {title: 'CO₂', name: 'co2', max: 5, min:0},
-    {title: 'CO', name: 'co', max: 30, min:0},
-    {title: 'H₂S', name: 'h2s', max: 15, min:0},
-    {title: 'CH₄', name: 'ch4', max: 15, min:0}
+    {title: 'O₂', unit: '%', name: 'o2', max: 25, min:0},
+    {title: 'CO₂', unit: '%', name: 'co2', max: 5, min:0},
+    {title: 'CO', unit: 'ppm', name: 'co', max: 30, min:0},
+    {title: 'H₂S', unit: 'ppm', name: 'h2s', max: 15, min:0},
+    {title: 'CH₄', unit: 'LEL%', name: 'ch4', max: 15, min:0}
   ]
 
   return (
@@ -50,6 +50,7 @@ const GraphData = () => {
             <LineGraph key={ map.title } 
                       name={ map.name } 
                       title={ map.title }
+                      unit={map.unit}
                       data={ data } 
                       max={ map.max }
                       min={ map.min }

@@ -50,6 +50,10 @@ export const AppHeaderContainer = style.div`
         width: 60px;
         height: 60px;
       }
+      
+      & > svg:active {
+        fill: #ff0000;
+      }
     }
   }
 `;

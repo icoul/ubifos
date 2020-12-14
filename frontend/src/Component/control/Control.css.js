@@ -45,6 +45,9 @@ export const ControlContainer = style.div`
         & > svg {
           fill: #ff0000;
         }
+        & > span {
+          font-size: 25px;
+        }
       }
   
       @keyframes hideshow {
@@ -88,7 +91,7 @@ export const ControlContainer = style.div`
   
         & sub {
           vertical-align: initial;
-          font-size: 45px;
+          font-size: 35px;
         }
       }
 

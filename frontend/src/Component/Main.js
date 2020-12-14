@@ -12,7 +12,7 @@ import { MainContainer } from './MainContainer.css';
 import { crc_checker } from 'utils/serialPortComponent';
 
 const checkStatus = (map) => {
-  if (map.noneStatus === '1') {
+  if (map.offStatus !== '1' && map.noneStatus === '1') {
     return 'none';
   }
 
@@ -80,31 +80,30 @@ const Main = () => {
   const checkData = useCallback((newData) => {
     const list = [];
     const dataMap = new Map();
-
+    
     newData.forEach((map) => {
       const moduleStatus = checkStatus(map);
-
-      if (data && moduleStatus !== 'off') {
-        const oldStatus = data.get(map.moduleIdx).status;
-
-        // 이벤트로그기록
-        if (oldStatus === 'blue' && moduleStatus !== 'blue') {
-          setWarningLog(map, moduleStatus);
-        }
-      }
-
       list.push(moduleStatus);
       dataMap.set(map.moduleIdx, {...map, moduleStatus: moduleStatus});
     });
 
     setData(dataMap);
-  }, [data])
+  }, [])
 
   useEffect(() => {
     let first = '', second = '', third = '';
 
     // 전체상태체크, 부저여부확인
     if (data && data.size === 3) {
+      // eslint-disable-next-line array-callback-return
+      Array.from( data.keys() ).map((key) => {
+        const moduleStatus = data.get(key).moduleStatus;
+        
+        if (moduleStatus !== 'off' && moduleStatus !== 'blue' && status[data.get(key).moduleIdx] === 'blue') {
+          setWarningLog(data.get(key), moduleStatus);
+        }
+      });
+
       // 장치가 꺼짐
       if (status[1] !== 'off' && data.get(1).moduleStatus === 'off') {
         first = 'off';
@@ -168,6 +167,15 @@ const Main = () => {
         }
       })
     }
+    else if(!data) {
+      setStatus((status) => {
+        return {
+          1: status[1], 
+          2: status[2],
+          3: status[3],
+        }
+      })
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
   
@@ -205,7 +213,7 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
-          render={props => <Control data={data} serial={serial} setTime={setTime} {...props} />} />
+          render={props => <Control data={data} serial={serial} setTime={setTime} time={time} {...props} />} />
         <Route
           path="/table"
           render={props => <TableData {...props} />} />
