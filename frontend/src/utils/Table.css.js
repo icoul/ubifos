@@ -1,7 +1,7 @@
 import style, { css } from 'styled-components'
 
 export const TableContainer = style.table`
-  width: 80vw;
+  width: 90vw;
   border-spacing: 0;
 
   thead {
@@ -12,7 +12,7 @@ export const TableContainer = style.table`
       border-bottom-style: inset;
 
       & > th {
-        width: 12%;
+        width: 8%;
       }
   
       & > th:nth-child(1) {

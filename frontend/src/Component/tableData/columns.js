@@ -45,6 +45,22 @@ export const columns = [
     accessor: 'ch4',
   },
   {
+    Header: 'freqeuncy',
+    accessor: 'freqeuncy',
+  },
+  {
+    Header: 'sf',
+    accessor: 'sf',
+  },
+  {
+    Header: 'rssi',
+    accessor: 'rssi',
+  },
+  {
+    Header: 'snr',
+    accessor: 'snr',
+  },
+  {
     id: 'rgstDt',
     Header: () => (
       <div>날짜</div>

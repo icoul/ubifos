@@ -25,22 +25,21 @@ export const ControlContainer = style.div`
     }
   
     & tbody > tr {
-      height: 22vh;
-      border-top: 5px #fff solid;
-      border-bottom: 5px #fff solid;
-      border-top-style: double;
-      border-bottom-style: double;
+      height: 6vh;
   
       & > td {
         font-size: 45px;
         color: #fff;
-        border-top-width: 0px;
-        border-bottom-width: 0px;
         border-left-width: .5px;
         border-right-width: .5px;
         border-right-color: #ababab;
         border-left-color: #ababab;
         border-style: groove;
+
+        border-top: 5px #fff solid;
+        border-bottom: 5px #fff solid;
+        border-top-style: double;
+        border-bottom-style: double;
   
         & > svg {
           fill: #ff0000;
@@ -87,7 +86,12 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        font-size: 150px;
+        font-size: 120px;
+
+        border-top: 1px #fff solid;
+        border-bottom: 1px #fff solid;
+        border-top-style: solid;
+        border-bottom-style: solid;
   
         & sub {
           vertical-align: initial;
@@ -97,6 +101,13 @@ export const ControlContainer = style.div`
 
       & > .danger {
         animation: colorRedFlash 1s ease infinite;
+      }
+
+      & > .module-value {
+        font-size: 25px;
+        border-bottom: 5px #fff solid;
+        border-bottom-style: double;
+        border-top: 0px #fff solid;
       }
     }
   

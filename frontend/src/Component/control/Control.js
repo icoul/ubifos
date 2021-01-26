@@ -42,52 +42,61 @@ const Control = ({ data, serial, setTime, time }) => {
           {
             Array.from( data.keys() ).map((key) => {
               return (
-                <tr key={ data.get(key).moduleIdx }>
-                  <td className="module_name_box">
-                    { data.get(key).modelNm }
-                    <br/>
-                    {
-                      data.get(key).moduleStatus !== 'off' && <span>{ moment(data.get(key).rgstDt).format('HH:mm:ss') }</span>
-                    }
-                  </td>
-                  <td className="module_status_box">
-                    <div className="module_status">
+                <>
+                  <tr key={ data.get(key).moduleIdx }>
+                    <td className="module_name_box" rowspan="2">
+                      { data.get(key).modelNm }
+                      <br/>
                       {
-                        (data.get(key).moduleStatus !== 'none' && data.get(key).moduleStatus !== 'off') && ( 
-                          data.get(key).moduleStatus === 'blue' ? 
-                          <div className="module_status_lamp">
-                            <img src={module_status_lamp_blue} 
-                                  alt="module_status_lamp_blue" />
-                          </div> :
-                          <div className="module_status_lamp">
-                            <img className="danger" 
-                                  src={module_status_lamp_danger} 
-                                  alt="module_status_lamp_danger" 
-                                  onClick={() => { handleClick(); }}/>
-                          </div>
-                        )
+                        data.get(key).moduleStatus !== 'off' && <span>{ moment(data.get(key).rgstDt).format('HH:mm:ss') }</span>
                       }
-                      <img src={module_status_none} 
-                           alt="module_status_none"
-                           onClick={() => { handleClick(); }} />
-                    </div>
-                  </td>
-                  {
-                    criterionMap.map(x => {
-                      return (
-                        <td key={x} 
-                            className={classNames("data_value", (data.get(key).moduleStatus === 'danger' || (data.get(key).moduleStatus === 'none' && time === 2000)) && data.get(key)[`${x}Status`] === '1' && 'danger')}>
-                          {
-                            data.get(key).moduleStatus !== 'off' ? data.get(key)[x] : '-' 
-                          }
-                          {
-                            data.get(key).moduleStatus !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : ((x === 'o2' || x === 'co2') ? <sub>%</sub> : <sub>ppm</sub>))
-                          }
-                        </td>
-                      )
-                    })
-                  }
-                </tr>
+                    </td>
+                    <td className="module_status_box" rowspan="2">
+                      <div className="module_status">
+                        {
+                          (data.get(key).moduleStatus !== 'none' && data.get(key).moduleStatus !== 'off') && ( 
+                            data.get(key).moduleStatus === 'blue' ? 
+                            <div className="module_status_lamp">
+                              <img src={module_status_lamp_blue} 
+                                    alt="module_status_lamp_blue" />
+                            </div> :
+                            <div className="module_status_lamp">
+                              <img className="danger" 
+                                    src={module_status_lamp_danger} 
+                                    alt="module_status_lamp_danger" 
+                                    onClick={() => { handleClick(); }}/>
+                            </div>
+                          )
+                        }
+                        <img src={module_status_none} 
+                            alt="module_status_none"
+                            onClick={() => { handleClick(); }} />
+                      </div>
+                    </td>
+                    {
+                      criterionMap.map(x => {
+                        return (
+                          <td key={x} 
+                              className={classNames("data_value", (data.get(key).moduleStatus === 'danger' || (data.get(key).moduleStatus === 'none' && time === 2000)) && data.get(key)[`${x}Status`] === '1' && 'danger')}>
+                            {
+                              data.get(key).moduleStatus !== 'off' ? data.get(key)[x] : '-' 
+                            }
+                            {
+                              data.get(key).moduleStatus !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : ((x === 'o2' || x === 'co2') ? <sub>%</sub> : <sub>ppm</sub>))
+                            }
+                          </td>
+                        )
+                      })
+                    }
+                  </tr>
+                  <tr>
+                    <td className="module-value">freqeuncy: { data.get(key).freqeuncy }</td>
+                    <td className="module-value">sf: { data.get(key).sf }</td>
+                    <td className="module-value">rssi: { data.get(key).rssi }</td>
+                    <td className="module-value">snr: { data.get(key).snr }</td>
+                    <td className="module-value"></td>
+                  </tr>
+                </>
               )
             })
           }
