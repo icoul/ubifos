@@ -10,14 +10,14 @@ import module_status_none from 'static/images/module_status_none.png'
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
-const Control = ({ data, serial, setTime, time }) => {
+const Control = ({ data, serial, setTime, time, flag }) => {
   const handleClick = () => {
     serial("LP+WOFF"); 
     setTime(0);
   }
 
   return (
-    <ControlContainer>
+    <ControlContainer flag={flag}>
       <table>
         <thead>
           <tr className="top_legend_box">
@@ -44,14 +44,14 @@ const Control = ({ data, serial, setTime, time }) => {
               return (
                 <>
                   <tr key={ data.get(key).moduleIdx }>
-                    <td className="module_name_box" rowspan="2">
+                    <td className="module_name_box" rowspan={flag ? '1' : '2'}>
                       { data.get(key).modelNm }
                       <br/>
                       {
                         data.get(key).moduleStatus !== 'off' && <span>{ moment(data.get(key).rgstDt).format('HH:mm:ss') }</span>
                       }
                     </td>
-                    <td className="module_status_box" rowspan="2">
+                    <td className="module_status_box" rowspan={flag ? '1' : '2'}>
                       <div className="module_status">
                         {
                           (data.get(key).moduleStatus !== 'none' && data.get(key).moduleStatus !== 'off') && ( 
@@ -89,13 +89,16 @@ const Control = ({ data, serial, setTime, time }) => {
                       })
                     }
                   </tr>
-                  <tr>
-                    <td className="module-value">freqeuncy: { data.get(key).freqeuncy }</td>
-                    <td className="module-value">sf: { data.get(key).sf }</td>
-                    <td className="module-value">rssi: { data.get(key).rssi }</td>
-                    <td className="module-value">snr: { data.get(key).snr }</td>
-                    <td className="module-value"></td>
-                  </tr>
+                  {
+                    !flag && 
+                    <tr>
+                      <td className="module-value">freqeuncy: { data.get(key).freqeuncy }</td>
+                      <td className="module-value">sf: { data.get(key).sf }</td>
+                      <td className="module-value">rssi: { data.get(key).rssi }</td>
+                      <td className="module-value">snr: { data.get(key).snr }</td>
+                      <td className="module-value"></td>
+                    </tr>
+                  }
                 </>
               )
             })

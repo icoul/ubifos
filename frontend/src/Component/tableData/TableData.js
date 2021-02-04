@@ -10,7 +10,7 @@ import Table from 'utils/Table';
 import paramSetterReducer from 'utils/customReducer/paramSetterReducer';
 import { getYMDAndHourFormatDate } from 'utils/getCustomFormatDate';
 
-const TableData = () => {
+const TableData = ({ flag }) => {
   const [data, setData] = useState([]);
   const [searchMap, setSearchMap] = useState({
                                               beginDate: new Date(moment().startOf('date').format('YYYY-MM-DD HH:mm:ss')),
@@ -56,7 +56,7 @@ const TableData = () => {
   return (
     <TableDataContainer>
       <SearchBar searchMap={searchMap} setSearchMap={setSearchMap} />
-      <Table columns={columns} data={data} dispatch={dispatch} canNextPage={canNextPage} canPreviousPage={canPreviousPage} {...paramState} />
+      <Table columns={columns(flag)} data={data} dispatch={dispatch} canNextPage={canNextPage} canPreviousPage={canPreviousPage} {...paramState} />
     </TableDataContainer>
   )
 }

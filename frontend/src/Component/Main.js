@@ -47,6 +47,7 @@ const serial = (code) => {
 }
 
 const Main = () => {
+  const flag = true;
   const [ time, setTime ] = useState(0);
 
   /**
@@ -213,10 +214,10 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
-          render={props => <Control data={data} serial={serial} setTime={setTime} time={time} {...props} />} />
+          render={props => <Control data={data} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"
-          render={props => <TableData {...props} />} />
+          render={props => <TableData flag={flag} {...props} />} />
         <Route
           path="/graph"
           render={props => <GraphData {...props} />} />

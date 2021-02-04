@@ -1,4 +1,4 @@
-import style from 'styled-components'
+import style, { css } from 'styled-components'
 
 export const ControlContainer = style.div`
   padding-top: 1vh;
@@ -25,7 +25,7 @@ export const ControlContainer = style.div`
     }
   
     & tbody > tr {
-      height: 6vh;
+      ${props => props.flag ? css`height: 22.4vh;` : css`height: 6vh;`}
   
       & > td {
         font-size: 45px;
@@ -86,12 +86,15 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        font-size: 120px;
+        ${props => props.flag ? css`font-size: 165px;` : css`font-size: 120px;`}
 
-        border-top: 1px #fff solid;
-        border-bottom: 1px #fff solid;
-        border-top-style: solid;
-        border-bottom-style: solid;
+        ${props => !props.flag && css`
+          border-top: 1px #fff solid;
+          border-bottom: 1px #fff solid;
+          border-top-style: solid;
+          border-bottom-style: solid;
+        `}
+        
   
         & sub {
           vertical-align: initial;
