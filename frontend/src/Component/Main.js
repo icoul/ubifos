@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Route, Switch } from "react-router-dom";
 
+import Location from './location/Location';
 import Control from './control/Control';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
@@ -38,12 +39,12 @@ const setWarningLog = (dataMap, status) => {
 }
 
 const serial = (code) => {
-  axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
-  .then(response => {
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
+  // axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
+  // .then(response => {
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // })
 }
 
 const Main = () => {
@@ -214,6 +215,9 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
+          render={props => <Location {...props} />} />
+        <Route
+          path="/control"
           render={props => <Control data={data} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"
