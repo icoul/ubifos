@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 
 import Location from './location/Location';
 import Control from './control/Control';
+import MapTableData from './mapTableData/MapTableData';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
 import LogData from './logData/LogData';
@@ -216,6 +217,9 @@ const Main = () => {
         <Route
           exact path="/"
           render={props => <Location {...props} />} />
+        <Route
+          path="/map/table"
+          render={props => <MapTableData {...props} />} />
         <Route
           path="/control"
           render={props => <Control data={data} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />

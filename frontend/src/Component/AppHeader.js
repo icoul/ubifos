@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { RiTreasureMapLine } from 'react-icons/ri';
 import { FaMapMarkedAlt, FaHome, FaList, FaPowerOff } from 'react-icons/fa';
 import { BsGraphUp } from 'react-icons/bs';
 import { TiDocumentText } from 'react-icons/ti';
@@ -10,6 +11,7 @@ import ci from 'static/images/logo.png'
 
 const titleMap = {
   '/': '지도현황',
+  '/map/table': '지도상세 데이터',
   '/control': '가스농도 종합현황',
   '/table': '상세 데이터',
   '/graph': '상세 그래프',
@@ -45,6 +47,9 @@ const AppHeader = ( props ) => {
       <div className="header_buttons">
         <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
           <FaMapMarkedAlt />
+        </div>
+        <div className="button_box" onClick={ () => { moveLinkPage('/map/table') } }>
+          <RiTreasureMapLine />
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/control') } }>
           <FaHome />
