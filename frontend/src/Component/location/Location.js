@@ -104,6 +104,11 @@ const Location = () => {
     for (let i = 0; i < data.length; i++) {
       const element = data[i];
       addMarker(element);
+
+      if (i === 0) {
+        var moveLatLon = new kakao.maps.LatLng(element.latitude, element.longitude);
+        map.panTo(moveLatLon);
+      }
     }
   }, [data, map])
 

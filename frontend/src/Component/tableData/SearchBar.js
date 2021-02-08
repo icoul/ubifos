@@ -21,7 +21,6 @@ const headers = [
 
 const SearchBar = ({ searchMap, setSearchMap }) => {
   const [ csvData, setCsvData ] = useState([]);
-  console.log(searchMap);
   const getDataForCsv = useCallback((searchMap) => {
     axios.get("/api/get/csv", {params: {moduleIdx: searchMap.moduleIdx,
                                         beginDate: getYMDAndHourFormatDate(searchMap.beginDate),
