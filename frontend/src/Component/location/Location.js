@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import moment from 'moment';
 
 import { LocationContainer } from './Location.css';
 
@@ -45,7 +46,9 @@ const Location = () => {
     kakao.maps.load(() => {
       let options = {
         center: new kakao.maps.LatLng(37.506502, 127.053617),
-        level: 7
+        level: 7,
+        draggable: true,
+        scrollwheel: true
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
       setMap(new kakao.maps.Map(mapContainer.current, options));
@@ -67,22 +70,13 @@ const Location = () => {
     marker.setMap(map);
     markers.push(marker);
 
-    // const iwContent = `
-    //   <div style="padding:5px;">
-    //     장치명 : ${element.modelNm}<br/>
-    //     latitude: ${element.latitude}<br/>
-    //     longitude: ${element.longitude}<br/>
-    //     major: ${element.major}<br/>
-    //     minor: ${element.minor}<br/>
-    //     macAddr: ${element.macAddr}<br/>
-    //     bssi:${element.bssi}
-    //   </div>
-    // `
     const iwContent = `
-      <div style="padding:5px;">
+      <div style="padding:5px; font-size: 13px;">
         장치명 : ${element.modelNm}<br/>
         latitude: ${element.latitude}<br/>
         longitude: ${element.longitude}<br/>
+        rssi: ${element.rssi}<br/>
+        ${moment(element.rgstDt).format('YYYY-MM-DD HH:mm:ss')}
       </div>
     `
     const iwPosition = new kakao.maps.LatLng(element.latitude, element.longitude); //인포윈도우 표시 위치입니다
@@ -101,15 +95,20 @@ const Location = () => {
   }
 
   useEffect(() => {
-    for (let i = 0; i < data.length; i++) {
-      const element = data[i];
-      addMarker(element);
+    kakao.maps.load(() => {
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i];
 
-      if (i === 0) {
-        var moveLatLon = new kakao.maps.LatLng(element.latitude, element.longitude);
-        map.panTo(moveLatLon);
+        if (element.latitude !== 0 && element.longitude !== 0) {
+          addMarker(element);
+
+          if (i === 0) {
+            var moveLatLon = new kakao.maps.LatLng(element.latitude, element.longitude);
+            map.panTo(moveLatLon);
+          }
+        }
       }
-    }
+    })
   }, [data, map])
 
   useEffect(() => {
