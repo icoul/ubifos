@@ -45,13 +45,13 @@ const AppHeader = ( props ) => {
       <div className="header_logo"><img src={ci} alt="ci" /><div>{ ip }</div></div>
       <div className="header_title">{ title }</div>
       <div className="header_buttons">
-        <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
+        {/* <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
           <FaMapMarkedAlt />
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/map/table') } }>
           <RiTreasureMapLine />
-        </div>
-        <div className="button_box" onClick={ () => { moveLinkPage('/control') } }>
+        </div> */}
+        <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
           <FaHome />
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/table') } }>

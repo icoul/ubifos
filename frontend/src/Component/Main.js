@@ -40,12 +40,12 @@ const setWarningLog = (dataMap, status) => {
 }
 
 const serial = (code) => {
-  // axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
-  // .then(response => {
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // })
+  axios.get("/api/serial/lp", {params: {code: crc_checker(code)}})
+  .then(response => {
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
 }
 
 const Main = () => {
@@ -214,14 +214,14 @@ const Main = () => {
   return (
     <MainContainer>
       <Switch>
-        <Route
+        {/* <Route
           exact path="/"
-          render={props => <Location {...props} />} />
+          render={props => <Location {...props} />} /> 
         <Route
           path="/map/table"
-          render={props => <MapTableData {...props} />} />
+          render={props => <MapTableData {...props} />} />*/}
         <Route
-          path="/control"
+          exact path="/"
           render={props => <Control data={data} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"

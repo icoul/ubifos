@@ -8,27 +8,27 @@ export const ControlContainer = style.div`
     border-collapse: collapse;
 
     & thead > tr.top_legend_box {
-      height: 10vh;
+      height: 7vh;
       margin-bottom: .9vh;
   
       & > th {
         font-weight: initial;
-        font-size: 35pt;
+        font-size: 30pt;
         border: #fff solid 1px;
         color: #fff;
       }
   
       & > th.sign {
         width: 16%;
-        font-size: 55pt;
+        font-size: 50pt;
       }
     }
   
     & tbody > tr {
-      ${props => props.flag ? css`height: 22.4vh;` : css`height: 6vh;`}
+      ${props => props.flag ? css`height: 18.4vh;` : css`height: 6vh;`}
   
       & > td {
-        font-size: 45px;
+        font-size: 40px;
         color: #fff;
         border-left-width: .5px;
         border-right-width: .5px;
@@ -86,7 +86,7 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        ${props => props.flag ? css`font-size: 165px;` : css`font-size: 120px;`}
+        ${props => props.flag ? css`font-size: 140px;` : css`font-size: 120px;`}
 
         ${props => !props.flag && css`
           border-top: 1px #fff solid;
@@ -115,7 +115,7 @@ export const ControlContainer = style.div`
     }
   
     & tbody > tr:nth-child(1) {
-      height: 11.5vh;
+      height: 6.5vh;
     }
   }
 `
