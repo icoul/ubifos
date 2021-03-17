@@ -29,6 +29,18 @@ const checkStatus = (map) => {
   return 'blue';
 }
 
+/**
+  * 장치 케이스
+  * 장치가 꺼짐, 장치가 미수신, 정상이었다가 위험이 발견됨, 계속 위험상태, 위험이었다가 정상이 됨
+  */
+const compareStatusPrevAndNow = (prev, now) => {
+  if (prev === 'danger' && now === 'constantDanger') {
+    return 'constantDanger';
+  }
+
+  return now;
+}
+
 const setWarningLog = (dataMap, status) => {
   axios.post("/api/set/warning", { logIdx: dataMap.logIdx, moduleIdx: dataMap.moduleIdx, status: status })
     .then(response => {
@@ -96,53 +108,26 @@ const Main = () => {
   useEffect(() => {
     // 전체상태체크, 부저여부확인
     if (data) {
-      // eslint-disable-next-line array-callback-return
-      Array.from( data.keys() ).map((key) => {
-        const moduleStatus = data.get(key).moduleStatus;
-        
-        if (moduleStatus !== 'off' && moduleStatus !== 'blue' && status[data.get(key).moduleIdx] === 'blue') {
-          setWarningLog(data.get(key), moduleStatus);
-        }
-      });
-
       const statusCopy = new Map(status);
 
-      Array.from( data.keys() ).forEach((key) => {
-        if (!statusCopy.has(key)) {
-          statusCopy.set(key, data.get(key).moduleStatus);
+      Array.from( data.keys() ).forEach(( moduleIdx ) => {
+        const moduleStatus = data.get(moduleIdx).moduleStatus;
+        
+        // 위험 로그 기록 함수 호출
+        if (moduleStatus !== 'off' && moduleStatus !== 'blue' && status[data.get(moduleIdx).moduleIdx] === 'blue') {
+          setWarningLog(data.get(moduleIdx), moduleStatus);
+        }
+
+        // status state에 해당 장치idx값이 없는 경우
+        if (!statusCopy.has(moduleIdx)) {
+          statusCopy.set(moduleIdx, moduleStatus);
           return;
         }
 
-        // 장치가 꺼짐
-        if (status.get(key) !== 'off' && data.get(key).moduleStatus === 'off') {
-          statusCopy.set(key, 'off');
-          return;
-        }
-        // 장치가 미수신
-        if (status.get(key) !== 'off' && data.get(key).moduleStatus === 'none') {
-          statusCopy.set(key, 'none');
-          return;
-        }
-        // 멀쩡했는데 위험이 발견됨
-        if ((status.get(key) !== 'danger' && status.get(key) !== 'constantDanger') && data.get(key).moduleStatus === 'danger') {
-          statusCopy.set(key, 'danger');
-          return;
-        }
-        // 계속 위험인 상태
-        if (status.get(key) === 'danger' && data.get(key).moduleStatus === 'danger') {
-          statusCopy.set(key, 'constantDanger');
-          return;
-        }
-        // 정상이 됨
-        if (status.get(key) !== 'blue' && data.get(key).moduleStatus === 'blue') {
-          statusCopy.set(key, 'blue');
-          return;
-        }
+        statusCopy.set(moduleIdx, compareStatusPrevAndNow(status.get(moduleIdx), moduleStatus));
       });
 
-      setStatus(() => {
-        return new Map(statusCopy);
-      })
+      setStatus(() => { return new Map(statusCopy); })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
