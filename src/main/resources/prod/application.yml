@@ -17,6 +17,10 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+logging:
+  level:
+    root: info
+  config: logback-spring.xml
 server:
   servlet:
     encoding:
