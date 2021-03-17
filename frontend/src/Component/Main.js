@@ -57,7 +57,7 @@ const Main = () => {
   * blue : 모두 정상
   * danger : 정상이었다가 위험이 1개라도 발생
   */
-  const [ status, setStatus ] = useState({ 1: 'blue', 2: 'blue', 3: 'blue' })
+  const [ status, setStatus ] = useState(new Map());
   const [ data, setData ] = useState(null);
 
   useEffect(() => {
@@ -90,14 +90,12 @@ const Main = () => {
       dataMap.set(map.moduleIdx, {...map, moduleStatus: moduleStatus});
     });
 
-    setData(dataMap);
+    setData(() => { return dataMap; });
   }, [])
 
   useEffect(() => {
-    let first = '', second = '', third = '';
-
     // 전체상태체크, 부저여부확인
-    if (data && data.size === 3) {
+    if (data) {
       // eslint-disable-next-line array-callback-return
       Array.from( data.keys() ).map((key) => {
         const moduleStatus = data.get(key).moduleStatus;
@@ -107,93 +105,62 @@ const Main = () => {
         }
       });
 
-      // 장치가 꺼짐
-      if (status[1] !== 'off' && data.get(1).moduleStatus === 'off') {
-        first = 'off';
-      }
-      if (status[2]  !== 'off' && data.get(2).moduleStatus === 'off') {
-        second = 'off';
-      }
-      if (status[3]  !== 'off' && data.get(3).moduleStatus === 'off') {
-        third = 'off';
-      }
+      const statusCopy = new Map(status);
 
-      // 장치가 미수신
-      if (status[1] !== 'off' && data.get(1).moduleStatus === 'none') {
-        first = 'none';
-      }
-      if (status[2]  !== 'off' && data.get(2).moduleStatus === 'none') {
-        second = 'none';
-      }
-      if (status[3]  !== 'off' && data.get(3).moduleStatus === 'none') {
-        third = 'none';
-      }
-
-      // 멀쩡했는데 위험이 발견됨
-      if (first === '' && (status[1] !== 'danger' && status[1] !== 'constantDanger') && data.get(1).moduleStatus === 'danger') {
-        first = 'danger';
-      }
-      if (second === '' && (status[2] !== 'danger' && status[2] !== 'constantDanger') && data.get(2).moduleStatus === 'danger') {
-        second = 'danger';
-      }
-      if (third === '' && (status[3] !== 'danger' && status[3] !== 'constantDanger') && data.get(3).moduleStatus === 'danger') {
-        third = 'danger';
-      }
-
-      // 계속 위험인 상태
-      if (first === '' && status[1] === 'danger' && data.get(1).moduleStatus === 'danger') {
-        first = 'constantDanger';
-      }
-      if (second === '' && status[2] === 'danger' && data.get(2).moduleStatus === 'danger') {
-        second = 'constantDanger';
-      }
-      if (third === '' && status[3] === 'danger' && data.get(3).moduleStatus === 'danger') {
-        third = 'constantDanger';
-      }
-
-      // 정상이 됨
-      if (first === '' && status[1] !== 'blue' && data.get(1).moduleStatus === 'blue') {
-        first = 'blue';
-      }
-      if (second === '' && status[2] !== 'blue' && data.get(2).moduleStatus === 'blue') {
-        second = 'blue';
-      }
-      if (third === '' && status[3] !== 'blue' && data.get(3).moduleStatus === 'blue') {
-        third = 'blue';
-      }
-
-      setStatus((status) => {
-        return {
-          1: first !== '' ? first : status[1], 
-          2: second !== '' ? second : status[2],
-          3: third !== '' ? third : status[3],
+      Array.from( data.keys() ).forEach((key) => {
+        if (!statusCopy.has(key)) {
+          statusCopy.set(key, data.get(key).moduleStatus);
+          return;
         }
-      })
-    }
-    else if(!data) {
-      setStatus((status) => {
-        return {
-          1: status[1], 
-          2: status[2],
-          3: status[3],
+
+        // 장치가 꺼짐
+        if (status.get(key) !== 'off' && data.get(key).moduleStatus === 'off') {
+          statusCopy.set(key, 'off');
+          return;
         }
+        // 장치가 미수신
+        if (status.get(key) !== 'off' && data.get(key).moduleStatus === 'none') {
+          statusCopy.set(key, 'none');
+          return;
+        }
+        // 멀쩡했는데 위험이 발견됨
+        if ((status.get(key) !== 'danger' && status.get(key) !== 'constantDanger') && data.get(key).moduleStatus === 'danger') {
+          statusCopy.set(key, 'danger');
+          return;
+        }
+        // 계속 위험인 상태
+        if (status.get(key) === 'danger' && data.get(key).moduleStatus === 'danger') {
+          statusCopy.set(key, 'constantDanger');
+          return;
+        }
+        // 정상이 됨
+        if (status.get(key) !== 'blue' && data.get(key).moduleStatus === 'blue') {
+          statusCopy.set(key, 'blue');
+          return;
+        }
+      });
+
+      setStatus(() => {
+        return new Map(statusCopy);
       })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
   
   useEffect(() => {
-    if (time === 0 && (status[1] === 'danger' || status[2] === 'danger' || status[3] === 'danger')) {
+    const dangerCount = Array.from( status.keys() ).filter( x => status.get(x) === 'danger' ).length;
+    const blueCount = Array.from( status.keys() ).filter( x => status.get(x) === 'blue' || status.get(x) === 'off' ).length;
+
+    if (time === 0 && dangerCount > 0) {
       serial('LP+WON');
       setTime(2000);
     }
-    else if (time === 2000 && 
-        (status[1] === 'blue' || status[1] === 'off') && (status[2] === 'blue' || status[2] === 'off') && (status[3] === 'blue' || status[3] === 'off')) {
+    else if (time === 2000 && blueCount === status.size) {
       serial('LP+WOFF');
       setTime(0);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status[1], status[2], status[3], serial])
+  }, [status, serial])
 
   useEffect(() => {
     const timer = window.setInterval(() => {
