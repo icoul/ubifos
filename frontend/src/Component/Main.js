@@ -2,9 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Route, Switch } from "react-router-dom";
 
-import Location from './location/Location';
 import Control from './control/Control';
-import MapTableData from './mapTableData/MapTableData';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
 import LogData from './logData/LogData';
@@ -12,22 +10,6 @@ import LogData from './logData/LogData';
 import { MainContainer } from './MainContainer.css';
 
 import { crc_checker } from 'utils/serialPortComponent';
-
-const checkStatus = (map) => {
-  if (map.offStatus !== '1' && map.noneStatus === '1') {
-    return 'none';
-  }
-
-  if (map.offStatus === '1') {
-    return 'off';
-  }
-
-  if (map.o2Status === '1' || map.h2sStatus === '1' || map.coStatus === '1' || map.ch4Status === '1' || map.co2Status === '1') {
-    return 'danger'
-  }
-
-  return 'blue';
-}
 
 /**
   * 장치 케이스
@@ -41,8 +23,8 @@ const compareStatusPrevAndNow = (prev, now) => {
   return now;
 }
 
-const setWarningLog = (dataMap, status) => {
-  axios.post("/api/set/warning", { logIdx: dataMap.logIdx, moduleIdx: dataMap.moduleIdx, status: status })
+const setWarningLog = (logDataMap, status) => {
+  axios.post("/api/set/warning", { logIdx: logDataMap.logIdx, moduleIdx: logDataMap.moduleIdx, status: status })
     .then(response => {
       console.log(response);
     })
@@ -70,7 +52,17 @@ const Main = () => {
   * danger : 정상이었다가 위험이 1개라도 발생
   */
   const [ status, setStatus ] = useState(new Map());
-  const [ data, setData ] = useState(null);
+  const [ logData, setLogData ] = useState(null);
+
+  const getNewGasLogData = () => {
+    axios.get("/api/get/gas/group", {})
+      .then(response => {
+        setLogData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }
 
   useEffect(() => {
     if(Number(time) !== 0) {
@@ -81,56 +73,33 @@ const Main = () => {
       };
     }
   }, [time])
-  
-  const getData = () => {
-    axios.get("/api/get/gas/group", {})
-      .then(response => {
-        checkData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }
-
-  const checkData = useCallback((newData) => {
-    const list = [];
-    const dataMap = new Map();
-    
-    newData.forEach((map) => {
-      const moduleStatus = checkStatus(map);
-      list.push(moduleStatus);
-      dataMap.set(map.moduleIdx, {...map, moduleStatus: moduleStatus});
-    });
-
-    setData(() => { return dataMap; });
-  }, [])
 
   useEffect(() => {
     // 전체상태체크, 부저여부확인
-    if (data) {
+    if (logData) {
       const statusCopy = new Map(status);
 
-      Array.from( data.keys() ).forEach(( moduleIdx ) => {
-        const moduleStatus = data.get(moduleIdx).moduleStatus;
+      logData.forEach(( data ) => {
+        const status = data.status;
         
         // 위험 로그 기록 함수 호출
-        if (moduleStatus !== 'off' && moduleStatus !== 'blue' && status[data.get(moduleIdx).moduleIdx] === 'blue') {
-          setWarningLog(data.get(moduleIdx), moduleStatus);
+        if (status !== 'off' && status !== 'blue' && status[data.moduleIdx] === 'blue') {
+          setWarningLog(data, status);
         }
 
         // status state에 해당 장치idx값이 없는 경우
-        if (!statusCopy.has(moduleIdx)) {
-          statusCopy.set(moduleIdx, moduleStatus);
+        if (!statusCopy.has(data.moduleIdx)) {
+          statusCopy.set(data.moduleIdx, status);
           return;
         }
 
-        statusCopy.set(moduleIdx, compareStatusPrevAndNow(status.get(moduleIdx), moduleStatus));
+        statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), status));
       });
 
       setStatus(() => { return new Map(statusCopy); })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
+  }, [logData])
   
   useEffect(() => {
     const dangerCount = Array.from( status.keys() ).filter( x => status.get(x) === 'danger' ).length;
@@ -149,7 +118,7 @@ const Main = () => {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      getData();
+      getNewGasLogData();
     }, Number(5000));
 
     return () => {
@@ -158,23 +127,17 @@ const Main = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!data) {
-    getData();
+  if (!logData) {
+    getNewGasLogData();
     return null;
   }
 
   return (
     <MainContainer>
       <Switch>
-        {/* <Route
-          exact path="/"
-          render={props => <Location {...props} />} /> 
-        <Route
-          path="/map/table"
-          render={props => <MapTableData {...props} />} />*/}
         <Route
           exact path="/"
-          render={props => <Control data={data} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
+          render={props => <Control logData={logData} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"
           render={props => <TableData flag={flag} {...props} />} />

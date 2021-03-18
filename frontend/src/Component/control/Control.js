@@ -10,7 +10,7 @@ import module_status_none from 'static/images/module_status_none.png'
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
-const Control = ({ data, serial, setTime, time, flag }) => {
+const Control = ({ logData, serial, setTime, time, flag }) => {
   const handleClick = () => {
     serial("LP+WOFF"); 
     setTime(0);
@@ -40,22 +40,22 @@ const Control = ({ data, serial, setTime, time, flag }) => {
             <td>10LEL% 초과</td>
           </tr>
           {
-            Array.from( data.keys() ).map((key) => {
+            logData.map((data) => {
               return (
                 <>
-                  <tr key={ data.get(key).moduleIdx }>
+                  <tr key={ data.moduleIdx }>
                     <td className="module_name_box" rowspan={flag ? '1' : '2'}>
-                      { data.get(key).modelNm }
+                      { data.modelNm }
                       <br/>
                       {
-                        data.get(key).moduleStatus === 'danger' && <span>{ moment(data.get(key).rgstDt).format('HH:mm:ss') }</span>
+                        data.status === 'danger' && <span>{ moment(data.rgstDt).format('HH:mm:ss') }</span>
                       }
                     </td>
                     <td className="module_status_box" rowspan={flag ? '1' : '2'}>
                       <div className="module_status">
                         {
-                          (data.get(key).moduleStatus !== 'none' && data.get(key).moduleStatus !== 'off') && ( 
-                            data.get(key).moduleStatus === 'blue' ? 
+                          (data.status !== 'none' && data.status !== 'off') && ( 
+                            data.status === 'blue' ? 
                             <div className="module_status_lamp">
                               <img src={module_status_lamp_blue} 
                                     alt="module_status_lamp_blue" />
@@ -77,12 +77,12 @@ const Control = ({ data, serial, setTime, time, flag }) => {
                       criterionMap.map(x => {
                         return (
                           <td key={x} 
-                              className={classNames("data_value", (data.get(key).moduleStatus === 'danger' || (data.get(key).moduleStatus === 'none' && time === 2000)) && data.get(key)[`${x}Status`] === '1' && 'danger')}>
+                              className={classNames("data_value", (data.status === 'danger' || (data.status === 'none' && time === 2000)) && data[`${x}Status`] === '1' && 'danger')}>
                             {
-                              data.get(key).moduleStatus !== 'off' ? data.get(key)[x] : '-' 
+                              data.status !== 'off' ? data[x] : '-' 
                             }
                             {
-                              data.get(key).moduleStatus !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : ((x === 'o2' || x === 'co2') ? <sub>%</sub> : <sub>ppm</sub>))
+                              data.status !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : ((x === 'o2' || x === 'co2') ? <sub>%</sub> : <sub>ppm</sub>))
                             }
                           </td>
                         )
@@ -92,10 +92,10 @@ const Control = ({ data, serial, setTime, time, flag }) => {
                   {
                     !flag && 
                     <tr>
-                      <td className="module-value">freqeuncy: { data.get(key).freqeuncy }</td>
-                      <td className="module-value">sf: { data.get(key).sf }</td>
-                      <td className="module-value">rssi: { data.get(key).rssi }</td>
-                      <td className="module-value">snr: { data.get(key).snr }</td>
+                      <td className="module-value">freqeuncy: { data.freqeuncy }</td>
+                      <td className="module-value">sf: { data.sf }</td>
+                      <td className="module-value">rssi: { data.rssi }</td>
+                      <td className="module-value">snr: { data.snr }</td>
                       <td className="module-value"></td>
                     </tr>
                   }
