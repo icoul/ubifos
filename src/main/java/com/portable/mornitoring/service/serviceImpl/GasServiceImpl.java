@@ -27,25 +27,34 @@ public class GasServiceImpl implements GasService {
   private EntityManager em;
 
   public List<GasLogDTO> findGasGroupByModule() {
-    String sql = "select CAST(glt2.log_idx AS SIGNED) AS logIdx, " 
-        + "      glt2.A1 AS o2, " + "      CAST(glt2.A1 < 18 AS CHAR(1)) AS o2Status, " 
-        + "      glt2.A2 AS h2s, " + "      CAST(glt2.A2 > 10 AS CHAR(1)) AS h2sStatus, " 
-        + "      glt2.A3 AS co, " + "      CAST(glt2.A3 > 25 AS CHAR(1)) AS coStatus, " 
-        + "      glt2.A4 AS ch4, " + "      CAST(glt2.A4 > 10 AS CHAR(1)) AS ch4Status, " 
-        + "      glt2.A5 AS co2, " + "      CAST(glt2.A5 > 1.5 AS CHAR(1)) AS co2Status, "
-        + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:00:30' AS CHAR(1)) AS noneStatus, " 
-        + "      CAST(timediff(glt2.rgst_dt, now()) < '-00:10:00' AS CHAR(1)) AS offStatus, " 
-        + "      glt2.battery, "
-        + "      glt2.freqeuncy, "
-        + "      glt2.sf, "
-        + "      glt2.rssi, "
-        + "      glt2.snr, "
-        + "      glt2.rgst_dt AS rgstDt, " + "      m.module_idx AS moduleIdx, " + "      m.model_nm AS modelNm "
-        + "from gas_log_tb glt2 left join " + "( " + "SELECT max(glt.log_idx) AS log_idx, glt.module_idx "
-        + "FROM (SELECT * FROM gas_log_tb ORDER BY log_idx DESC LIMIT 100000) glt " + "GROUP BY MODULE_IDX "
-        + ") a on glt2.log_idx = a.log_idx "
-        + "LEFT JOIN (SELECT * FROM module_tb WHERE del_flag = 0) m ON a.MODULE_IDX = m.MODULE_IDX "
-        + "WHERE m.module_idx is not null " + "ORDER BY m.module_idx ";
+    String sql = "SELECT glt2.*, CASE WHEN UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) > -600 AND UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) < -30 THEN 'none' " +
+                                     "WHEN UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) < -600 THEN 'off' " + 
+                                     "WHEN '1' IN (o2Status, h2sStatus, coStatus, co2Status, ch4Status) THEN 'danger' " +
+                                     "ELSE 'blue' END AS status " +
+                 "FROM ( " +
+                  "select CAST(glt.log_idx AS SIGNED) AS logIdx, " +
+                  "      glt.A1 AS o2, " + "      CAST(glt.A1 < 18 AS CHAR(1)) AS o2Status, " +
+                  "      glt.A2 AS h2s, " + "      CAST(glt.A2 > 10 AS CHAR(1)) AS h2sStatus, " +
+                  "      glt.A3 AS co, " + "      CAST(glt.A3 > 25 AS CHAR(1)) AS coStatus, " +
+                  "      glt.A4 AS ch4, " + "      CAST(glt.A4 > 10 AS CHAR(1)) AS ch4Status, " +
+                  "      glt.A5 AS co2, " + "      CAST(glt.A5 > 1.5 AS CHAR(1)) AS co2Status, " +
+                  "      glt.battery, "+
+                  "      glt.freqeuncy, "+
+                  "      glt.sf, " +
+                  "      glt.rssi, " +
+                  "      glt.snr, "+
+                  "      glt.rgst_dt AS rgstDt, " +
+                  "      m.module_idx AS moduleIdx, " +
+                  "      m.model_nm AS modelNm " +
+                  "from gas_log_tb glt LEFT JOIN " +
+                        "( SELECT max(glt.log_idx) AS log_idx, glt.module_idx " +
+                          "FROM (SELECT * FROM gas_log_tb ORDER BY log_idx DESC LIMIT 100000) glt " +
+                        "GROUP BY MODULE_IDX " +
+                        ") a on glt.log_idx = a.log_idx LEFT JOIN " +
+                        "(SELECT * FROM module_tb WHERE del_flag = 0) m ON a.MODULE_IDX = m.MODULE_IDX " +
+                  "WHERE m.module_idx is not null " +
+                ") glt2 " +
+                "ORDER BY FIELD(status, 'danger', 'none', 'blue', 'off'), moduleIdx";
 
     Query nativeQuery = em.createNativeQuery(sql);
     JpaResultMapper jpaResultMapper = new JpaResultMapper();

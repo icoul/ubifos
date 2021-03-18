@@ -20,8 +20,6 @@ public class GasLogDTO {
   private String ch4Status;
   private Double co2;
   private String co2Status;
-  private String noneStatus;
-  private String offStatus;
   private String battery;
   private Double freqeuncy;
   private Double sf;
@@ -30,4 +28,5 @@ public class GasLogDTO {
   private Date rgstDt;
   private Integer moduleIdx;
   private String modelNm;
+  private String status;
 }
