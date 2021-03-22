@@ -16,7 +16,7 @@ import { crc_checker } from 'utils/serialPortComponent';
   * 장치가 꺼짐, 장치가 미수신, 정상이었다가 위험이 발견됨, 계속 위험상태, 위험이었다가 정상이 됨
   */
 const compareStatusPrevAndNow = (prev, now) => {
-  if (prev === 'danger' && now === 'constantDanger') {
+  if (prev === 'danger' && now === 'danger') {
     return 'constantDanger';
   }
 
@@ -92,7 +92,7 @@ const Main = () => {
           statusCopy.set(data.moduleIdx, status);
           return;
         }
-
+        
         statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), status));
       });
 
