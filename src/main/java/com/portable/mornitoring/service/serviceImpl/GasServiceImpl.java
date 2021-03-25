@@ -54,7 +54,7 @@ public class GasServiceImpl implements GasService {
                         "(SELECT * FROM module_tb WHERE del_flag = 0) m ON a.MODULE_IDX = m.MODULE_IDX " +
                   "WHERE m.module_idx is not null " +
                 ") glt2 " +
-                "ORDER BY FIELD(status, 'danger', 'none', 'blue', 'off'), moduleIdx";
+                "ORDER BY modelNm";
 
     Query nativeQuery = em.createNativeQuery(sql);
     JpaResultMapper jpaResultMapper = new JpaResultMapper();
