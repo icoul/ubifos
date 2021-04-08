@@ -10,10 +10,13 @@ import module_status_none from 'static/images/module_status_none.png'
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
-const Control = ({ logData, serial, setTime, time, flag }) => {
-  const handleClick = () => {
+const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) => {
+  const handleClick = (moduleIdx) => {
     serial("LP+WOFF"); 
     setTime(0);
+    setStatus((status) => {
+      return status.set(moduleIdx, 'alarmOff');
+    })
   }
 
   return (
@@ -61,16 +64,17 @@ const Control = ({ logData, serial, setTime, time, flag }) => {
                                     alt="module_status_lamp_blue" />
                             </div> :
                             <div className="module_status_lamp">
+                              { status.get(data.moduleIdx) === 'alarmOff' && <div className="alarm-off-text"><span>Alarm OFF</span></div> }
                               <img className="danger" 
                                     src={module_status_lamp_danger} 
                                     alt="module_status_lamp_danger" 
-                                    onClick={() => { handleClick(); }}/>
+                                    onClick={() => { handleClick(data.moduleIdx); }}/>
                             </div>
                           )
                         }
                         <img src={module_status_none} 
                             alt="module_status_none"
-                            onClick={() => { handleClick(); }} />
+                            onClick={() => { handleClick(data.moduleIdx); }} />
                       </div>
                     </td>
                     {

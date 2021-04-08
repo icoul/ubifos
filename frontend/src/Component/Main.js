@@ -19,6 +19,9 @@ const compareStatusPrevAndNow = (prev, now) => {
   if (prev === 'danger' && now === 'danger') {
     return 'constantDanger';
   }
+  if (prev === 'alarmOff' && now === 'danger') {
+    return 'alarmOff'
+  }
 
   return now;
 }
@@ -119,7 +122,7 @@ const Main = () => {
   useEffect(() => {
     const timer = window.setInterval(() => {
       getNewGasLogData();
-    }, Number(5000));
+    }, Number(3000));
 
     return () => {
       window.clearInterval(timer);
@@ -137,7 +140,7 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
-          render={props => <Control logData={logData} serial={serial} setTime={setTime} time={time} flag={flag} {...props} />} />
+          render={props => <Control logData={logData} serial={serial} setTime={setTime} status={status} setStatus={setStatus} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"
           render={props => <TableData flag={flag} {...props} />} />

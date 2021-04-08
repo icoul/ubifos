@@ -116,7 +116,7 @@ const Location = () => {
 
     const timer = window.setInterval(() => {
       getData();
-    }, Number(5000));
+    }, Number(3000));
 
     return () => {
       window.clearInterval(timer);

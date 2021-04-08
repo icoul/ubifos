@@ -81,6 +81,20 @@ export const ControlContainer = style.div`
             & > .danger {
               animation: hideshow 1s ease infinite;
             }
+
+            & > div.alarm-off-text {
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: absolute;
+              z-index: 10;
+
+              & > span {
+                font-size: 20px;
+              }
+            }
           }
         }
       }
