@@ -12,6 +12,7 @@ const Location = () => {
   const [ map, setMap ] = useState(null);
   const [ markers, setMarkers ] = useState([]);
   const [ infos, setInfos ] = useState([]);
+  const [ location, setLocation ] = useState(null);
 
   const removeMarker = async () => {
     setMarkers((markers) => {
@@ -101,11 +102,6 @@ const Location = () => {
 
         if (element.latitude !== 0 && element.longitude !== 0) {
           addMarker(element);
-
-          if (i === 0) {
-            var moveLatLon = new kakao.maps.LatLng(element.latitude, element.longitude);
-            map.panTo(moveLatLon);
-          }
         }
       }
     })
@@ -123,6 +119,18 @@ const Location = () => {
     };
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (data.length > 0 && location === null) {
+      kakao.maps.load(() => {
+        setTimeout(function() {
+          var moveLatLon = new kakao.maps.LatLng(data[0].latitude, data[0].longitude);
+          map.panTo(moveLatLon);
+          setLocation(1);
+        }, 1000);
+      })
+    }
+  }, [data, location, map])
 
   return (
     <LocationContainer>

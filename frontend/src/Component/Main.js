@@ -6,6 +6,8 @@ import Control from './control/Control';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
 import LogData from './logData/LogData';
+import Location from './location/Location';
+import MapTableData from './mapTableData/MapTableData';
 
 import { MainContainer } from './MainContainer.css';
 
@@ -140,6 +142,12 @@ const Main = () => {
       <Switch>
         <Route
           exact path="/"
+          render={props => <Location {...props} />} />
+        <Route
+          path="/map/table"
+          render={props => <MapTableData {...props} />} />
+        <Route
+          path="/control"
           render={props => <Control logData={logData} serial={serial} setTime={setTime} status={status} setStatus={setStatus} time={time} flag={flag} {...props} />} />
         <Route
           path="/table"

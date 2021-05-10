@@ -37,7 +37,7 @@ public class LocationLogServiceImpl implements LocationLogService {
         + "from worker_log_tb lt2 left join " 
         + "( " 
         + "SELECT max(lt.log_idx) AS log_idx, lt.module_idx "
-        + "FROM (SELECT * FROM worker_log_tb ORDER BY log_idx DESC LIMIT 100000) lt " 
+        + "FROM (SELECT * FROM worker_log_tb WHERE latitude != 0 AND longitude != 0 ORDER BY log_idx DESC LIMIT 100000) lt " 
         + "GROUP BY MODULE_IDX "
         + ") a on lt2.log_idx = a.log_idx "
         + "LEFT JOIN (SELECT * FROM module_tb WHERE del_flag = 0) m ON a.MODULE_IDX = m.MODULE_IDX "

@@ -10,9 +10,9 @@ import { AppHeaderContainer } from './MainContainer.css';
 import ci from 'static/images/logo.png'
 
 const titleMap = {
-  '/': '가스 현황',
-  // '/map/table': '지도상세 데이터',
-  // '/control': '가스농도 종합현황',
+  '/': '지도 현황',
+  '/map/table': '지도상세 데이터',
+  '/control': '가스농도 종합현황',
   '/table': '상세 데이터',
   '/graph': '상세 그래프',
   '/log': '로그 데이터',
@@ -45,13 +45,13 @@ const AppHeader = ( props ) => {
       <div className="header_logo"><img src={ci} alt="ci" /><div>{ ip }</div></div>
       <div className="header_title">{ title }</div>
       <div className="header_buttons">
-        {/* <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
+        <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
           <FaMapMarkedAlt />
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/map/table') } }>
           <RiTreasureMapLine />
-        </div> */}
-        <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
+        </div>
+        <div className="button_box" onClick={ () => { moveLinkPage('/control') } }>
           <FaHome />
         </div>
         <div className="button_box" onClick={ () => { moveLinkPage('/table') } }>
