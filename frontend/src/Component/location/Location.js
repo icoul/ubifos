@@ -124,9 +124,13 @@ const Location = () => {
     if (data.length > 0 && location === null) {
       kakao.maps.load(() => {
         setTimeout(function() {
-          var moveLatLon = new kakao.maps.LatLng(data[0].latitude, data[0].longitude);
-          map.panTo(moveLatLon);
-          setLocation(1);
+          try {
+            var moveLatLon = new kakao.maps.LatLng(data[0].latitude, data[0].longitude);
+            map.panTo(moveLatLon);
+            setLocation(1);
+          } catch (error) {
+            window.location.reload();
+          }
         }, 1000);
       })
     }
