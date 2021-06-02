@@ -24,13 +24,17 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
       <table>
         <thead>
           <tr className="top_legend_box">
-            <th>센서명</th>
-            <th>상태</th>
-            <th className="sign">O₂</th>
-            <th className="sign">CO₂</th>
-            <th className="sign">CO</th>
-            <th className="sign">H₂S</th>
-            <th className="sign">CH₄</th>
+            <th rowspan="2">센서명</th>
+            <th rowspan="2">상태</th>
+            <th rowspan="2" className="sign">O₂</th>
+            <th rowspan="2" className="sign">CO₂</th>
+            <th rowspan="2" className="sign">CO</th>
+            <th rowspan="2" className="sign">H₂S</th>
+            <th rowspan="2" className="sign">CH₄</th>
+            <th className="communication-info">Battery</th>
+          </tr>
+          <tr className="top_legend_box">
+            <th className="communication-info">RSSI</th>
           </tr>
         </thead>
         <tbody>
@@ -41,20 +45,21 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
             <td>25ppm 초과</td>
             <td>10ppm 초과</td>
             <td>10LEL% 초과</td>
+            <td></td>
           </tr>
           {
             logData.map((data) => {
               return (
                 <>
                   <tr key={ data.moduleIdx }>
-                    <td className="module_name_box" rowspan={flag ? '1' : '2'}>
+                    <td rowspan="2" className="module_name_box">
                       { data.modelNm }
                       <br/>
                       {
                         data.status === 'danger' && <span>{ moment(data.rgstDt).format('HH:mm:ss') }</span>
                       }
                     </td>
-                    <td className="module_status_box" rowspan={flag ? '1' : '2'}>
+                    <td rowspan="2" className="module_status_box">
                       <div className="module_status">
                         {
                           (data.status !== 'none' && data.status !== 'off') && ( 
@@ -80,7 +85,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
                     {
                       criterionMap.map(x => {
                         return (
-                          <td key={x} 
+                          <td rowspan="2" key={x} 
                               className={classNames("data_value", (data.status === 'danger' || (data.status === 'none' && time === 2000)) && data[`${x}Status`] === '1' && 'danger')}>
                             {
                               data.status !== 'off' ? data[x] : '-' 
@@ -92,17 +97,11 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
                         )
                       })
                     }
+                    <td>{data.battery}</td>
                   </tr>
-                  {
-                    !flag && 
-                    <tr>
-                      <td className="module-value">freqeuncy: { data.freqeuncy }</td>
-                      <td className="module-value">sf: { data.sf }</td>
-                      <td className="module-value">rssi: { data.rssi }</td>
-                      <td className="module-value">snr: { data.snr }</td>
-                      <td className="module-value"></td>
-                    </tr>
-                  }
+                  <tr>
+                    <td>{data.rssi}</td>
+                  </tr>
                 </>
               )
             })

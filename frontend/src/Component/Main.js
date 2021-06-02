@@ -48,7 +48,6 @@ const serial = (code) => {
 }
 
 const Main = () => {
-  const flag = true;
   const [ time, setTime ] = useState(0);
 
   /**
@@ -140,18 +139,18 @@ const Main = () => {
   return (
     <MainContainer>
       <Switch>
-        <Route
+        {/* <Route
           exact path="/"
           render={props => <Location {...props} />} />
         <Route
           path="/map/table"
-          render={props => <MapTableData {...props} />} />
+          render={props => <MapTableData {...props} />} /> */}
         <Route
-          path="/control"
-          render={props => <Control logData={logData} serial={serial} setTime={setTime} status={status} setStatus={setStatus} time={time} flag={flag} {...props} />} />
+          exact path="/"
+          render={props => <Control logData={logData} serial={serial} setTime={setTime} status={status} setStatus={setStatus} time={time} {...props} />} />
         <Route
           path="/table"
-          render={props => <TableData flag={flag} {...props} />} />
+          render={props => <TableData {...props} />} />
         <Route
           path="/graph"
           render={props => <GraphData {...props} />} />

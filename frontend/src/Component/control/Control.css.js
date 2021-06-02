@@ -19,8 +19,12 @@ export const ControlContainer = style.div`
       }
   
       & > th.sign {
-        width: 16%;
+        width: 15%;
         font-size: 50pt;
+      }
+
+      & > th.communication-info {
+        font-size: 20pt;
       }
     }
   
@@ -100,15 +104,7 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        ${props => props.flag ? css`font-size: 140px;` : css`font-size: 120px;`}
-
-        ${props => !props.flag && css`
-          border-top: 1px #fff solid;
-          border-bottom: 1px #fff solid;
-          border-top-style: solid;
-          border-bottom-style: solid;
-        `}
-        
+        font-size: 120px;
   
         & sub {
           vertical-align: initial;
