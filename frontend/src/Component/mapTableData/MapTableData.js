@@ -23,7 +23,7 @@ const MapTableData = ({ flag }) => {
   const [paramState, dispatch] = useReducer(paramSetterReducer, {
                                                                   pageIndex: 0,
                                                                   pageCount: 10,
-                                                                  pageSize: 20,
+                                                                  pageSize: 10,
                                                                   elementCount: 0
                                                                 })
   

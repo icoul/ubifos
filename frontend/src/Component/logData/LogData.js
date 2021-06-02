@@ -22,7 +22,7 @@ const LogData = () => {
   const [paramState, dispatch] = useReducer(paramSetterReducer, {
                                                                   pageIndex: 0,
                                                                   pageCount: 10,
-                                                                  pageSize: 15,
+                                                                  pageSize: 10,
                                                                   elementCount: 0
                                                                 })
   
