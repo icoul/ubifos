@@ -10,7 +10,7 @@ import module_status_none from 'static/images/module_status_none.png'
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 
-const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) => {
+const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
   const handleClick = (moduleIdx) => {
     serial("LP+WOFF"); 
     setTime(0);
@@ -20,7 +20,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
   }
 
   return (
-    <ControlContainer flag={flag}>
+    <ControlContainer>
       <table>
         <thead>
           <tr className="top_legend_box">
