@@ -16,15 +16,23 @@ const titleMap = {
   '/table': '상세 데이터',
   '/graph': '상세 그래프',
   '/log': '로그 데이터',
+  '/admin': '관리자 페이지',
 }
 
 const AppHeader = ( props ) => {
-  const [title, setTitle] = useState('지도현황');
+  const [ title, setTitle ] = useState('지도현황');
+  const [ adminPageTrigger, setAdminPageTrigger ] = useState(0);
   const [ ip, setIp ] = useState("");
 
   useEffect(() => {
     setTitle(titleMap[props.history.location.pathname]);
   }, [props.history.location])
+
+  const handleClick = () => {
+    setAdminPageTrigger((adminPageTrigger) => {
+      return adminPageTrigger + 1;
+    })
+  }
 
   const moveLinkPage = (link) => {
     props.history.push(link);
@@ -40,9 +48,16 @@ const AppHeader = ( props ) => {
       })
   }, [])
 
+  useEffect(() => {
+    if (adminPageTrigger === 5) {
+      props.history.push('/admin');
+      setAdminPageTrigger(0);
+    }
+  }, [adminPageTrigger, props.history])
+
   return (
     <AppHeaderContainer>
-      <div className="header_logo"><img src={ci} alt="ci" /><div>{ ip }</div></div>
+      <div className="header_logo"><img src={ci} alt="ci" onClick={() => { handleClick(); }} /><div>{ ip }</div></div>
       <div className="header_title">{ title }</div>
       <div className="header_buttons">
         <div className="button_box" onClick={ () => { moveLinkPage('/') } }>
