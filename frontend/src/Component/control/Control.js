@@ -34,7 +34,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
             <th className="communication-info">Battery</th>
           </tr>
           <tr className="top_legend_box">
-            <th className="communication-info">RSSI</th>
+            <th className="communication-info">RSSI(dBm)</th>
           </tr>
         </thead>
         <tbody>
@@ -97,7 +97,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
                         )
                       })
                     }
-                    <td>{data.battery}</td>
+                    <td>{Number(data.battery)} %</td>
                   </tr>
                   <tr>
                     <td>{data.rssi}</td>

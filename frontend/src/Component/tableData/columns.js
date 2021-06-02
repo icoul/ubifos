@@ -62,8 +62,13 @@ export const columns = () => {
       accessor: 'snr',
     },
     {
-      Header: 'battery',
-      accessor: 'battery',
+      id: 'battery',
+      Header: () => (
+        <div>battery</div>
+      ),
+      Cell: ({ row }) => (
+        <>{ Number(row.original.battery) } %</>
+      ),
     },
     {
       id: 'rgstDt',
