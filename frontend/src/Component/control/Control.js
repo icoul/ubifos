@@ -56,7 +56,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, flag }) =>
                       { data.modelNm }
                       <br/>
                       {
-                        data.status === 'danger' && <span>{ moment(data.rgstDt).format('HH:mm:ss') }</span>
+                        data.status !== 'off' && <span>{ moment(data.rgstDt).format('HH:mm:ss') }</span>
                       }
                     </td>
                     <td rowspan="2" className="module_status_box">
