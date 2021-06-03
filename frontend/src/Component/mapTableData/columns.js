@@ -59,14 +59,19 @@ export const columns = (flag) => {
         Header: 'snr',
         accessor: 'snr',
       },
-      // {
-      //   Header: 'battery',
-      //   accessor: 'battery',
-      // },
+      {
+        id: 'battery',
+        Header: () => (
+          <div>battery</div>
+        ),
+        Cell: ({ row }) => (
+          <>{ Number(row.original.battery) } %</>
+        ),
+      },
       {
         id: 'rgstDt',
         Header: () => (
-          <div>날짜</div>
+          <div style={{'width': '100px'}}>날짜</div>
         ),
         Cell: ({ row }) => (
           <>{ getYMDAndTimeFormatDate(new Date(row.original.rgstDt)) }</>

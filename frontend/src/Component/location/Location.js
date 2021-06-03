@@ -79,6 +79,7 @@ const Location = () => {
         latitude: ${element.latitude}<br/>
         longitude: ${element.longitude}<br/>
         rssi: ${element.rssi}<br/>
+        battery: ${Number(element.battery)} %<br/>
         ${moment(element.rgstDt).format('YYYY-MM-DD HH:mm:ss')}
       </div>
     `
