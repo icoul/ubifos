@@ -74,13 +74,13 @@ export const ControlContainer = style.div`
           align-items: center;
   
           & img {
-            width: 150px;
+            width: 191px;
           }
   
           & > div.module_status_lamp {
             position: absolute;
             width: 100%;
-            height: 150px;
+            height: 190px;
   
             & > .danger {
               animation: hideshow 1s ease infinite;

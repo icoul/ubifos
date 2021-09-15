@@ -20,7 +20,7 @@ const titleMap = {
 }
 
 const AppHeader = ( props ) => {
-  const [ title, setTitle ] = useState('지도현황');
+  const [ title, setTitle ] = useState('가스농도 종합현황');
   const [ adminPageTrigger, setAdminPageTrigger ] = useState(0);
   const [ ip, setIp ] = useState("");
 

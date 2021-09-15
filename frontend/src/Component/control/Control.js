@@ -24,27 +24,32 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
       <table>
         <thead>
           <tr className="top_legend_box">
-            <th rowspan="2">센서명</th>
-            <th rowspan="2">상태</th>
-            <th rowspan="2" className="sign">O₂</th>
-            <th rowspan="2" className="sign">CO₂</th>
-            <th rowspan="2" className="sign">CO</th>
-            <th rowspan="2" className="sign">H₂S</th>
-            <th rowspan="2" className="sign">CH₄</th>
-            <th className="communication-info">Battery</th>
+            <th>센서명</th>
+            <th>상태</th>
+            <th className="sign">O₂</th>
+            <th className="sign">CO₂</th>
+            <th className="sign">CO</th>
+            <th className="sign">H₂S</th>
+            <th className="sign">CH₄</th>
+            {/* <th className="communication-info">Battery</th> */}
           </tr>
-          <tr className="top_legend_box">
+          {/* <tr className="top_legend_box">
             <th className="communication-info">RSSI(dBm)</th>
-          </tr>
+          </tr> */}
         </thead>
         <tbody>
           <tr>
             <td colSpan="2">경보설정값</td>
-            <td>18% 미만</td>
+            {/* <td>18% 미만</td>
             <td>1.5% 초과</td>
             <td>25ppm 초과</td>
             <td>10ppm 초과</td>
-            <td>10LEL% 초과</td>
+            <td>10LEL% 초과</td> */}
+            <td>19.5% 이하</td>
+            <td>0.5% 이상</td>
+            <td>25ppm 이상</td>
+            <td>5ppm 이상</td>
+            <td>5LEL% 이상</td>
             <td></td>
           </tr>
           {
@@ -52,14 +57,14 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
               return (
                 <>
                   <tr key={ data.moduleIdx }>
-                    <td rowspan="2" className="module_name_box">
+                    <td className="module_name_box">
                       { data.modelNm }
                       <br/>
                       {
                         data.status !== 'off' && <span>{ moment(data.rgstDt).format('HH:mm:ss') }</span>
                       }
                     </td>
-                    <td rowspan="2" className="module_status_box">
+                    <td className="module_status_box">
                       <div className="module_status">
                         {
                           (data.status !== 'none' && data.status !== 'off') && ( 
@@ -85,7 +90,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
                     {
                       criterionMap.map(x => {
                         return (
-                          <td rowspan="2" key={x} 
+                          <td key={x} 
                               className={classNames("data_value", (data.status === 'danger' || (data.status === 'none' && time === 2000)) && data[`${x}Status`] === '1' && 'danger')}>
                             {
                               data.status !== 'off' ? data[x] : '-' 
@@ -97,11 +102,11 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
                         )
                       })
                     }
-                    <td>{Number(data.battery)} %</td>
+                    {/* <td>{Number(data.battery)} %</td> */}
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td>{data.rssi}</td>
-                  </tr>
+                  </tr> */}
                 </>
               )
             })

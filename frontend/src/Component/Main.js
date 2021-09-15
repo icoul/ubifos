@@ -146,7 +146,7 @@ const Main = () => {
           path="/map/table"
           render={props => <MapTableData {...props} />} /> */}
         <Route
-          exact path="/"
+          path="/"
           render={props => <Control logData={logData} serial={serial} setTime={setTime} status={status} setStatus={setStatus} time={time} {...props} />} />
         <Route
           path="/table"
