@@ -1,4 +1,4 @@
-import style from 'styled-components'
+import style from "styled-components";
 
 export const AppHeaderContainer = style.div`
   background-color: #292929;
@@ -17,6 +17,7 @@ export const AppHeaderContainer = style.div`
     align-items: center; 
     padding: 15px; 
     color: #fff;
+    height: 95px;
 
     & > div {
       width: 100%;

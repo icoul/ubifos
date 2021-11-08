@@ -33,11 +33,11 @@ public class GasServiceImpl implements GasService {
                                      "ELSE 'blue' END AS status " +
                  "FROM ( " +
                   "select CAST(glt.log_idx AS SIGNED) AS logIdx, " +
-                  "      glt.A1 AS o2, " + "      CAST(glt.A1 <= 19.5 AS CHAR(1)) AS o2Status, " +
-                  "      glt.A2 AS h2s, " + "      CAST(glt.A2 >= 5 AS CHAR(1)) AS h2sStatus, " +
-                  "      glt.A3 AS co, " + "      CAST(glt.A3 >= 25 AS CHAR(1)) AS coStatus, " +
-                  "      glt.A4 AS ch4, " + "      CAST(glt.A4 >= 5 AS CHAR(1)) AS ch4Status, " +
-                  "      glt.A5 AS co2, " + "      CAST(glt.A5 >= 0.5 AS CHAR(1)) AS co2Status, " +
+                  "      glt.A1 AS o2, " + "      CAST((glt.A1 < 19.5 OR glt.A1 > 23.5) AS CHAR(1)) AS o2Status, " +
+                  "      glt.A2 AS h2s, " + "      CAST(glt.A2 > 9 AS CHAR(1)) AS h2sStatus, " +
+                  "      glt.A3 AS co, " + "      CAST(glt.A3 >= 180 AS CHAR(1)) AS coStatus, " +
+                  "      glt.A4 AS ch4, " + "      CAST(glt.A4 > 9 AS CHAR(1)) AS ch4Status, " +
+                  "      glt.A5 AS co2, " + "      CAST(glt.A5 > 0.8 AS CHAR(1)) AS co2Status, " +
                   "      glt.battery, "+
                   "      glt.freqeuncy, "+
                   "      glt.sf, " +

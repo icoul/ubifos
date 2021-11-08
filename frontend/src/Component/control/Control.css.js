@@ -1,4 +1,4 @@
-import style, { css } from 'styled-components'
+import style, { css } from "styled-components";
 
 export const ControlContainer = style.div`
   padding-top: 1vh;
@@ -24,12 +24,19 @@ export const ControlContainer = style.div`
       }
 
       & > th.communication-info {
-        font-size: 20pt;
+        font-size: 15pt;
       }
     }
   
     & tbody > tr {
-      ${props => props.flag ? css`height: 18.4vh;` : css`height: 6vh;`}
+      ${(props) =>
+        props.flag
+          ? css`
+              height: 18.4vh;
+            `
+          : css`
+              height: 6vh;
+            `}
   
       & > td {
         font-size: 40px;
@@ -112,6 +119,11 @@ export const ControlContainer = style.div`
         }
       }
 
+      & > .communication-info {
+        font-size: 35pt;
+        border-top: 2px #fff solid;
+      }
+
       & > .danger {
         animation: colorRedFlash 1s ease infinite;
       }
@@ -128,4 +140,4 @@ export const ControlContainer = style.div`
       height: 6.5vh;
     }
   }
-`
+`;
