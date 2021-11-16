@@ -8,7 +8,7 @@ export const ControlContainer = style.div`
     border-collapse: collapse;
 
     & thead > tr.top_legend_box {
-      height: 7vh;
+      height: 4vh;
       margin-bottom: .9vh;
   
       & > th {
@@ -72,6 +72,13 @@ export const ControlContainer = style.div`
         51% { color: #ff0000; }
         100% { color: #ff0000; }
       } 
+
+      @keyframes colorYelloFlash {
+        0% { color: #fff; }
+        50% { color: #fff; }
+        51% { color: #ffff00; }
+        100% { color: #ffff00; }
+      } 
   
       & > .module_status_box {
         & > .module_status {
@@ -126,6 +133,10 @@ export const ControlContainer = style.div`
 
       & > .danger {
         animation: colorRedFlash 1s ease infinite;
+      }
+
+      & > .warning {
+        animation: colorYelloFlash 1s ease infinite;
       }
 
       & > .module-value {

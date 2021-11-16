@@ -18,10 +18,13 @@ import { crc_checker } from "utils/serialPortComponent";
  * 장치가 꺼짐, 장치가 미수신, 정상이었다가 위험이 발견됨, 계속 위험상태, 위험이었다가 정상이 됨
  */
 const compareStatusPrevAndNow = (prev, now) => {
-  if (prev === "danger" && now === "danger") {
+  if (
+    (prev === "warning" || prev === "danger") &&
+    (now === "warning" || now === "danger")
+  ) {
     return "constantDanger";
   }
-  if (prev === "alarmOff" && now === "danger") {
+  if (prev === "alarmOff" && (now === "warning" || now === "danger")) {
     return "alarmOff";
   }
 
@@ -54,6 +57,21 @@ const serial = (code) => {
 
 const Main = () => {
   const [time, setTime] = useState(0);
+  const [criterion, setCriterion] = useState(null);
+  const getCriterionData = () => {
+    axios
+      .get("/api/gasCriterion/getMapData")
+      .then((response) => {
+        setCriterion(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getCriterionData();
+  }, []);
 
   /**
    * off : 기기가 꺼짐
@@ -124,7 +142,7 @@ const Main = () => {
 
   useEffect(() => {
     const dangerCount = Array.from(status.keys()).filter(
-      (x) => status.get(x) === "danger"
+      (x) => status.get(x) === "danger" || status.get(x) === "warning"
     ).length;
     const blueCount = Array.from(status.keys()).filter(
       (x) => status.get(x) === "blue" || status.get(x) === "off"
@@ -175,11 +193,15 @@ const Main = () => {
               status={status}
               setStatus={setStatus}
               time={time}
+              criterion={criterion}
               {...props}
             />
           )}
         />
-        <Route path="/table" render={(props) => <TableData {...props} />} />
+        <Route
+          path="/table"
+          render={(props) => <TableData criterion={criterion} {...props} />}
+        />
         <Route path="/graph" render={(props) => <GraphData {...props} />} />
         <Route path="/log" render={(props) => <LogData {...props} />} />
       </Switch>

@@ -29,15 +29,16 @@ public class GasServiceImpl implements GasService {
   public List<GasLogDTO> findGasGroupByModule() {
     String sql = "SELECT glt2.*, CASE WHEN UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) > -600 AND UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) < -30 THEN 'none' " +
                                      "WHEN UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) < -600 THEN 'off' " + 
-                                     "WHEN '1' IN (o2Status, h2sStatus, coStatus, co2Status, ch4Status) THEN 'danger' " +
+                                     "WHEN 'danger' IN (o2Status, h2sStatus, coStatus, co2Status, ch4Status) THEN 'danger' " +
+                                     "WHEN 'warning' IN (o2Status, h2sStatus, coStatus, co2Status, ch4Status) THEN 'warning' " +
                                      "ELSE 'blue' END AS status " +
                  "FROM ( " +
                   "select CAST(glt.log_idx AS SIGNED) AS logIdx, " +
-                  "      glt.A1 AS o2, " + "      CAST((glt.A1 < 19.5 OR glt.A1 > 23.5) AS CHAR(1)) AS o2Status, " +
-                  "      glt.A2 AS h2s, " + "      CAST(glt.A2 > 9 AS CHAR(1)) AS h2sStatus, " +
-                  "      glt.A3 AS co, " + "      CAST(glt.A3 >= 180 AS CHAR(1)) AS coStatus, " +
-                  "      glt.A4 AS ch4, " + "      CAST(glt.A4 > 9 AS CHAR(1)) AS ch4Status, " +
-                  "      glt.A5 AS co2, " + "      CAST(glt.A5 > 0.8 AS CHAR(1)) AS co2Status, " +
+                  "      glt.A1 AS o2, " + " fn_check_gas_density('o2', glt.A1) AS o2Status, " +
+                  "      glt.A2 AS h2s, " + " fn_check_gas_density('h2s', glt.A2) AS h2sStatus, " +
+                  "      glt.A3 AS co, " + " fn_check_gas_density('co', glt.A3) AS coStatus, " +
+                  "      glt.A4 AS ch4, " + " fn_check_gas_density('ch4', glt.A4) AS ch4Status, " +
+                  "      glt.A5 AS co2, " + " fn_check_gas_density('co2', glt.A5) AS co2Status, " +
                   "      glt.battery, "+
                   "      glt.freqeuncy, "+
                   "      glt.sf, " +

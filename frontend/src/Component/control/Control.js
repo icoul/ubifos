@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import classNames from "classnames";
 import moment from "moment";
 
 import { ControlContainer } from "./Control.css";
 
 import module_status_lamp_blue from "static/images/module_status_lamp_blue.png";
+import module_status_lamp_warning from "static/images/module_status_lamp_warning.png";
 import module_status_lamp_danger from "static/images/module_status_lamp_danger.png";
 import module_status_none from "static/images/module_status_none.png";
 
 const criterionMap = ["o2", "co2", "co", "h2s", "ch4"];
+const utmMap = {
+  o2: "%",
+  co2: "%",
+  h2s: "ppm",
+  co: "ppm",
+  ch4: "%",
+  leakage: "",
+  hf: "ppm",
+  nh3: "ppm",
+  ph: "pH",
+  ph_leakage: "pH",
+  vibration: "%",
+  temperature: "℃",
+  humidity: "%",
+};
+const reverseRangeMap = {
+  A: "초과",
+  B: "이상",
+  C: "이하",
+  D: "미만",
+};
 
-const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
+const Control = ({
+  logData,
+  serial,
+  setTime,
+  status,
+  setStatus,
+  time,
+  criterion,
+}) => {
   const handleClick = (moduleIdx) => {
     serial("LP+WOFF");
     setTime(0);
@@ -54,16 +85,61 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
         <tbody>
           <tr>
             <td colSpan="2">경보설정값</td>
-            {/* <td>18% 미만</td>
-            <td>1.5% 초과</td>
-            <td>25ppm 초과</td>
-            <td>10ppm 초과</td>
-            <td>10LEL% 초과</td> */}
-            <td style={{ fontSize: "27px" }}>19.5% 미만 23.5% 초과</td>
-            <td>0.8% 초과</td>
-            <td>179ppm 초과</td>
-            <td>9ppm 초과</td>
-            <td>9LEL% 초과</td>
+            <td style={{ fontSize: "17px" }}>
+              {criterion &&
+                criterion["o2"]
+                  .filter((x) => x.standType !== "criterion")
+                  .map((data) => {
+                    return `${data.standVal}${utmMap["o2"]}${
+                      reverseRangeMap[data.standRange]
+                    } ${data.standType === "danger" ? "위험" : "경고"}`;
+                  })
+                  .join(" ")}
+            </td>
+            <td style={{ fontSize: "17px" }}>
+              {criterion &&
+                criterion["co2"]
+                  .filter((x) => x.standType !== "criterion")
+                  .map((data) => {
+                    return `${data.standVal}${utmMap["co2"]}${
+                      reverseRangeMap[data.standRange]
+                    } ${data.standType === "danger" ? "위험" : "경고"}`;
+                  })
+                  .join(" ")}
+            </td>
+            <td style={{ fontSize: "17px" }}>
+              {criterion &&
+                criterion["co"]
+                  .filter((x) => x.standType !== "criterion")
+                  .map((data) => {
+                    return `${data.standVal}${utmMap["co"]}${
+                      reverseRangeMap[data.standRange]
+                    } ${data.standType === "danger" ? "위험" : "경고"}`;
+                  })
+                  .join(" ")}
+            </td>
+            <td style={{ fontSize: "17px" }}>
+              {criterion &&
+                criterion["h2s"]
+                  .filter((x) => x.standType !== "criterion")
+                  .map((data) => {
+                    return `${data.standVal}${utmMap["h2s"]}${
+                      reverseRangeMap[data.standRange]
+                    } ${data.standType === "danger" ? "위험" : "경고"}`;
+                  })
+                  .join(" ")}
+            </td>
+            <td style={{ fontSize: "17px" }}>
+              {criterion &&
+                criterion["ch4"]
+                  .filter((x) => x.standType !== "criterion")
+                  .map((data) => {
+                    return `${data.standVal}${utmMap["ch4"]}${
+                      reverseRangeMap[data.standRange]
+                    } ${data.standType === "danger" ? "위험" : "경고"}`;
+                  })
+                  .join(" ")}
+            </td>
             <td></td>
           </tr>
           {logData.map((data) => {
@@ -86,6 +162,22 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
                             <img
                               src={module_status_lamp_blue}
                               alt="module_status_lamp_blue"
+                            />
+                          </div>
+                        ) : data.status === "warning" ? (
+                          <div className="module_status_lamp">
+                            {status.get(data.moduleIdx) === "alarmOff" && (
+                              <div className="alarm-off-text">
+                                <span>Alarm OFF</span>
+                              </div>
+                            )}
+                            <img
+                              className="warning"
+                              src={module_status_lamp_warning}
+                              alt="module_status_lamp_warning"
+                              onClick={() => {
+                                handleClick(data.moduleIdx);
+                              }}
                             />
                           </div>
                         ) : (
@@ -122,9 +214,14 @@ const Control = ({ logData, serial, setTime, status, setStatus, time }) => {
                         className={classNames(
                           "data_value",
                           (data.status === "danger" ||
+                            data.status === "warning" ||
                             (data.status === "none" && time === 2000)) &&
-                            data[`${x}Status`] === "1" &&
-                            "danger"
+                            data[`${x}Status`] === "danger" &&
+                            "danger",
+                          (data.status === "danger" ||
+                            data.status === "warning") &&
+                            data[`${x}Status`] === "warning" &&
+                            "warning"
                         )}
                       >
                         {data.status !== "off" ? data[x] : "-"}

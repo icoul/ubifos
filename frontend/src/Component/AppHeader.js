@@ -8,8 +8,6 @@ import { TiDocumentText } from "react-icons/ti";
 
 import { AppHeaderContainer } from "./MainContainer.css";
 
-import ci from "static/images/logo.png";
-
 const titleMap = {
   // "/": "지도 현황",
   // "/map/table": "지도상세 데이터",
@@ -57,14 +55,14 @@ const AppHeader = (props) => {
   };
 
   useEffect(() => {
-    // axios
-    //   .get("/api/get/ip", {})
-    //   .then((response) => {
-    //     setIp(response.data);
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
+    axios
+      .get("/api/get/ip", {})
+      .then((response) => {
+        setIp(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {
