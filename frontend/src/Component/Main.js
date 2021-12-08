@@ -116,7 +116,7 @@ const Main = () => {
         if (
           status !== "off" &&
           status !== "blue" &&
-          status[data.moduleIdx] === "blue"
+          statusCopy.get(data.moduleIdx) === "blue"
         ) {
           setWarningLog(data, status);
         }
