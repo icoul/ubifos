@@ -30,19 +30,21 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
 
   @PostConstruct
   public void connect() throws TooManyListenersException, NoSuchPortException {
-    log.info("Connection PostConstruct callback: connecting ...");
-    
-    serial = new NRSerialPort(serialPortProperties.getPortName(), serialPortProperties.getBaudRate());
-    serial.connect();
+    // log.info("Connection PostConstruct callback: connecting ...");
 
-    if (serial.isConnected()) {
-        log.info("Connection opened!");
-    } else {
-        throw new RuntimeException("Is not possible to open connection in " + serialPortProperties.getPortName() + " port");
-    }
-    serial.addEventListener((SerialPortEventListener) this);
-    serial.notifyOnDataAvailable(true);
-    input = new BufferedReader(new InputStreamReader(serial.getInputStream()));
+    // serial = new NRSerialPort(serialPortProperties.getPortName(),
+    // serialPortProperties.getBaudRate());
+    // serial.connect();
+
+    // if (serial.isConnected()) {
+    // log.info("Connection opened!");
+    // } else {
+    // throw new RuntimeException("Is not possible to open connection in " +
+    // serialPortProperties.getPortName() + " port");
+    // }
+    // serial.addEventListener((SerialPortEventListener) this);
+    // serial.notifyOnDataAvailable(true);
+    // input = new BufferedReader(new InputStreamReader(serial.getInputStream()));
   }
 
   @PreDestroy
@@ -78,7 +80,8 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
   }
 
   /**
-   * This method must implemented with logic that you want execute at the moment to read
+   * This method must implemented with logic that you want execute at the moment
+   * to read
    * information from the serial port
    *
    * @param line input data that comes from Serial port

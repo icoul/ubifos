@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 public class ApplicationService implements CommandLineRunner {
   Runtime rt = Runtime.getRuntime();
   Process pc = null;
-  
+
   @Override
   public void run(String... arg) {
     System.out.println("application start!");
 
     try {
-      pc = rt.exec("sudo /home/pi/loading/loading.sh ");
+      // pc = rt.exec("sudo /home/pi/loading/loading.sh ");
     } catch (Exception e) {
       e.printStackTrace();
     }

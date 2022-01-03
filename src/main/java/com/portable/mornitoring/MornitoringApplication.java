@@ -25,7 +25,7 @@ public class MornitoringApplication extends AbstractSpringSerialPortConnector {
 
 		if (line.contains("PW+OFF")) {
 			try {
-				pc = rt.exec("sudo shutdown 0");
+				// pc = rt.exec("sudo shutdown 0");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
