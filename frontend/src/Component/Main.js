@@ -3,6 +3,7 @@ import axios from "axios";
 import { Route, Switch } from "react-router-dom";
 
 import Control from "./control/Control";
+import CriterionData from "./criterionData/CriterionData";
 import TableData from "./tableData/TableData";
 import GraphData from "./graphData/GraphData";
 import LogData from "./logData/LogData";
@@ -197,6 +198,10 @@ const Main = () => {
               {...props}
             />
           )}
+        />
+        <Route
+          path="/criterion"
+          render={(props) => <CriterionData criterion={criterion} {...props} />}
         />
         <Route
           path="/table"

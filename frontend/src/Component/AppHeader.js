@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { RiTreasureMapLine } from "react-icons/ri";
-import { FaMapMarkedAlt, FaHome, FaList, FaPowerOff } from "react-icons/fa";
+import { FaMapMarkedAlt, FaHome, FaList, FaWhmcs, FaPowerOff } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import { TiDocumentText } from "react-icons/ti";
 
@@ -12,6 +12,7 @@ const titleMap = {
   // "/": "지도 현황",
   // "/map/table": "지도상세 데이터",
   "/": "가스농도 종합현황",
+  "/criterion": "관리 기준 설정",
   "/table": "상세 데이터",
   "/graph": "상세 그래프",
   "/log": "로그 데이터",
@@ -116,6 +117,14 @@ const AppHeader = (props) => {
           }}
         >
           <FaHome />
+        </div>
+        <div
+          className="button_box"
+          onClick={() => {
+            moveLinkPage("/criterion");
+          }}
+        >
+          <FaWhmcs />
         </div>
         <div
           className="button_box"

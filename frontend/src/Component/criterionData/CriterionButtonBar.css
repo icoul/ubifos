@@ -1,0 +1,72 @@
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.buttonBar-conatiner {
+  margin: 15px 0px;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.buttonBar-conatiner .button-condition {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #757e94;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.buttonBar-conatiner .button-condition label {
+  margin: 0px 10px 0px 0px;
+}
+
+.buttonBar-conatiner .button-condition span {
+  margin: 0px 10px;
+}
+
+.buttonBar-conatiner .button-condition .table-button-input {
+  width: 150px;
+  height: 28px;
+  padding: 0px 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  background: #171e3a;
+  border: .5px solid #31373e;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.buttonBar-conatiner .button-condition .table-button-submit {
+  width: 200px;
+  height: 30px;
+  line-height: 1;
+  font-size: 13px;
+}
+
+div.button_box {
+  width: 108px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  word-break: break-all;
+}
+
+svg {
+  width: 50px;
+  height: 50px;
+  fill: #ffffff;
+}
+
+svg:hover{
+  cursor: pointer;
+}
+
+svg:active {
+  fill: #ff0000;
+}
