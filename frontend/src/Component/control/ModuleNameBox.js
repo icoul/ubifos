@@ -8,7 +8,7 @@ let sw = true;
 
 const ModuleNameBox = ({ moduleIdx, modelNm }) => {
   const [ modelNmInputBoxFlag, setModelNmInputBoxFlag ] = useState(sw);
-  const [ newModelNm, setNewModelNm ] = useState(modelNm);
+  // const [ newModelNm, setNewModelNm ] = useState(modelNm);
 
   const handleClick = () => {
     setModelNmInputBoxFlag((sw) => {
@@ -21,7 +21,7 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
   //   console.log(newModelNm);
   // };
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit/*, formState: { errors }*/ } = useForm();
   const onSubmit = (data) => {
     setModelNmInputBoxFlag((sw) => {
       sw = true;
