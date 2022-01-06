@@ -7,8 +7,8 @@ import CriterionData from "./criterionData/CriterionData";
 import TableData from "./tableData/TableData";
 import GraphData from "./graphData/GraphData";
 import LogData from "./logData/LogData";
-import Location from "./location/Location";
-import MapTableData from "./mapTableData/MapTableData";
+// import Location from "./location/Location";
+// import MapTableData from "./mapTableData/MapTableData";
 
 import { MainContainer } from "./MainContainer.css";
 

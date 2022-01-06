@@ -79,6 +79,41 @@ export const ControlContainer = style.div`
         51% { color: #ffff00; }
         100% { color: #ffff00; }
       } 
+
+      & > .module_name_box {
+        & > form {
+          & > .moduleName {
+            & > .inputModelNm {
+              width : 90%;
+              color : #fff;
+              font-size : 40px;
+              text-align : center;
+              background : transparent;
+              border : none;
+            }
+          }
+          & > .editBox {
+            & > button {
+              background: transparent;
+              border: none;
+              
+              & > svg {
+                width : 40px;
+                height : 40px;
+                fill: #fff;
+              }
+
+              & > svg:hover {
+                fill: #aaa;
+              }
+
+              & > svg:active {
+                fill: #ff0000;
+              }
+            }
+          }
+        }
+      }
   
       & > .module_status_box {
         & > .module_status {

@@ -3,21 +3,21 @@ package com.portable.mornitoring.serial;
 import gnu.io.NRSerialPort;
 import gnu.io.NoSuchPortException;
 import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
+// import gnu.io.SerialPortEventListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import com.portable.mornitoring.serial.properties.SerialPortProperties;
+// import com.portable.mornitoring.serial.properties.SerialPortProperties;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+// import java.io.InputStreamReader;
 import java.util.TooManyListenersException;
 
 public abstract class AbstractSpringSerialPortConnector implements SpringSerialPortConnector {
@@ -25,8 +25,8 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
   private BufferedReader input;
   private NRSerialPort serial;
 
-  @Autowired
-  private SerialPortProperties serialPortProperties;
+  // @Autowired
+  // private SerialPortProperties serialPortProperties;
 
   @PostConstruct
   public void connect() throws TooManyListenersException, NoSuchPortException {

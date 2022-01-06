@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
+// import axios from "axios";
 import classNames from "classnames";
 import moment from "moment";
 
@@ -9,6 +9,8 @@ import module_status_lamp_blue from "static/images/module_status_lamp_blue.png";
 import module_status_lamp_warning from "static/images/module_status_lamp_warning.png";
 import module_status_lamp_danger from "static/images/module_status_lamp_danger.png";
 import module_status_none from "static/images/module_status_none.png";
+
+import ModuleNameBox from "./ModuleNameBox";
 
 const criterionMap = ["o2", "co2", "co", "h2s", "ch4"];
 const utmMap = {
@@ -50,26 +52,36 @@ const Control = ({
     });
   };
 
+  // const updateModule = () => {
+  //   axios
+  //     .post('/api/module/update', (req, res) => {
+  //     axios.update({modelNm: req.body.change.modelNm}, {
+  //       where: {moduleIdx: req.body.change.moduleIdx}})
+  //     .then(result => res.send(result))
+  //     .catch(err=>{throw err})
+  //   })
+  // }
+
   return (
     <ControlContainer>
       <table>
         <thead>
           <tr className="top_legend_box">
-            <th rowspan="2">센서명</th>
-            <th rowspan="2">상태</th>
-            <th rowspan="2" className="sign">
+            <th rowSpan="2">센서명</th>
+            <th rowSpan="2">상태</th>
+            <th rowSpan="2" className="sign">
               O₂
             </th>
-            <th rowspan="2" className="sign">
+            <th rowSpan="2" className="sign">
               CO₂
             </th>
-            <th rowspan="2" className="sign">
+            <th rowSpan="2" className="sign">
               CO
             </th>
-            <th rowspan="2" className="sign">
+            <th rowSpan="2" className="sign">
               H₂S
             </th>
-            <th rowspan="2" className="sign">
+            <th rowSpan="2" className="sign">
               CH₄
             </th>
             <th className="communication-info">Battery</th>
@@ -146,14 +158,13 @@ const Control = ({
             return (
               <>
                 <tr key={data.moduleIdx}>
-                  <td rowspan="2" className="module_name_box">
-                    {data.modelNm}
-                    <br />
+                  <td rowSpan="2" className="module_name_box">
+                    <ModuleNameBox moduleIdx={data.moduleIdx} modelNm={data.modelNm} />
                     {data.status !== "off" && (
                       <span>{moment(data.rgstDt).format("HH:mm:ss")}</span>
                     )}
                   </td>
-                  <td rowspan="2" className="module_status_box">
+                  <td rowSpan="2" className="module_status_box">
                     <div className="module_status">
                       {data.status !== "none" &&
                         data.status !== "off" &&
@@ -209,7 +220,7 @@ const Control = ({
                   {criterionMap.map((x) => {
                     return (
                       <td
-                        rowspan="2"
+                        rowSpan="2"
                         key={x}
                         className={classNames(
                           "data_value",

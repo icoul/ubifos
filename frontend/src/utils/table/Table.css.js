@@ -2,11 +2,13 @@ import styled, { css } from "styled-components";
 
 export const Styles = styled.div`
   height: 77vh;
-  margin-top: 20px;
+  margin-top: 0px;
   padding: 1rem;
-  background: #262f3b;
+  background: #292929;
   border-radius: 10px;
   .table-container {
+    display: flex;
+    justify-content: center;
     height: 90%;
     overflow-y: auto;
     overflow-x: hidden;

@@ -1,5 +1,6 @@
 package com.portable.mornitoring.service.serviceImpl;
 
+import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,20 +12,27 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 
 import com.portable.mornitoring.dto.GasGraphDTO;
 import com.portable.mornitoring.dto.LogCsvDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
 import com.portable.mornitoring.entity.Module;
+import com.portable.mornitoring.entity.ModuleValue;
+import com.portable.mornitoring.repository.ModuleRepository;
+import com.portable.mornitoring.repository.ModuleValueRepository;
 import com.portable.mornitoring.service.GasService;
 
 import org.qlrm.mapper.JpaResultMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GasServiceImpl implements GasService {
   @PersistenceContext
   private EntityManager em;
+  @Autowired
+  ModuleValueRepository moduleValueRepository;
 
   public List<GasLogDTO> findGasGroupByModule() {
     String sql = "SELECT glt2.*, CASE WHEN UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) > -600 AND UNIX_TIMESTAMP(rgstDt) - UNIX_TIMESTAMP(now()) < -30 THEN 'none' " +
@@ -130,5 +138,28 @@ public class GasServiceImpl implements GasService {
     List<LogCsvDTO> result = jpaResultMapper.list(nativeQuery, LogCsvDTO.class);
 
     return result;
+  }
+
+  @Transactional
+  public String updateModule(ModuleValue updateModule) {
+    try {
+      moduleValueRepository.save(updateModule);
+      // for (Module module : updateModule) {
+      // for (ModuleValue moduleValue : module.getModuleValueList()) {
+      // }
+      // }
+    } catch (Exception e) {
+      String result = e + "";
+      return result;
+    }
+
+    // String sql = "UPDATE module_tb SET model_nm = '" + modelNm + "' WHERE
+    // module_idx = " + moduleIdx;
+
+    // Query nativeQuery = em.createNativeQuery(sql);
+    // JpaResultMapper jpaResultMapper = new JpaResultMapper();
+    // String result = "";
+
+    return "success";
   }
 }

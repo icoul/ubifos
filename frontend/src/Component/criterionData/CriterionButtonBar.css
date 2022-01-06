@@ -65,6 +65,7 @@ svg {
 
 svg:hover{
   cursor: pointer;
+  fill: #aaa;
 }
 
 svg:active {

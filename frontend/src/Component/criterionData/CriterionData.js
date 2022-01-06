@@ -60,6 +60,7 @@ const CriterionData = () => {
   const column = useMemo(() => columns, []);
 
   const getCriterion = async() => { 
+    setData([]);
     const response = await customAxiosGetFunction(history, '/api/gasCriterion/getAllData');
     setCriterionList(response);
   }
