@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 // import { useDispatch } from 'react-redux';
-// import { getGasCriterion } from 'redux/action/criterion';
 import axios from "axios";
 import { EditableCriterionTable } from 'utils/table/EditableCriterionTable';
 
