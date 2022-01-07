@@ -27,7 +27,7 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
       sw = true;
       return sw;
     });
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
 
     // fetch("/api/module/update", {
     //   method : 'post',
@@ -49,12 +49,12 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
         }
       }
     ).then((response) => { 
-      alert(response.data);
-      console.log(response.data); 
+      alert('수정 완료');
+      console.log('Module Name Update result : ' + response.data); 
     })
     .catch((response) => {
-      alert(response);
-      console.log('Error!');
+      alert('수정 실패');
+      console.log('Module Name Update Error! ' + response);
     });
 
     // const updateData = async(datas) => {
@@ -82,7 +82,6 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
       <div className="moduleName" onClick={() => { handleClick(); }}>
         <input type="text" {...register("moduleIdx")} value={moduleIdx} style={{display: 'none'}} />
         <input type="text" {...register("modelNm")} className='inputModelNm' readOnly={modelNmInputBoxFlag} defaultValue={modelNm} />
-        {/* <input type="text" style={{width:'90%', fontSize:'40px', display:'none'}}></input> */}
       </div>
       <div className="editBox" style={{display:(modelNmInputBoxFlag ? 'none' : 'block')}}>
         <button type='submit'><BiSave /></button>

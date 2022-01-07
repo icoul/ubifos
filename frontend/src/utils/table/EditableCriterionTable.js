@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTable, useRowSelect } from 'react-table';
 
 // Create an editable cell renderer

@@ -19,6 +19,7 @@ public class ModuleValue {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "module_idx")
   private int moduleIdx;
+
   @Column(name = "model_nm")
   private String modelNm;
 }

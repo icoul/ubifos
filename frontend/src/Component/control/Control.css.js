@@ -39,7 +39,7 @@ export const ControlContainer = style.div`
             `}
   
       & > td {
-        font-size: 40px;
+        font-size: 30px;
         color: #fff;
         border-left-width: .5px;
         border-right-width: .5px;
@@ -162,7 +162,6 @@ export const ControlContainer = style.div`
       }
 
       & > .communication-info {
-        font-size: 35pt;
         border-top: 2px #fff solid;
       }
 

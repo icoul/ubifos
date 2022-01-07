@@ -13,6 +13,7 @@ export const Styles = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 1%;
+    background: #1f1b1b;
     table {
       width: 95vw;
       border-spacing: 0;
