@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-// import { RiTreasureMapLine } from "react-icons/ri";
-import { /*FaMapMarkedAlt,*/ FaHome, FaList, FaWhmcs, /*FaPowerOff*/ } from "react-icons/fa";
+import { FaHome, FaList, FaWhmcs } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import { TiDocumentText } from "react-icons/ti";
 

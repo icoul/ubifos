@@ -1,5 +1,4 @@
 import React from "react";
-// import axios from "axios";
 import classNames from "classnames";
 import moment from "moment";
 
@@ -51,16 +50,6 @@ const Control = ({
       return status.set(moduleIdx, "alarmOff");
     });
   };
-
-  // const updateModule = () => {
-  //   axios
-  //     .post('/api/module/update', (req, res) => {
-  //     axios.update({modelNm: req.body.change.modelNm}, {
-  //       where: {moduleIdx: req.body.change.moduleIdx}})
-  //     .then(result => res.send(result))
-  //     .catch(err=>{throw err})
-  //   })
-  // }
 
   return (
     <ControlContainer>

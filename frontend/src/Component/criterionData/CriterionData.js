@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-// import { useDispatch } from 'react-redux';
 import axios from "axios";
 import { EditableCriterionTable } from 'utils/table/EditableCriterionTable';
 
@@ -11,6 +10,7 @@ import { customAxiosGetFunction, customAxiosPostFunction } from 'utils/axiosFunc
 import { Styles } from 'utils/table/Table.css.js';
 import './CriterionButtonBar.css';
 import { FaSave, FaUndo } from "react-icons/fa";
+import Control from "component/control/Control";
 
 const GET_CRITERION_REQUEST = "GET_CRITERION_REQUEST";
 const GET_GAS_CRITERION_SUCCESS = "GET_GAS_CRITERION_SUCCESS";
@@ -53,7 +53,6 @@ const getGasCriterion = () => {
 
 const CriterionData = () => {
   const history = useHistory();
-  // const dispatch = useDispatch();
   const [ criterionList, setCriterionList ] = useState([]);
   const [ data, setData ] = useState([]);
   const column = useMemo(() => columns, []);
@@ -66,7 +65,6 @@ const CriterionData = () => {
 
   useEffect(() => {
     getCriterion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -98,13 +96,13 @@ const CriterionData = () => {
           alert("저장완료");
           getGasCriterion();
           getCriterion();
+          window.location.reload();
         }
         else {
           alert("업데이트실패");
         }
       }
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return(
@@ -116,17 +114,9 @@ const CriterionData = () => {
           <div className="buttonBar-conatiner">
             <div className="form-row">
               <div className="button-condition col-xl-1 col-sm-6">
-                {/* <button type="button" 
-                        className="table-button-submit btn btn-info"
-                        onClick={getCriterion}>초기화</button>
-                <div className="button_box"><FaUndo /></div> */}
                 <div className="table-button-submit btn btn-info button_box" onClick={getCriterion}><FaUndo /></div>
               </div>
               <div className="button-condition col-xl-1 col-sm-6">
-                {/* <button type="button" 
-                        className="table-button-submit btn btn-info"
-                        onClick={updateDataSave}>저장</button>
-                <div className="button_box"><FaSave /></div> */}
                 <div className="table-button-submit btn btn-info button_box" onClick={updateDataSave}><FaSave /></div>
               </div>
             </div>

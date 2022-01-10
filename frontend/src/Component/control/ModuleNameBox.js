@@ -8,8 +8,6 @@ let sw = true;
 
 const ModuleNameBox = ({ moduleIdx, modelNm }) => {
   const [ modelNmInputBoxFlag, setModelNmInputBoxFlag ] = useState(sw);
-  // const [ newModelNm, setNewModelNm ] = useState(modelNm);
-
   const handleClick = () => {
     setModelNmInputBoxFlag((sw) => {
       sw = false;
@@ -17,25 +15,12 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
     });
   };
 
-  // const submitNewModelNm = () => {
-  //   console.log(newModelNm);
-  // };
-
-  const { register, handleSubmit/*, formState: { errors }*/ } = useForm();
+  const { register, handleSubmit} = useForm();
   const onSubmit = (data) => {
     setModelNmInputBoxFlag((sw) => {
       sw = true;
       return sw;
     });
-    // alert(JSON.stringify(data));
-
-    // fetch("/api/module/update", {
-    //   method : 'post',
-    //   headers : {
-    //     'content-type' : 'application/json'
-    //   },
-    //   body : JSON.stringify(data)
-    // })
 
     axios.post( '/api/module/update',
       {
@@ -50,35 +35,14 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
       }
     ).then((response) => { 
       alert('수정 완료');
-      console.log('Module Name Update result : ' + response.data); 
     })
     .catch((response) => {
       alert('수정 실패');
-      console.log('Module Name Update Error! ' + response);
     });
-
-    // const updateData = async(datas) => {
-    //   const change = datas;
-    //   if(change !== null){
-    //     const data = {
-    //       modelNm: change.modelNm,
-    //       moduleIdx: change.moduleIdx
-    //     }
-    //     const res = await axios('/api/module/update', {
-    //       method: 'POST',
-    //       data: {'change' : data},
-    //       headers: new Headers()
-    //     })
-    //     if(res.data){
-    //       alert('Updated data!');
-    //       return window.location.reload();
-    //     }
-    //   }
-    // }
   };
 
   return (
-    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)} /*action='/api/module/update'*/>
+    <form autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
       <div className="moduleName" onClick={() => { handleClick(); }}>
         <input type="text" {...register("moduleIdx")} value={moduleIdx} style={{display: 'none'}} />
         <input type="text" {...register("modelNm")} className='inputModelNm' readOnly={modelNmInputBoxFlag} defaultValue={modelNm} />

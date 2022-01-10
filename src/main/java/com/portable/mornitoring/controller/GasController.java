@@ -8,7 +8,6 @@ import com.portable.mornitoring.dto.LogCsvDTO;
 import com.portable.mornitoring.dto.GasLogDTO;
 import com.portable.mornitoring.entity.Gas;
 import com.portable.mornitoring.entity.Module;
-import com.portable.mornitoring.entity.ModuleValue;
 import com.portable.mornitoring.repository.GasRepository;
 import com.portable.mornitoring.repository.ModuleRepository;
 import com.portable.mornitoring.service.GasService;
@@ -19,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,10 +65,5 @@ public class GasController {
     List<GasGraphDTO> result = gasService.findByModuleAndRgstDtBetweenByGraph(module, beginDate, endDate);
     
     return result;
-  }
-
-  @PostMapping("/api/module/update")
-  public String updateModule(@RequestBody ModuleValue updateModule) {
-    return gasService.updateModule(updateModule);
   }
 }
