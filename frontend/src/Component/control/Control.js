@@ -14,7 +14,7 @@ import ModuleNameBox from "./ModuleNameBox";
 const criterionMap = ["o2", "co2", "co", "h2s", "ch4"];
 const utmMap = {
   o2: "%",
-  co2: "%",
+  co2: "ppm",
   h2s: "ppm",
   co: "ppm",
   ch4: "%",

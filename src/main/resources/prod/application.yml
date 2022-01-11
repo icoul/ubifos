@@ -10,7 +10,7 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://118.35.180.9:23306/ubifos
+    url: jdbc:mariadb://127.0.0.1:3306/ubifos
     username: root
     password: ubimicro
   jpa:

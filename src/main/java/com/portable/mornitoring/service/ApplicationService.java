@@ -13,7 +13,7 @@ public class ApplicationService implements CommandLineRunner {
     System.out.println("application start!");
 
     try {
-      // pc = rt.exec("sudo /home/pi/loading/loading.sh ");
+      pc = rt.exec("sudo /home/pi/loading/loading.sh ");
     } catch (Exception e) {
       e.printStackTrace();
     }
