@@ -1,81 +1,80 @@
 import { getYMDAndTimeFormatDate } from 'utils/getCustomFormatDate';
 
 export const columns = [
-    {
-      Header: '',
-      accessor: 'col1',
+  {
+    Header: '',
+    accessor: 'col1',
+  },
+  {
+    id: 'modelNm',
+    Header: () => {
+      return <div>장치명</div>;
     },
-    {
-      id: 'modelNm',
-      Header: () => (
-        <div>장치명</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.module.modelNm}</>
-      ),
+    Cell: ({ row }) => {
+      return <>{row.original.module.modelNm}</>;
     },
-    {
-      id: 'status',
-      Header: () => (
-        <div>상태</div>
-      ),
-      Cell: ({ row }) => (
-        row.original.status === 'danger' ? 
-          <span style={{color: '#ff0018'}}>● 위험</span> : <span style={{color: '#ababab'}}>● 미수신</span>
-      ),
+  },
+  {
+    id: 'status',
+    Header: () => {
+      return <div>상태</div>;
     },
-    {
-      id: 'o2',
-      Header: () => (
-        <div>O₂ (%)</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.gas.o2}</>
-      ),
+    Cell: ({ row }) => {
+      return row.original.status === 'danger' ? <span style={{ color: '#ff0018' }}>● 위험</span> : <span style={{ color: '#ababab' }}>● 미수신</span>;
     },
-    {
-      id: 'co2',
-      Header: () => (
-        <div>CO₂ (%)</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.gas.co2}</>
-      ),
+  },
+  {
+    id: 'o2',
+    Header: () => {
+      return <div>O₂ (%)</div>;
     },
-    {
-      id: 'co',
-      Header: () => (
-        <div>CO (ppm)</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.gas.co}</>
-      ),
+    Cell: ({ row }) => {
+      return <>{row.original.gas.o2}</>;
     },
-    {
-      id: 'h2s',
-      Header: () => (
-        <div>H₂S (ppm)</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.gas.h2s}</>
-      ),
+  },
+  {
+    id: 'co2',
+    Header: () => {
+      return <div>CO₂ (ppm)</div>;
     },
-    {
-      id: 'ch4',
-      Header: () => (
-        <div>CH₄ (%)</div>
-      ),
-      Cell: ({ row }) => (
-        <>{row.original.gas.ch4}</>
-      ),
+    Cell: ({ row }) => {
+      return <>{row.original.gas.co2}</>;
     },
-    {
-      id: 'rgstDt',
-      Header: () => (
-        <div>날짜</div>
-      ),
-      Cell: ({ row }) => (
-        <>{ getYMDAndTimeFormatDate(new Date(row.original.rgstDt)) }</>
-      ),
+  },
+  {
+    id: 'co',
+    Header: () => {
+      return <div>CO (ppm)</div>;
     },
-  ]
+    Cell: ({ row }) => {
+      return <>{row.original.gas.co}</>;
+    },
+  },
+  {
+    id: 'h2s',
+    Header: () => {
+      return <div>H₂S (ppm)</div>;
+    },
+    Cell: ({ row }) => {
+      return <>{row.original.gas.h2s}</>;
+    },
+  },
+  {
+    id: 'ch4',
+    Header: () => {
+      return <div>CH₄ (%)</div>;
+    },
+    Cell: ({ row }) => {
+      return <>{row.original.gas.ch4}</>;
+    },
+  },
+  {
+    id: 'rgstDt',
+    Header: () => {
+      return <div>날짜</div>;
+    },
+    Cell: ({ row }) => {
+      return <>{getYMDAndTimeFormatDate(new Date(row.original.rgstDt))}</>;
+    },
+  },
+];

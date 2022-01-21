@@ -207,7 +207,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, criterion 
                         )}
                       >
                         {data.status !== 'off' ? data[x] : '-'}
-                        {data.status !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : x === 'o2' || x === 'co2' ? <sub>%</sub> : <sub>ppm</sub>)}
+                        {data.status !== 'off' && (x === 'ch4' ? <sub>LEL%</sub> : x === 'o2' ? <sub>%</sub> : <sub>ppm</sub>)}
                       </td>
                     );
                   })}
