@@ -48,7 +48,9 @@ public class GasServiceImpl implements GasService {
                   "      glt.sf, " +
                   "      glt.rssi, " +
                   "      glt.snr, "+
+                  "      glt.relay_flag AS relayFlag, " +
                   "      glt.rgst_dt AS rgstDt, " +
+                  "      glt.status_code AS statusCode, " +
                   "      m.module_idx AS moduleIdx, " +
                   "      m.model_nm AS modelNm " +
                   "from gas_log_tb glt LEFT JOIN " +

@@ -25,7 +25,9 @@ public class GasLogDTO {
   private Double sf;
   private Double rssi;
   private Double snr;
+  private Integer relayFlag;
   private Date rgstDt;
+  private String statusCode;
   private Integer moduleIdx;
   private String modelNm;
   private String status;

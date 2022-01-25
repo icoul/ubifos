@@ -51,9 +51,14 @@ public class Gas {
   private Double freqeuncy;
   @Column(name = "`snr`")
   private Double snr;
+  @Column(name = "`relay_flag`")
+  private int relayFlag;
 
   @Column(name = "`battery`")
   private String battery;
   @Column(name = "rgst_dt")
   private Date rgstDt;
+
+  @Column(name = "status_code")
+  private String statusCode;
 }
