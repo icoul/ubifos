@@ -1,4 +1,4 @@
-import style, { css } from "styled-components";
+import style, { css } from 'styled-components';
 
 export const ControlContainer = style.div`
   padding-top: 1vh;
@@ -29,17 +29,18 @@ export const ControlContainer = style.div`
     }
   
     & tbody > tr {
-      ${(props) =>
-        props.flag
+      ${(props) => {
+        return props.flag
           ? css`
               height: 18.4vh;
             `
           : css`
               height: 6vh;
-            `}
+            `;
+      }}
   
       & > td {
-        font-size: 30px;
+        font-size: 25px;
         color: #fff;
         border-left-width: .5px;
         border-right-width: .5px;
@@ -123,13 +124,13 @@ export const ControlContainer = style.div`
           align-items: center;
   
           & img {
-            width: 191px;
+            width: 171px;
           }
   
           & > div.module_status_lamp {
             position: absolute;
             width: 100%;
-            height: 190px;
+            height: 170px;
   
             & > .danger {
               animation: hideshow 1s ease infinite;
@@ -153,7 +154,7 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        font-size: 120px;
+        font-size: 100px;
   
         & sub {
           vertical-align: initial;

@@ -78,64 +78,118 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, criterion 
         <tbody>
           <tr>
             <td colSpan="2">경보설정값</td>
-            <td style={{ fontSize: '17px' }}>
+            <td>
               {criterion &&
                 criterion['o2']
                   .filter((x) => {
                     return x.standType !== 'criterion';
                   })
                   .map((data) => {
-                    return `${data.standVal}${utmMap['o2']}${reverseRangeMap[data.standRange]} ${data.standType === 'danger' ? '위험' : '경고'}`;
-                  })
-                  .join(' ')}
+                    return (
+                      <div>
+                        {data.standVal}
+                        {utmMap['o2']}
+                        {reverseRangeMap[data.standRange]} {data.standType === 'danger' ? '위험' : '경고'}
+                      </div>
+                    );
+                  })}
             </td>
-            <td style={{ fontSize: '17px' }}>
+            <td>
               {criterion &&
                 criterion['co2']
                   .filter((x) => {
                     return x.standType !== 'criterion';
                   })
                   .map((data) => {
-                    return `${data.standVal}${utmMap['co2']}${reverseRangeMap[data.standRange]} ${data.standType === 'danger' ? '위험' : '경고'}`;
-                  })
-                  .join(' ')}
+                    return (
+                      <div>
+                        {data.standVal}
+                        {utmMap['co2']}
+                        {reverseRangeMap[data.standRange]} {data.standType === 'danger' ? '위험' : '경고'}
+                      </div>
+                    );
+                  })}
             </td>
-            <td style={{ fontSize: '17px' }}>
+            <td>
               {criterion &&
                 criterion['co']
                   .filter((x) => {
                     return x.standType !== 'criterion';
                   })
                   .map((data) => {
-                    return `${data.standVal}${utmMap['co']}${reverseRangeMap[data.standRange]} ${data.standType === 'danger' ? '위험' : '경고'}`;
-                  })
-                  .join(' ')}
+                    return (
+                      <div>
+                        {data.standVal}
+                        {utmMap['co']}
+                        {reverseRangeMap[data.standRange]} {data.standType === 'danger' ? '위험' : '경고'}
+                      </div>
+                    );
+                  })}
             </td>
-            <td style={{ fontSize: '17px' }}>
+            <td>
               {criterion &&
                 criterion['h2s']
                   .filter((x) => {
                     return x.standType !== 'criterion';
                   })
                   .map((data) => {
-                    return `${data.standVal}${utmMap['h2s']}${reverseRangeMap[data.standRange]} ${data.standType === 'danger' ? '위험' : '경고'}`;
-                  })
-                  .join(' ')}
+                    return (
+                      <div>
+                        {data.standVal}
+                        {utmMap['h2s']}
+                        {reverseRangeMap[data.standRange]} {data.standType === 'danger' ? '위험' : '경고'}
+                      </div>
+                    );
+                  })}
             </td>
-            <td style={{ fontSize: '17px' }}>
+            <td>
               {criterion &&
                 criterion['ch4']
                   .filter((x) => {
                     return x.standType !== 'criterion';
                   })
                   .map((data) => {
-                    return `${data.standVal}${utmMap['ch4']}${reverseRangeMap[data.standRange]} ${data.standType === 'danger' ? '위험' : '경고'}`;
-                  })
-                  .join(' ')}
+                    return (
+                      <div>
+                        {data.standVal}
+                        {utmMap['ch4']}
+                        {reverseRangeMap[data.standRange]} {data.standType === 'danger' ? '위험' : '경고'}
+                      </div>
+                    );
+                  })}
             </td>
             <td></td>
           </tr>
           {logData.map((data) => {
+            if (data.status !== 'none' && data.statusCode === '1') {
+              return (
+                <>
+                  <tr key={data.moduleIdx}>
+                    <td rowSpan="2" className="module_name_box">
+                      <ModuleNameBox moduleIdx={data.moduleIdx} modelNm={data.modelNm} />
+                      {data.status !== 'off' && <span>{moment(data.rgstDt).format('HH:mm:ss')}</span>}
+                    </td>
+                    <td rowSpan="2" className="module_status_box">
+                      <div className="module_status">
+                        <div className="module_status_lamp">
+                          <img src={module_status_lamp_blue} alt="module_status_lamp_blue" />
+                        </div>
+                      </div>
+                    </td>
+                    <td rowSpan="2" colSpan="5" className={classNames('data_value')}>
+                      Repeater
+                    </td>
+                    <td className="communication-info" style={{ borderBottom: '2px #fff solid' }}>
+                      {Number(data.battery)} %
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="communication-info">{data.rssi}</td>
+                  </tr>
+                </>
+              );
+            }
+
             return (
               <>
                 <tr key={data.moduleIdx}>
