@@ -1,0 +1,133 @@
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal button {
+  outline: none;
+  cursor: pointer;
+  border: 0;
+}
+
+.modal > section {
+  width: 90%;
+  color: #fff;
+  max-width: 450px;
+  margin: 0 auto;
+  border-radius: 2rem;
+  background-color: #272f3c;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-show 0.3s;
+  overflow: hidden;
+}
+
+.modal > section > header {
+  position: relative;
+  padding: 16px 0;
+  background-color: #1f242c;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.modal > section > header button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  background-color: transparent;
+}
+
+.modal > section > main { padding: 16px; }
+
+.modal > section > main > form > div {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.modal > section > main > form > div:first-child { margin-top: 10px; }
+.modal > section > main > form > div:last-child { margin-bottom: 0; }
+
+.modal > section > main > form > div > label {
+  width: 50%;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.modal > section > main > form > div > input {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-right: 10%;
+}
+
+.modal > section > main > form > div > input.nonEditable {
+  background-color: #888;
+  border: 1px solid #777;
+}
+
+.modal > section > main > .deleteModule { font-size: 18px; }
+
+.modal > section > main > .deleteModule .importantWord {
+  color: #fd1100;
+  margin: 0 4px;
+}
+
+.modal > section > main > .deleteModule .modelNameInput {
+  font-size: 22px;
+  margin: 10px 10px 0 30px;
+  padding: 5px 10px;
+}
+
+.modal > section > footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 24px 16px;
+}
+
+.modal > section > footer button {
+  padding: 10px 60px;
+  color: #fff;
+  background-color: #6c757d;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.modal > section > footer button.submit { background: #0794d8; }
+.modal > section > footer button.delBtn { background: #fd1100; }
+
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+}
+
+@keyframes modal-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+@keyframes modal-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
