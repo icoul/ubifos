@@ -13,23 +13,8 @@ import ModuleNameBox from './ModuleNameBox';
 
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 const utmMap = {
-<<<<<<< HEAD
-  o2: "%",
-  co2: "ppm",
-  h2s: "ppm",
-  co: "ppm",
-  ch4: "%",
-  leakage: "",
-  hf: "ppm",
-  nh3: "ppm",
-  ph: "pH",
-  ph_leakage: "pH",
-  vibration: "%",
-  temperature: "℃",
-  humidity: "%",
-=======
   o2: '%',
-  co2: 'ppm',
+  co2: '%',
   h2s: 'ppm',
   co: 'ppm',
   ch4: '%',
@@ -41,7 +26,6 @@ const utmMap = {
   vibration: '%',
   temperature: '℃',
   humidity: '%',
->>>>>>> d3c747848b829a9b6d02becfc15aec60c986c433
 };
 const reverseRangeMap = {
   A: '초과',

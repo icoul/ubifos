@@ -33,7 +33,6 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
     log.info("Connection PostConstruct callback: connecting ...");
 
     serial = new NRSerialPort(serialPortProperties.getPortName(),
-<<<<<<< HEAD
         serialPortProperties.getBaudRate());
     serial.connect();
 
@@ -42,16 +41,6 @@ public abstract class AbstractSpringSerialPortConnector implements SpringSerialP
     } else {
       throw new RuntimeException("Is not possible to open connection in " +
           serialPortProperties.getPortName() + " port");
-=======
-    serialPortProperties.getBaudRate());
-    serial.connect();
-
-    if (serial.isConnected()) {
-    log.info("Connection opened!");
-    } else {
-    throw new RuntimeException("Is not possible to open connection in " +
-    serialPortProperties.getPortName() + " port");
->>>>>>> d3c747848b829a9b6d02becfc15aec60c986c433
     }
     serial.addEventListener((SerialPortEventListener) this);
     serial.notifyOnDataAvailable(true);

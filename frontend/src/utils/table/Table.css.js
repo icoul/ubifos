@@ -55,10 +55,16 @@ export const Styles = styled.div`
           border-right: 0;
         }
         & > div > button {
+          color: #fff;
           font-size: 12px;
           background-color: #3d4a5c;
           border-width: 0px;
           padding: .375rem 1.5rem;
+          border-radius: 0.25rem;
+        }
+
+        & > div > button:hover {
+          cursor: pointer;
         }
 
         ${(props) =>
