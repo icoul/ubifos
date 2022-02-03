@@ -29,16 +29,6 @@ export const ControlContainer = style.div`
     }
   
     & tbody > tr {
-      ${(props) => {
-        return props.flag
-          ? css`
-              height: 18.4vh;
-            `
-          : css`
-              height: 6vh;
-            `;
-      }}
-  
       & > td {
         font-size: 25px;
         color: #fff;
@@ -124,13 +114,13 @@ export const ControlContainer = style.div`
           align-items: center;
   
           & img {
-            width: 171px;
+            height: 12vh;
           }
   
           & > div.module_status_lamp {
             position: absolute;
             width: 100%;
-            height: 170px;
+            height: 12vh;
   
             & > .danger {
               animation: hideshow 1s ease infinite;
@@ -154,11 +144,11 @@ export const ControlContainer = style.div`
       }
   
       & > .data_value {
-        font-size: 100px;
+        font-size: 3.2vw;
   
         & sub {
           vertical-align: initial;
-          font-size: 35px;
+          font-size: 1vw;
         }
       }
 

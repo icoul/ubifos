@@ -1,32 +1,29 @@
-import React, { useState, useEffect/*, useCallback */} from "react";
-import axios from "axios";
-import { Route, Switch } from "react-router-dom";
+import React, { useState, useEffect /*, useCallback */ } from 'react';
+import axios from 'axios';
+import { Route, Switch } from 'react-router-dom';
 
-import Control from "./control/Control";
-import CriterionData from "./criterionData/CriterionData";
-import TableData from "./tableData/TableData";
-import GraphData from "./graphData/GraphData";
-import LogData from "./logData/LogData";
+import Control from './control/Control';
+import CriterionData from './criterionData/CriterionData';
+import TableData from './tableData/TableData';
+import GraphData from './graphData/GraphData';
+import LogData from './logData/LogData';
 // import Location from "./location/Location";
 // import MapTableData from "./mapTableData/MapTableData";
 
-import { MainContainer } from "./MainContainer.css";
+import { MainContainer } from './MainContainer.css';
 
-import { crc_checker } from "utils/serialPortComponent";
+import { crc_checker } from 'utils/serialPortComponent';
 
 /**
  * 장치 케이스
  * 장치가 꺼짐, 장치가 미수신, 정상이었다가 위험이 발견됨, 계속 위험상태, 위험이었다가 정상이 됨
  */
 const compareStatusPrevAndNow = (prev, now) => {
-  if (
-    (prev === "warning" || prev === "danger") &&
-    (now === "warning" || now === "danger")
-  ) {
-    return "constantDanger";
+  if ((prev === 'warning' || prev === 'danger') && (now === 'warning' || now === 'danger')) {
+    return 'constantDanger';
   }
-  if (prev === "alarmOff" && (now === "warning" || now === "danger")) {
-    return "alarmOff";
+  if (prev === 'alarmOff' && (now === 'warning' || now === 'danger')) {
+    return 'alarmOff';
   }
 
   return now;
@@ -34,7 +31,7 @@ const compareStatusPrevAndNow = (prev, now) => {
 
 const setWarningLog = (logDataMap, status) => {
   axios
-    .post("/api/set/warning", {
+    .post('/api/set/warning', {
       logIdx: logDataMap.logIdx,
       moduleIdx: logDataMap.moduleIdx,
       status: status,
@@ -49,7 +46,7 @@ const setWarningLog = (logDataMap, status) => {
 
 const serial = (code) => {
   axios
-    .get("/api/serial/lp", { params: { code: crc_checker(code) } })
+    .get('/api/serial/lp', { params: { code: crc_checker(code) } })
     .then((response) => {})
     .catch(function (error) {
       console.log(error);
@@ -61,7 +58,7 @@ const Main = () => {
   const [criterion, setCriterion] = useState(null);
   const getCriterionData = () => {
     axios
-      .get("/api/gasCriterion/getMapData")
+      .get('/api/gasCriterion/getMapData')
       .then((response) => {
         setCriterion(response.data);
       })
@@ -84,7 +81,7 @@ const Main = () => {
 
   const getNewGasLogData = () => {
     axios
-      .get("/api/get/gas/group", {})
+      .get('/api/get/gas/group', {})
       .then((response) => {
         setLogData(response.data);
       })
@@ -96,7 +93,7 @@ const Main = () => {
   useEffect(() => {
     if (Number(time) !== 0) {
       const timer = window.setInterval(() => {
-        serial("LP+WON");
+        serial('LP+WON');
       }, Number(time));
 
       return () => {
@@ -111,14 +108,16 @@ const Main = () => {
       const statusCopy = new Map(status);
 
       logData.forEach((data) => {
+        // 장칙가 Repeater로써 동작하고 있을 경우 상태체크를 하지 않는다
+        if (data.statusCode === '1') {
+          statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), 'blue'));
+          return;
+        }
+
         const status = data.status;
 
         // 위험 로그 기록 함수 호출
-        if (
-          status !== "off" &&
-          status !== "blue" &&
-          statusCopy.get(data.moduleIdx) === "blue"
-        ) {
+        if (status !== 'off' && status !== 'blue' && statusCopy.get(data.moduleIdx) === 'blue') {
           setWarningLog(data, status);
         }
 
@@ -128,10 +127,7 @@ const Main = () => {
           return;
         }
 
-        statusCopy.set(
-          data.moduleIdx,
-          compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), status)
-        );
+        statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), status));
       });
 
       setStatus(() => {
@@ -142,18 +138,18 @@ const Main = () => {
   }, [logData]);
 
   useEffect(() => {
-    const dangerCount = Array.from(status.keys()).filter(
-      (x) => status.get(x) === "danger" || status.get(x) === "warning"
-    ).length;
-    const blueCount = Array.from(status.keys()).filter(
-      (x) => status.get(x) === "blue" || status.get(x) === "off"
-    ).length;
+    const dangerCount = Array.from(status.keys()).filter((x) => {
+      return status.get(x) === 'danger' || status.get(x) === 'warning';
+    }).length;
+    const blueCount = Array.from(status.keys()).filter((x) => {
+      return status.get(x) === 'blue' || status.get(x) === 'off';
+    }).length;
 
     if (time === 0 && dangerCount > 0) {
-      serial("LP+WON");
+      serial('LP+WON');
       setTime(2000);
     } else if (time === 2000 && blueCount === status.size) {
-      serial("LP+WOFF");
+      serial('LP+WOFF');
       setTime(0);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,29 +182,45 @@ const Main = () => {
         <Route
           exact
           path="/"
-          render={(props) => (
-            <Control
-              logData={logData}
-              serial={serial}
-              setTime={setTime}
-              status={status}
-              setStatus={setStatus}
-              time={time}
-              criterion={criterion}
-              {...props}
-            />
-          )}
+          render={(props) => {
+            return (
+              <Control
+                logData={logData}
+                serial={serial}
+                setTime={setTime}
+                status={status}
+                setStatus={setStatus}
+                time={time}
+                criterion={criterion}
+                {...props}
+              />
+            );
+          }}
         />
         <Route
           path="/criterion"
-          render={(props) => <CriterionData criterion={criterion} {...props} />}
+          render={(props) => {
+            return <CriterionData criterion={criterion} {...props} />;
+          }}
         />
         <Route
           path="/table"
-          render={(props) => <TableData criterion={criterion} {...props} />}
+          render={(props) => {
+            return <TableData criterion={criterion} {...props} />;
+          }}
         />
-        <Route path="/graph" render={(props) => <GraphData {...props} />} />
-        <Route path="/log" render={(props) => <LogData {...props} />} />
+        <Route
+          path="/graph"
+          render={(props) => {
+            return <GraphData {...props} />;
+          }}
+        />
+        <Route
+          path="/log"
+          render={(props) => {
+            return <LogData {...props} />;
+          }}
+        />
       </Switch>
     </MainContainer>
   );
