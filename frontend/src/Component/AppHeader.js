@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { FaHome, FaList, FaWhmcs } from "react-icons/fa";
+import { FaHome, FaList, FaWhmcs, FaMobileAlt } from "react-icons/fa";
 import { BsGraphUp } from "react-icons/bs";
 import { TiDocumentText } from "react-icons/ti";
 
@@ -11,6 +11,7 @@ const titleMap = {
   // "/": "지도 현황",
   // "/map/table": "지도상세 데이터",
   "/": "가스농도 종합현황",
+  "/configModule": "장치 관리",
   "/criterion": "관리 기준 설정",
   "/table": "상세 데이터",
   "/graph": "상세 그래프",
@@ -116,6 +117,14 @@ const AppHeader = (props) => {
           }}
         >
           <FaHome />
+        </div>
+        <div
+          className="button_box"
+          onClick={() => {
+            moveLinkPage("/configModule");
+          }}
+        >
+          <FaMobileAlt />
         </div>
         <div
           className="button_box"

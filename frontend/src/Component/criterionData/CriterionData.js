@@ -10,7 +10,6 @@ import { customAxiosGetFunction, customAxiosPostFunction } from 'utils/axiosFunc
 import { Styles } from 'utils/table/Table.css.js';
 import './CriterionButtonBar.css';
 import { FaSave, FaUndo } from "react-icons/fa";
-import Control from "component/control/Control";
 
 const GET_CRITERION_REQUEST = "GET_CRITERION_REQUEST";
 const GET_GAS_CRITERION_SUCCESS = "GET_GAS_CRITERION_SUCCESS";

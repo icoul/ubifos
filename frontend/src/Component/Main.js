@@ -1,14 +1,15 @@
-import React, { useState, useEffect /*, useCallback */ } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 
 import Control from './control/Control';
+import ConfigModule from './config/ConfigModule';
 import CriterionData from './criterionData/CriterionData';
 import TableData from './tableData/TableData';
 import GraphData from './graphData/GraphData';
 import LogData from './logData/LogData';
-// import Location from "./location/Location";
-// import MapTableData from "./mapTableData/MapTableData";
+import Location from './location/Location';
+import MapTableData from './mapTableData/MapTableData';
 
 import { MainContainer } from './MainContainer.css';
 
@@ -134,7 +135,6 @@ const Main = () => {
         return new Map(statusCopy);
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logData]);
 
   useEffect(() => {
@@ -152,7 +152,6 @@ const Main = () => {
       serial('LP+WOFF');
       setTime(0);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, serial]);
 
   useEffect(() => {
@@ -163,7 +162,6 @@ const Main = () => {
     return () => {
       window.clearInterval(timer);
     };
-    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!logData) {
@@ -195,6 +193,12 @@ const Main = () => {
                 {...props}
               />
             );
+          }}
+        />
+        <Route
+          path="/configModule"
+          render={(props) => {
+            return <ConfigModule {...props} />;
           }}
         />
         <Route

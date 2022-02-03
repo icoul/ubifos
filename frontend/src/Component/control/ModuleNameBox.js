@@ -8,6 +8,7 @@ let sw = true;
 
 const ModuleNameBox = ({ moduleIdx, modelNm }) => {
   const [modelNmInputBoxFlag, setModelNmInputBoxFlag] = useState(sw);
+
   const handleClick = () => {
     setModelNmInputBoxFlag((sw) => {
       sw = false;
@@ -44,8 +45,12 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
       });
   };
 
+  const onError = (error) => {
+    alert('모델명을 입력해주세요');
+  };
+
   return (
-    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <div
         className="moduleName"
         onClick={() => {
@@ -53,7 +58,14 @@ const ModuleNameBox = ({ moduleIdx, modelNm }) => {
         }}
       >
         <input type="text" {...register('moduleIdx')} value={moduleIdx} style={{ display: 'none' }} />
-        <input type="text" {...register('modelNm')} className="inputModelNm" readOnly={modelNmInputBoxFlag} defaultValue={modelNm} />
+        <input
+          type="text"
+          name="modelNm"
+          {...register('modelNm', { required: true })}
+          className="inputModelNm"
+          readOnly={modelNmInputBoxFlag}
+          defaultValue={modelNm}
+        />
       </div>
       <div className="editBox" style={{ display: modelNmInputBoxFlag ? 'none' : 'block' }}>
         <button type="submit">
