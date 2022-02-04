@@ -107,7 +107,7 @@
 .modal > section > footer button.submit { background: #0794d8; }
 .modal > section > footer button.delBtn { background: #fd1100; }
 
-.modal.openModal, .modal.openDelModal, .modalBackground {
+.modal.openEditModal, .modal.openDelModal, .modalBackground {
   display: flex;
   align-items: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */

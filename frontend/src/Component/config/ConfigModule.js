@@ -1,5 +1,5 @@
 import Axios from "axios";
-import Modal from "component/config/modal/Modal";
+import EditModal from "component/config/modal/EditModal";
 import DeleteModal from "component/config/modal/DeleteModal";
 import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
@@ -8,33 +8,31 @@ import ModuleRegister from "./ModuleRegister";
 
 const ConfigModule = () => {
   const [ data, setData ] = useState([]);
-  const [ modalOpen, setModalOpen ] = useState(false);
+  const [ editModalOpen, setEditModalOpen ] = useState(false);
   const [ delModalOpen, setDelModalOpen ] = useState(false);
   const [ modalData, setModalData ] = useState();
-  const [ modalDataSet, setModalDataSet ] = useState(false);
   
-  const openModal = (index) => {
-    setModalOpen(true);
+  // 수정 모달 열기
+  const openEditModal = (index) => {
+    setEditModalOpen(true);
     setModalData(data[index]);
-    setModalDataSet(true);
   };
 
+  // 삭제 모달 열기
   const openDelModal = (index) => {
     setDelModalOpen(true);
     setModalData(data[index]);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  // 수정 모달 닫기
+  const closeEditModal = () => {
+    setEditModalOpen(false);
   };
 
+  // 삭제 모달 닫기
   const closeDelModal = () => {
     setDelModalOpen(false);
   };
-
-  const dataSw = () => {
-    setModalDataSet(!modalDataSet);
-  }
 
   const getData = useCallback(() => {
     Axios.get("/api/get/all/modules")
@@ -52,8 +50,8 @@ const ConfigModule = () => {
 
   return (
     <section>
-      <Modal open={modalOpen} close={closeModal} header={"장치 정보 수정"} data={modalData} dataSet={dataSw} dataState={modalDataSet} />
-      <DeleteModal open={delModalOpen} close={closeDelModal} header={"장치 삭제"} data={modalData} flag={getData}/>
+      <EditModal open={editModalOpen} close={closeEditModal} header={"장치 정보 수정"} data={modalData} flag={getData} />
+      <DeleteModal open={delModalOpen} close={closeDelModal} header={"장치 삭제"} data={modalData} flag={getData} />
       <Styles tableType="editable">
         <ModuleRegister flag={getData}/>
         <div className="tableContainer">
@@ -94,7 +92,7 @@ const ConfigModule = () => {
                     <td className="btnBox" role="cell"></td>
                     <td className="btnBox" role="cell">
                       <div className="btnWrap">
-                        <button className="btn editModalBtn" onClick={() => { openModal(index); }}>수정</button>
+                        <button className="btn editModalBtn" onClick={() => { openEditModal(index); }}>수정</button>
                       </div>
                     </td>
                     <td className="btnBox" role="cell">

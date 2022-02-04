@@ -87,7 +87,7 @@ const DeleteModal = (props) => {
               </div>
             </main>
             <footer>
-              <button className={"submit delBtn"} type='submit' onClick={deleteSubmit}>삭제</button>
+              <button className="delBtn" type='submit' onClick={deleteSubmit}>삭제</button>
               <button className="close" onClick={close}>닫기</button>
             </footer>
           </section>
