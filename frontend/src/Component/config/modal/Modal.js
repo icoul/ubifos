@@ -116,7 +116,7 @@ const Modal = (props) => {
             </button>
           </header>
           <main>
-            <form className="table-form" onSubmit={handleSubmit(onSubmit)} style={{display:(type ? "block": "none")}}>
+            <form className="tableForm" onSubmit={handleSubmit(onSubmit)} style={{display:(type ? "block": "none")}}>
               <div>
                 <label htmlFor="moduleIdx">장치번호</label>
                 <input type="text" name="moduleIdx" {...register("moduleIdx")} className="nonEditable" value={data.moduleIdx || ''} />

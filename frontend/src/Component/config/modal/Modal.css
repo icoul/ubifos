@@ -1,4 +1,4 @@
-.modal {
+.modal, .modalBackground {
   display: none;
   position: fixed;
   top: 0;
@@ -6,8 +6,9 @@
   bottom: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6);
 }
+
+.modalBackground { background-color: rgba(0, 0, 0, 0.6); }
 
 .modal button {
   outline: none;
@@ -23,8 +24,9 @@
   border-radius: 2rem;
   background-color: #272f3c;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-show 0.3s;
+  animation: modalShow 0.3s;
   overflow: hidden;
+  z-index: 100;
 }
 
 .modal > section > header {
@@ -105,14 +107,14 @@
 .modal > section > footer button.submit { background: #0794d8; }
 .modal > section > footer button.delBtn { background: #fd1100; }
 
-.modal.openModal {
+.modal.openModal, .modal.openDelModal, .modalBackground {
   display: flex;
   align-items: center;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-bg-show 0.3s;
+  animation: modalBgShow 0.3s;
 }
 
-@keyframes modal-show {
+@keyframes modalShow {
   from {
     opacity: 0;
     margin-top: -50px;
@@ -123,7 +125,7 @@
   }
 }
 
-@keyframes modal-bg-show {
+@keyframes modalBgShow {
   from {
     opacity: 0;
   }

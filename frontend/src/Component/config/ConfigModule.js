@@ -1,5 +1,6 @@
 import Axios from "axios";
 import Modal from "component/config/modal/Modal";
+import DeleteModal from "component/config/modal/DeleteModal";
 import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
 import { Styles } from "utils/table/Table.css";
@@ -8,27 +9,27 @@ import ModuleRegister from "./ModuleRegister";
 const ConfigModule = () => {
   const [ data, setData ] = useState([]);
   const [ modalOpen, setModalOpen ] = useState(false);
-  const [ modalHeader, setModalHeader ] = useState();
+  const [ delModalOpen, setDelModalOpen ] = useState(false);
   const [ modalData, setModalData ] = useState();
   const [ modalDataSet, setModalDataSet ] = useState(false);
-  const [ modalType, setModalType ] = useState(true);
-  const [ renderFlag, setRenderFlag ] = useState(false);
-
-  const openModal = (index, type) => {
-    if (type) setModalHeader("장치 정보 수정");
-    else setModalHeader("장치 삭제");
+  
+  const openModal = (index) => {
     setModalOpen(true);
     setModalData(data[index]);
     setModalDataSet(true);
-    setModalType(type);
   };
 
-  const childRenderFlag = () => {
-    setRenderFlag(!renderFlag);
-  }
+  const openDelModal = (index) => {
+    setDelModalOpen(true);
+    setModalData(data[index]);
+  };
 
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const closeDelModal = () => {
+    setDelModalOpen(false);
   };
 
   const dataSw = () => {
@@ -51,10 +52,11 @@ const ConfigModule = () => {
 
   return (
     <section>
-      <Modal open={modalOpen} close={closeModal} header={modalHeader} data={modalData} dataSet={dataSw} dataState={modalDataSet} type={modalType}/>
+      <Modal open={modalOpen} close={closeModal} header={"장치 정보 수정"} data={modalData} dataSet={dataSw} dataState={modalDataSet} />
+      <DeleteModal open={delModalOpen} close={closeDelModal} header={"장치 삭제"} data={modalData} flag={getData}/>
       <Styles tableType="editable">
         <ModuleRegister flag={getData}/>
-        <div className="table-container">
+        <div className="tableContainer">
           <table role="table">
             <thead>
               <tr role="row">
@@ -92,12 +94,12 @@ const ConfigModule = () => {
                     <td className="btnBox" role="cell"></td>
                     <td className="btnBox" role="cell">
                       <div>
-                        <button className="table-search-submit btn btn-info" onClick={() => { openModal(index, true); }}>수정</button>
+                        <button className="table-search-submit btn btn-info" onClick={() => { openModal(index); }}>수정</button>
                       </div>
                     </td>
                     <td className="btnBox" role="cell">
                       <div>
-                        <button className="table-search-submit btn btn-info" onClick={() => { openModal(index, false); }}>삭제</button>
+                        <button className="table-search-submit btn btn-info" onClick={() => { openDelModal(index); }}>삭제</button>
                       </div>
                     </td>
                   </tr>
