@@ -12,6 +12,7 @@ const ConfigModule = () => {
   const [ modalData, setModalData ] = useState();
   const [ modalDataSet, setModalDataSet ] = useState(false);
   const [ modalType, setModalType ] = useState(true);
+  const [ renderFlag, setRenderFlag ] = useState(false);
 
   const openModal = (index, type) => {
     if (type) setModalHeader("장치 정보 수정");
@@ -21,6 +22,10 @@ const ConfigModule = () => {
     setModalDataSet(true);
     setModalType(type);
   };
+
+  const childRenderFlag = () => {
+    setRenderFlag(!renderFlag);
+  }
 
   const closeModal = () => {
     setModalOpen(false);
@@ -48,7 +53,7 @@ const ConfigModule = () => {
     <section>
       <Modal open={modalOpen} close={closeModal} header={modalHeader} data={modalData} dataSet={dataSw} dataState={modalDataSet} type={modalType}/>
       <Styles tableType="editable">
-        <ModuleRegister />
+        <ModuleRegister flag={getData}/>
         <div className="table-container">
           <table role="table">
             <thead>
