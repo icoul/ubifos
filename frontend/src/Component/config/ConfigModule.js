@@ -3,7 +3,7 @@ import Modal from "component/config/modal/Modal";
 import DeleteModal from "component/config/modal/DeleteModal";
 import moment from "moment";
 import React, { useCallback, useEffect, useState } from "react";
-import { Styles } from "utils/table/Table.css";
+import { Styles } from "component/config/ConfigModule.css";
 import ModuleRegister from "./ModuleRegister";
 
 const ConfigModule = () => {
@@ -57,8 +57,8 @@ const ConfigModule = () => {
       <Styles tableType="editable">
         <ModuleRegister flag={getData}/>
         <div className="tableContainer">
-          <table role="table">
-            <thead>
+          <table className="configModuleTable" role="table">
+            <thead className="cmTableHead">
               <tr role="row">
                 <th colSpan="12" role="columnheader">장치정보</th>
               </tr>
@@ -93,13 +93,13 @@ const ConfigModule = () => {
                     <td className="registerDate" role="cell">{moment(datas.rgstDt).format("YYYY-MM-DD")}</td>
                     <td className="btnBox" role="cell"></td>
                     <td className="btnBox" role="cell">
-                      <div>
-                        <button className="table-search-submit btn btn-info" onClick={() => { openModal(index); }}>수정</button>
+                      <div className="btnWrap">
+                        <button className="btn editModalBtn" onClick={() => { openModal(index); }}>수정</button>
                       </div>
                     </td>
                     <td className="btnBox" role="cell">
-                      <div>
-                        <button className="table-search-submit btn btn-info" onClick={() => { openDelModal(index); }}>삭제</button>
+                      <div className="btnWrap">
+                        <button className="btn deleteModalBtn" onClick={() => { openDelModal(index); }}>삭제</button>
                       </div>
                     </td>
                   </tr>
