@@ -12,7 +12,7 @@ const DeleteModal = (props) => {
     if (data !== undefined && open) {
       inputRef.current.focus();
     }
-  }, [data])
+  }, [open])
 
   const deleteSubmit = () => {
     if (data.modelNm === delInputValue) {
