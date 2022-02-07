@@ -20,7 +20,7 @@ const EditModal = (props) => {
       setValue("rgstDt", moment(data.rgstDt).format("YYYY-MM-DD HH:MM:SS"));
       setFocus("modelNo");
     }
-  }, [data])
+  }, [open])
 
   const onSubmit = (data) => {
     Axios.post( '/api/module/updateData',
