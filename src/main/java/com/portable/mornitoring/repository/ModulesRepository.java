@@ -15,11 +15,6 @@ public interface ModulesRepository extends JpaRepository<Modules, Integer> {
 
   @Query("SELECT COUNT(m) " +
       "FROM Modules m " +
-      "WHERE (m.modelNo = :modelNo OR m.modelNm = :modelNm) AND m.delFlag = 0")
-  int findByModelNoOrModelNm(@Param("modelNo") String modelNo, @Param("modelNm") String modelNm);
-
-  @Query("SELECT COUNT(m) " +
-      "FROM Modules m " +
       "WHERE (m.modelNo = :modelNo OR m.modelNm = :modelNm) AND (m.moduleIdx != :moduleIdx) AND m.delFlag = 0")
   int findByModelNoOrModelNmWithIdx(@Param("modelNo") String modelNo, @Param("modelNm") String modelNm,
       @Param("moduleIdx") Integer moduleIdx);

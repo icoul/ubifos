@@ -42,45 +42,13 @@ public class ModuleController {
   }
 
   @PostMapping(value = "/api/module/insertData")
-  public String insertModuleData(@RequestBody Modules insertData) {
-
-    Modules modules = insertData;
-
-    // 장치중복체크
-    int duplModuleCounts = modulesRepository.findByModelNoOrModelNm(modules.getModelNo(), modules.getModelNm());
-    if (duplModuleCounts > 0) {
-      return "duplicate";
-    }
-
-    try {
-      modules = modulesRepository.save(modules);
-    } catch (Exception e) {
-      String result = e + "";
-      return result;
-    }
-
-    return "success";
+  public String insertModule(@RequestBody Modules insertModule) {
+    return moduleService.insertModule(insertModule);
   }
 
   @PostMapping("/api/module/updateData")
   public String editModule(@RequestBody Modules editModule) {
-    Modules modules = editModule;
-
-    // 장치중복체크
-    int duplModuleCountsIdx = modulesRepository.findByModelNoOrModelNmWithIdx(modules.getModelNo(),
-        modules.getModelNm(), modules.getModuleIdx());
-    if (duplModuleCountsIdx > 0) {
-      return "duplicate";
-    }
-
-    try {
-      modules = modulesRepository.save(modules);
-    } catch (Exception e) {
-      String result = e + "";
-      return result;
-    }
-
-    return "success";
+    return moduleService.editModule(editModule);
   }
 
   @PostMapping("/api/module/deleteData")
