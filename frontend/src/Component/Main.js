@@ -109,13 +109,18 @@ const Main = () => {
       const statusCopy = new Map(status);
 
       logData.forEach((data) => {
+        const status = data.status;
+
         // 장칙가 Repeater로써 동작하고 있을 경우 상태체크를 하지 않는다
         if (data.statusCode === '1') {
+          if (status === 'off' || status === 'none') {
+            statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), status));
+            return;
+          }
+
           statusCopy.set(data.moduleIdx, compareStatusPrevAndNow(statusCopy.get(data.moduleIdx), 'blue'));
           return;
         }
-
-        const status = data.status;
 
         // 위험 로그 기록 함수 호출
         if (status !== 'off' && status !== 'blue' && statusCopy.get(data.moduleIdx) === 'blue') {

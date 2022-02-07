@@ -14,7 +14,7 @@ import ModuleNameBox from './ModuleNameBox';
 const criterionMap = ['o2', 'co2', 'co', 'h2s', 'ch4'];
 const utmMap = {
   o2: '%',
-  co2: '%',
+  co2: 'ppm',
   h2s: 'ppm',
   co: 'ppm',
   ch4: '%',
@@ -161,7 +161,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, criterion 
             <td></td>
           </tr>
           {logData.map((data) => {
-            if (data.status !== 'none' && data.statusCode === '1') {
+            if (data.status !== 'off' && data.status !== 'none' && data.statusCode === '1') {
               return (
                 <>
                   <tr key={data.moduleIdx}>
@@ -174,6 +174,7 @@ const Control = ({ logData, serial, setTime, status, setStatus, time, criterion 
                         <div className="module_status_lamp">
                           <img src={module_status_lamp_blue} alt="module_status_lamp_blue" />
                         </div>
+                        <img src={module_status_none} alt="module_status_none" />
                       </div>
                     </td>
                     <td rowSpan="2" colSpan="5" className={classNames('data_value')}>
