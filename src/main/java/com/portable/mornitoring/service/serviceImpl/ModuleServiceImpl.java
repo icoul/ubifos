@@ -33,6 +33,47 @@ public class ModuleServiceImpl implements ModuleService {
   }
 
   @Transactional
+  public String insertModule(Modules insertModule) {
+    Modules modules = insertModule;
+
+    int duplModuleCounts = modulesRepository.findByModelNoOrModelNmWithIdx(modules.getModelNo(),
+        modules.getModelNm(), modules.getModuleIdx());
+    if (duplModuleCounts > 0) {
+      return "duplicate";
+    }
+
+    try {
+      modules = modulesRepository.save(modules);
+    } catch (Exception e) {
+      String result = e + "";
+      return result;
+    }
+
+    return "success";
+  }
+
+  @Transactional
+  public String editModule(Modules editModule) {
+    Modules modules = editModule;
+
+    // 장치중복체크
+    int duplModuleCountsIdx = modulesRepository.findByModelNoOrModelNmWithIdx(modules.getModelNo(),
+        modules.getModelNm(), modules.getModuleIdx());
+    if (duplModuleCountsIdx > 0) {
+      return "duplicate";
+    }
+
+    try {
+      modules = modulesRepository.save(modules);
+    } catch (Exception e) {
+      String result = e + "";
+      return result;
+    }
+
+    return "success";
+  }
+
+  @Transactional
   public String deleteModule(Modules deleteModule) {
     try {
       modulesRepository.save(deleteModule);
